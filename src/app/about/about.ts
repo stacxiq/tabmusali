@@ -1,17 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform, AlertController } from '@ionic/angular'
-import { EditPersonPage } from '../edit-person/edit-person';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { Storage } from '@ionic/storage';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { InstallmentsPage } from '../installments/installments';
-import { NotificationPage } from '../notification/notification';
 import { Events } from '@ionic/angular';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { AppAvailability } from '@ionic-native/app-availability/ngx';
 import { Badge } from '@ionic-native/badge/ngx';
-import { SendMessagePage } from '../send-message/send-message';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -28,13 +24,11 @@ export class AboutPage implements OnInit {
   username: string = '';
   password: string = '';
   participant_id: string;
-  public scheme: string = '';
   public students: any[];
   public installments: any[];
   instagram;
   facebook;
   youtube;
-  isLoaded: boolean = false;
   isConnected: boolean = true;
   isConnected2: boolean = false;
   value: string = '';
@@ -200,7 +194,7 @@ export class AboutPage implements OnInit {
   }
 
   async presentAlert(title, body) {
-    let alert = this.alertCtrl.create({
+    let alert = await this.alertCtrl.create({
       header: title,
       message: '<div dir="rtl">' + body + '</div>',
       buttons: ['رجوع']
@@ -214,7 +208,7 @@ export class AboutPage implements OnInit {
   }
 
   signin() {
-    this.navCtrl.push(EditPersonPage).then(
+    this.router.navigate(['edit-person']).then(
       response => {
         console.log('Response ' + response);
       },
@@ -276,9 +270,9 @@ export class AboutPage implements OnInit {
   }
 
   loadStudentData(username, password, participant_id) {
-    this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + participant_id).map(res => res.text())
+    this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + participant_id)
       .subscribe(data => {
-        var s = data.replace(/\\n/g, "\\n")
+        var s = data.toString().replace(/\\n/g, "\\n")
           .replace(/\\'/g, "\\'")
           .replace(/\\"/g, '\\"')
           .replace(/\\&/g, "\\&")
@@ -313,10 +307,10 @@ export class AboutPage implements OnInit {
   }
 
   updateInfo(username, password, participant_id) {
-    this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + participant_id).map(res => res.text())
+    this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + participant_id)
       .subscribe(data => {
         if (data != null && data != '') {
-          var s = data.replace(/\\n/g, "\\n")
+          var s = data.toString().replace(/\\n/g, "\\n")
             .replace(/\\'/g, "\\'")
             .replace(/\\"/g, '\\"')
             .replace(/\\&/g, "\\&")
@@ -368,20 +362,20 @@ export class AboutPage implements OnInit {
     if (this.isConnected2) {
       this.storage.get('selected').then((val) => {
         if (val != null && val != '') {
-          this.navCtrl.push(NotificationPage, {
+          this.router.navigate(['notification', {
             student: val
-          });
+          }]);
         } else {
-          this.navCtrl.push(NotificationPage, {
+          this.router.navigate(['notification', {
             student: this.students[0]
-          });
+          }]);
         }
       });
     } else {
       this.storage.get('selected').then((val) => {
-        this.navCtrl.push(NotificationPage, {
+        this.router.navigate(['notification', {
           student: val
-        });
+        }]);
       });
     }
   }
@@ -390,32 +384,23 @@ export class AboutPage implements OnInit {
     if (this.isConnected2) {
       this.storage.get('selected').then((val) => {
         if (val != null && val != '') {
-          this.navCtrl.push(InstallmentsPage, {
+          this.router.navigate(['installments', {
             student: val
-          });
+          }]);
         } else {
-          this.navCtrl.push(InstallmentsPage, {
+          this.router.navigate(['installments', {
             student: this.students[0]
-          });
+          }]);
         }
       });
     } else {
       this.storage.get('selected').then((val) => {
         if (val != null) {
-          this.navCtrl.push(InstallmentsPage, {
+          this.router.navigate(['installments', {
             student: val
-          });
+          }]);
         }
       });
-    }
-  }
-
-  async setBadges(counter: number) {
-    try {
-      let badges = await this.badge.set(Number(counter));
-      console.log(badges);
-    } catch (error) {
-      console.log(error);
     }
   }
 
@@ -440,7 +425,7 @@ export class AboutPage implements OnInit {
   }
 
   goToMessage() {
-    this.navCtrl.push(SendMessagePage);
+    this.router.navigate(['send-message']);
   }
 
   isNumber(value: string | number): boolean {
