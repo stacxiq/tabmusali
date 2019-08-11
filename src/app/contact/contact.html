@@ -7,52 +7,52 @@
             <ion-button icon-only (click)="goToNotifications()" *ngIf="isLoggedIn">
                 <!-- <ion-icon name="ios-notifications"></ion-icon> -->
                 <ion-badge *ngIf="counter > 0" color="danger">{{ counter }}</ion-badge>
-                <img src="assets/imgs/ic_notifications.png" width="30" height="30"/>
+                <img src="assets/imgs/ic_notifications.png" width="30" height="30" />
             </ion-button>
-            <ion-button style="margin-left:15px;"  icon-only (click)="goToMessage()" *ngIf="isLoggedIn">
+            <ion-button style="margin-left:15px;" icon-only (click)="goToMessage()" *ngIf="isLoggedIn">
                 <!-- <ion-icon name="ios-cash-outline"></ion-icon> -->
                 <ion-icon name="md-mail" style="color:#757575"></ion-icon>
             </ion-button>
-            <ion-button style="margin-left:15px;"  icon-only (click)="goToInstallments()" *ngIf="isLoggedIn">
+            <ion-button style="margin-left:15px;" icon-only (click)="goToInstallments()" *ngIf="isLoggedIn">
                 <!-- <ion-icon name="ios-cash-outline"></ion-icon> -->
-                <img src="assets/imgs/money.png" width="30" height="30"/>
+                <img src="assets/imgs/money.png" width="30" height="30" />
             </ion-button>
         </ion-buttons>
         <ion-buttons end>
-        <ion-button icon-only menuToggle>
-            <ion-icon name="menu"></ion-icon>
-        </ion-button>
+            <ion-button icon-only menuToggle>
+                <ion-icon name="menu"></ion-icon>
+            </ion-button>
         </ion-buttons>
         <p class="title-ios">النشاطات</p>
     </ion-toolbar>
 
-    <ion-navbar *ngIf="!isIos" color="bl">
+    <ion-toolbar *ngIf="!isIos" color="bl">
         <ion-buttons left>
             <ion-button icon-only (click)="signin()" *ngIf="!isLoggedIn">
                 <ion-icon name="ios-person"></ion-icon>
-            </button>
-            <ion-button icon-only (click)="goToNotifications()" *ngIf="isLoggedIn">
-                <ion-badge *ngIf="counter > 0" color="danger">{{ counter }}</ion-badge>
-                <ion-icon name="ios-notifications"></ion-icon>
-            </ion-button>
-            <ion-button icon-only (click)="goToInstallments()" *ngIf="isLoggedIn">
-                <ion-icon name="ios-cash-outline"></ion-icon>
-            </ion-button>
+                </button>
+                <ion-button icon-only (click)="goToNotifications()" *ngIf="isLoggedIn">
+                    <ion-badge *ngIf="counter > 0" color="danger">{{ counter }}</ion-badge>
+                    <ion-icon name="ios-notifications"></ion-icon>
+                </ion-button>
+                <ion-button icon-only (click)="goToInstallments()" *ngIf="isLoggedIn">
+                    <ion-icon name="ios-cash-outline"></ion-icon>
+                </ion-button>
         </ion-buttons>
         <ion-buttons end>
-        <ion-button icon-only menuToggle>
-            <ion-icon name="menu"></ion-icon>
-        </ion-button>
+            <ion-button icon-only menuToggle>
+                <ion-icon name="menu"></ion-icon>
+            </ion-button>
         </ion-buttons>
         <p style="font-size: 16px; color:white;">النشاطات</p>
-    </ion-navbar>
+    </ion-toolbar>
 
     <ion-item dir="rtl" class="note" (click)="goToInstallments()" *ngIf="isLoggedIn && isDelayed && !isRefreshed">
         <p style="color:white !important;">استحق موعد احد الاقساط</p>
         <ion-avatar item-start>
-            <img src="assets/imgs/ic_warn.png" width="20" height="20"/>
+            <img src="assets/imgs/ic_warn.png" width="20" height="20" />
         </ion-avatar>
-    </ion-item>    
+    </ion-item>
 </ion-header>
 
 <ion-content>
@@ -62,7 +62,8 @@
 
     <div *ngIf="isDelayed && isLoggedIn"><br><br><br></div>
 
-    <ion-card dir="rtl" *ngFor="let item of items" (click)="viewMore(item)" style="width: 100% !important; margin-left: 0px;">
+    <ion-card dir="rtl" *ngFor="let item of items" (click)="viewMore(item)"
+        style="width: 100% !important; margin-left: 0px;">
         <ion-item text-wrap>
             <ion-avatar item-end>
                 <img src="assets/imgs/logo_alawaail_dark.png">
@@ -70,10 +71,10 @@
             <h2>
                 {{ item.title }}
             </h2>
-            <small>{{ item.date }}</small> 
-        </ion-item> 
-        <ion-card-content style="padding:0%"> 
-            <img src="{{ item.feature }}"/>
+            <small>{{ item.date }}</small>
+        </ion-item>
+        <ion-card-content style="padding:0%">
+            <img src="{{ item.feature }}" />
         </ion-card-content>
     </ion-card>
 </ion-content>

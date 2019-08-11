@@ -1,33 +1,33 @@
 <ion-header>
 
-  <ion-navbar>
+  <ion-toolbar>
     <p style="font-size: 16px; color:black; text-align: center;">الاشعارات</p>
-  </ion-navbar>
+  </ion-toolbar>
 
   <ion-item dir="rtl" class="note" (click)="goToInstallments()" *ngIf="isLoggedIn && isDelayed && !isRefreshed">
-      <p style="color:white !important;">استحق موعد احد الاقساط</p>
-      <ion-avatar item-start>
-          <img src="assets/imgs/ic_warn.png" width="20" height="20"/>
-      </ion-avatar>
+    <p style="color:white !important;">استحق موعد احد الاقساط</p>
+    <ion-avatar item-start>
+      <img src="assets/imgs/ic_warn.png" width="20" height="20" />
+    </ion-avatar>
   </ion-item>
 </ion-header>
 
 <ion-content padding dir="rtl">
 
   <ion-refresher (ionRefresh)="doRefresh($event)">
-      <ion-refresher-content></ion-refresher-content>
+    <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  
+
   <div *ngIf="isDelayed && isLoggedIn"><br><br><br></div>
 
   <ion-list *ngFor="let note of notes">
     <ion-item text-wrap (click)="goToDetails(note)" no-lines>
       <!-- <ion-icon name="ios-notifications" item-end></ion-icon> -->
       <ion-thumbnail item-start *ngIf="note.category == 'خاص'">
-          <img src="assets/imgs/ic_private.png" width="20" height="20"/>
+        <img src="assets/imgs/ic_private.png" width="20" height="20" />
       </ion-thumbnail>
       <ion-thumbnail item-start *ngIf="note.category == 'عام'">
-          <img src="assets/imgs/ic_public.png" width="20" height="20"/>
+        <img src="assets/imgs/ic_public.png" width="20" height="20" />
       </ion-thumbnail>
       <h4>{{ note.title }}</h4>
       <p>{{ note.date }}</p>

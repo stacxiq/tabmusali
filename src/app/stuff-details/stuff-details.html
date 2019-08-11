@@ -1,20 +1,21 @@
 <ion-header>
 
-  <ion-navbar>
+  <ion-toolbar>
     <ion-title>{{ item.name }}</ion-title>
-  </ion-navbar>
+  </ion-toolbar>
 
 </ion-header>
 
 <ion-content padding>
-  <ion-avatar class="center-img" *ngIf="item.image != '' && item.image != 'http://alawaail.com/images/staffs/default.png'; else temp" >
-    <img src="{{ item.image }}"  class="circular"/>
+  <ion-avatar class="center-img"
+    *ngIf="item.image != '' && item.image != 'http://alawaail.com/images/staffs/default.png'; else temp">
+    <img src="{{ item.image }}" class="circular" />
   </ion-avatar>
   <ng-template #temp>
     <ion-avatar class="center-img" *ngIf="item.gender == 'ذكر'">
       <img src="assets/imgs/avatar_man.jpg" class="circular">
     </ion-avatar>
-    <ion-avatar  class="center-img" *ngIf="item.gender == 'انثى'">
+    <ion-avatar class="center-img" *ngIf="item.gender == 'انثى'">
       <img src="assets/imgs/avatar_woman.jpg" class="circular">
     </ion-avatar>
   </ng-template>

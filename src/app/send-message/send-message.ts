@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController } from '@ionic/angular';
+import { NavParams, AlertController, LoadingController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 
 import { TabsPage } from '../tabs/tabs'
 import { Platform, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class SendMessagePage {
   private message: string = '';
   private studentName: string = '';
   private isIOS: boolean = false;
+  private loading;
 
   constructor(public loadingCtrl: LoadingController, private alertCtrl: AlertController, public router: Router, public navParams: NavParams, public toastCtrl: ToastController, private http: HttpClient, private storage: Storage, public platform: Platform) {
   }
@@ -30,9 +32,9 @@ export class SendMessagePage {
   }
 
   goBack() {
-    this.router.navigate(TabsPage, {
+    this.router.navigate(['tabs', {
       status: 'signedIn'
-    });
+    }]);
   }
 
   submit() {
@@ -68,23 +70,21 @@ export class SendMessagePage {
     });
 
     this.storage.get('participant_id').then((participant_id) => {
+      this.loading = this.loadingCtrl.create({
+        message: 'جاري ارسال الرسالة'
+      });
       id = participant_id;
 
-      let loading = this.loadingCtrl.create({
-        content: 'جاري ارسال الرسالة'
-      });
-
-      loading.present();
+      this.loading.present();
 
       let link = `http://alawaail.com/_mobile_data/api/request.php?participant=${user}&participant_id=${id}&title=${title}&content=${message}&student=${studentName}`;
       this.http.get(link)
-        .map(res => res.json())
         .subscribe(data => {
 
           setTimeout(() => {
-            loading.dismiss();
+            this.loading.dismiss();
 
-            let request = data.request;
+            let request = data[0].request;
 
             let status = request[0].status;
 
@@ -104,8 +104,8 @@ export class SendMessagePage {
 
   }
 
-  showToast(title) {
-    let toast = this.toastCtrl.create({
+  async showToast(title) {
+    let toast = await this.toastCtrl.create({
       message: title,
       duration: 3000,
       position: 'bottom',
@@ -114,15 +114,15 @@ export class SendMessagePage {
     toast.present();
   }
 
-  presentAlertSuccess(title: string, message: string) {
+  async presentAlertSuccess(title: string, message: string) {
     let alert = await this.alertCtrl.create({
       header: title,
-      subTitle: message,
+      message: message,
       buttons: [
         {
           text: 'رجوع',
           handler: () => {
-            this.navCtrl.pop();
+            this.router.navigate(['tabs'])
           }
         }
       ]
@@ -130,10 +130,10 @@ export class SendMessagePage {
     await alert.present();
   }
 
-  presentAlertFail(title: string, message: string) {
+  async presentAlertFail(title: string, message: string) {
     let alert = await this.alertCtrl.create({
       header: title,
-      subTitle: message,
+      message: message,
       buttons: ['رجوع']
     });
     await alert.present();

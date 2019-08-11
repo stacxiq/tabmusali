@@ -6,26 +6,26 @@
 -->
 <ion-header>
 
-  <ion-navbar *ngIf="flag == 1">
+  <ion-toolbar *ngIf="flag == 1">
     <p style="font-size: 16px; color:black; text-align: center;">الابتدائية</p>
-  </ion-navbar>
+  </ion-toolbar>
 
-  <ion-navbar *ngIf="flag == 2">
+  <ion-toolbar *ngIf="flag == 2">
     <p style="font-size: 16px; color:black; text-align: center;">ثانوية البنات</p>
-  </ion-navbar>
+  </ion-toolbar>
 
-  <ion-navbar *ngIf="flag == 3">
+  <ion-toolbar *ngIf="flag == 3">
     <p style="font-size: 16px; color:black; text-align: center;">ثانوية البنين</p>
-  </ion-navbar>
+  </ion-toolbar>
 
-  <ion-navbar *ngIf="flag == 4">
-      <p style="font-size: 16px; color:black; text-align: center;">كادر مجلس الادارة</p>
-    </ion-navbar>
+  <ion-toolbar *ngIf="flag == 4">
+    <p style="font-size: 16px; color:black; text-align: center;">كادر مجلس الادارة</p>
+  </ion-toolbar>
 
   <ion-item dir="rtl" class="note" (click)="goToInstallments()" *ngIf="isLoggedIn && isDelayed">
     <p style="color:white !important;">استحق موعد احد الاقساط</p>
     <ion-avatar item-start>
-        <img src="assets/imgs/ic_warn.png" width="20" height="20"/>
+      <img src="assets/imgs/ic_warn.png" width="20" height="20" />
     </ion-avatar>
   </ion-item>
 
@@ -37,7 +37,8 @@
   <div *ngIf="flag == 1">
     <ion-list *ngFor="let item of items">
       <ion-item text-wrap no-lines (click)="goToDetails(item)">
-        <ion-thumbnail item-end *ngIf="item.image != '' && item.image != 'http://alawaail.com/images/staffs/default.png'; else temp" >
+        <ion-thumbnail item-end
+          *ngIf="item.image != '' && item.image != 'http://alawaail.com/images/staffs/default.png'; else temp">
           <img src="{{ item.image }}">
         </ion-thumbnail>
         <ng-template #temp>
@@ -57,7 +58,8 @@
   <div *ngIf="flag == 3">
     <ion-list *ngFor="let item of items">
       <ion-item text-wrap no-lines (click)="goToDetails(item)">
-        <ion-thumbnail item-end *ngIf="item.image != '' && item.image != 'http://alawaail.com/images/staffs/default.png'; else temp" >
+        <ion-thumbnail item-end
+          *ngIf="item.image != '' && item.image != 'http://alawaail.com/images/staffs/default.png'; else temp">
           <img src="{{ item.image }}">
         </ion-thumbnail>
         <ng-template #temp>
@@ -77,7 +79,8 @@
   <div *ngIf="flag == 2">
     <ion-list *ngFor="let item of items">
       <ion-item text-wrap no-lines (click)="goToDetails(item)">
-        <ion-thumbnail item-end *ngIf="item.image != '' && item.image != 'http://alawaail.com/images/staffs/default.png'; else temp" >
+        <ion-thumbnail item-end
+          *ngIf="item.image != '' && item.image != 'http://alawaail.com/images/staffs/default.png'; else temp">
           <img src="{{ item.image }}">
         </ion-thumbnail>
         <ng-template #temp>
@@ -95,22 +98,23 @@
   </div>
 
   <div *ngIf="flag == 4">
-      <ion-list *ngFor="let item of items">
-        <ion-item text-wrap no-lines (click)="goToDetails(item)">
-          <ion-thumbnail item-end *ngIf="item.image != '' && item.image != 'http://alawaail.com/images/staffs/default.png'; else temp" >
-            <img src="{{ item.image }}">
+    <ion-list *ngFor="let item of items">
+      <ion-item text-wrap no-lines (click)="goToDetails(item)">
+        <ion-thumbnail item-end
+          *ngIf="item.image != '' && item.image != 'http://alawaail.com/images/staffs/default.png'; else temp">
+          <img src="{{ item.image }}">
+        </ion-thumbnail>
+        <ng-template #temp>
+          <ion-thumbnail item-end *ngIf="item.gender == 'ذكر'">
+            <img src="assets/imgs/avatar_man.jpg">
           </ion-thumbnail>
-          <ng-template #temp>
-            <ion-thumbnail item-end *ngIf="item.gender == 'ذكر'">
-              <img src="assets/imgs/avatar_man.jpg">
-            </ion-thumbnail>
-            <ion-thumbnail item-end *ngIf="item.gender == 'انثى'">
-              <img src="assets/imgs/avatar_woman.jpg">
-            </ion-thumbnail>
-          </ng-template>
-          <h2>{{ item.name }}</h2>
-          <p>{{ item.jobtitle }}</p>
-        </ion-item>
-      </ion-list>
-    </div>
+          <ion-thumbnail item-end *ngIf="item.gender == 'انثى'">
+            <img src="assets/imgs/avatar_woman.jpg">
+          </ion-thumbnail>
+        </ng-template>
+        <h2>{{ item.name }}</h2>
+        <p>{{ item.jobtitle }}</p>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>

@@ -1,31 +1,32 @@
 <ion-header>
 
-  <ion-navbar hideBackButton>
-      <p style="font-size: 16px; color:black; text-align: center;">تعليمات و ضوابط العام الدراسي الجديد</p>
-  </ion-navbar>
+  <ion-toolbar hideBackButton>
+    <p style="font-size: 16px; color:black; text-align: center;">تعليمات و ضوابط العام الدراسي الجديد</p>
+  </ion-toolbar>
 
 </ion-header>
 
 <ion-content padding dir="rtl">
   <ion-scroll scrollY="true">
-  <div *ngIf="isDelayed"><br><br><br></div>
+    <div *ngIf="isDelayed"><br><br><br></div>
 
-  <h3>{{ registrationIntroduction }}</h3>
+    <h3>{{ registrationIntroduction }}</h3>
 
-  <p style="font-size: 18px; color:black; text-align: right; white-space: pre-line;" text-wrap> 
-    <span [innerHTML]="studyInstructions"></span>
-  </p>
+    <p style="font-size: 18px; color:black; text-align: right; white-space: pre-line;" text-wrap>
+      <span [innerHTML]="studyInstructions"></span>
+    </p>
 
-  <br><br>
-  
-  <ion-row>
-    <ion-col>
-      <button ion-button full color="bl" (click)="submit()" style="width:  140px;">اوافق ... اكمال التسجيل</button>
-    </ion-col>
-    <ion-col>
-      <button ion-button full color="grey" (click)="goBack()" style="color: #000; width:  140px;">لا اوافق ... الغاء التسجيل</button>
-    </ion-col>
-  </ion-row>
+    <br><br>
 
-</ion-scroll>
+    <ion-row>
+      <ion-col>
+        <button ion-button full color="bl" (click)="submit()" style="width:  140px;">اوافق ... اكمال التسجيل</button>
+      </ion-col>
+      <ion-col>
+        <button ion-button full color="grey" (click)="goBack()" style="color: #000; width:  140px;">لا اوافق ... الغاء
+          التسجيل</button>
+      </ion-col>
+    </ion-row>
+
+  </ion-scroll>
 </ion-content>

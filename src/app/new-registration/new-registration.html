@@ -1,7 +1,7 @@
 <ion-header>
 
-  <ion-navbar>
-  </ion-navbar>
+  <ion-toolbar>
+  </ion-toolbar>
 
 </ion-header>
 
@@ -20,162 +20,183 @@
   <br>
 
   <ion-list>
-      
-      <ion-item>
-        <ion-input [(ngModel)]="studentName" placeholder="اسم الطالب المسجل الرباعي و اللقب" clearInput maxLength="80"></ion-input>
-      </ion-item>
 
-      <ion-item>
-          <ion-input [(ngModel)]="accom" placeholder="عنوان سكن الطالب الحالي" clearInput maxLength="80"></ion-input>
-        </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="studentName" placeholder="اسم الطالب المسجل الرباعي و اللقب" clearInput maxLength="80">
+      </ion-input>
+    </ion-item>
 
-      <ion-item dir="rtl">
-        <ion-label class="date-label">مواليد الطالب</ion-label>
-        <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="birthDate" placeholder="تحديد المواليد"
-          cancelText="الغاء" doneText="اختيار"></ion-datetime>
-      </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="accom" placeholder="عنوان سكن الطالب الحالي" clearInput maxLength="80"></ion-input>
+    </ion-item>
 
-      <br><br>
-      <ion-item dir="rtl">
-        <ion-label>محل الولادة</ion-label>
-        <ion-select  [(ngModel)]="place" (click)="onChangePlace(place)" multiple="false" okText="اختيار" cancelText="الغاء" placeholder="تحديد المحافظة">
-            <ion-option value="نينوى" checked>نينوى</ion-option>
-            <ion-option value="بغداد">بغداد</ion-option>
-            <ion-option value="البصرة">البصرة</ion-option>
-            <ion-option value="اربيل">اربيل</ion-option>
-            <ion-option value="ديالى">ديالى</ion-option>
-            <ion-option value="كركوك">كركوك</ion-option>
-            <ion-option value="صلاح الدين">صلاح الدين</ion-option>
-            <ion-option value="دهوك">دهوك</ion-option>
-            <ion-option value="السليمانية">السليمانية</ion-option>
-            <ion-option value="الانبار">الانبار</ion-option>
-            <ion-option value="النجف">النجف</ion-option>
-            <ion-option value="كربلاء">كربلاء</ion-option>
-            <ion-option value="المثنى">المثنى</ion-option>
-            <ion-option value="ذي قار">ذي قار</ion-option>
-            <ion-option value="ميسان">ميسان</ion-option>
-            <ion-option value="بابل">بابل</ion-option>
-            <ion-option value="المثنى">المثنى</ion-option>
-            <ion-option value="القادسية">القادسية</ion-option>
-        </ion-select>
-      </ion-item>
+    <ion-item dir="rtl">
+      <ion-label class="date-label">مواليد الطالب</ion-label>
+      <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="birthDate" placeholder="تحديد المواليد" cancelText="الغاء"
+        doneText="اختيار"></ion-datetime>
+    </ion-item>
 
-      <ion-item dir="rtl">
-        <ion-input dir="rtl" [(ngModel)]="brothersNumber" type="tel" placeholder="عدد الاخوة للطالب" clearInput maxLength="80"></ion-input>
-      </ion-item>
+    <br><br>
+    <ion-item dir="rtl">
+      <ion-label>محل الولادة</ion-label>
+      <ion-select [(ngModel)]="place" (click)="onChangePlace(place)" multiple="false" okText="اختيار" cancelText="الغاء"
+        placeholder="تحديد المحافظة">
+        <ion-option value="نينوى" checked>نينوى</ion-option>
+        <ion-option value="بغداد">بغداد</ion-option>
+        <ion-option value="البصرة">البصرة</ion-option>
+        <ion-option value="اربيل">اربيل</ion-option>
+        <ion-option value="ديالى">ديالى</ion-option>
+        <ion-option value="كركوك">كركوك</ion-option>
+        <ion-option value="صلاح الدين">صلاح الدين</ion-option>
+        <ion-option value="دهوك">دهوك</ion-option>
+        <ion-option value="السليمانية">السليمانية</ion-option>
+        <ion-option value="الانبار">الانبار</ion-option>
+        <ion-option value="النجف">النجف</ion-option>
+        <ion-option value="كربلاء">كربلاء</ion-option>
+        <ion-option value="المثنى">المثنى</ion-option>
+        <ion-option value="ذي قار">ذي قار</ion-option>
+        <ion-option value="ميسان">ميسان</ion-option>
+        <ion-option value="بابل">بابل</ion-option>
+        <ion-option value="المثنى">المثنى</ion-option>
+        <ion-option value="القادسية">القادسية</ion-option>
+      </ion-select>
+    </ion-item>
 
-      <ion-item dir="rtl">
-        <ion-input dir="rtl" [(ngModel)]="brotherOrder" type="tel" placeholder="تسلسل الطالب بين اخوته" clearInput maxLength="80"></ion-input>
-      </ion-item>
+    <ion-item dir="rtl">
+      <ion-input dir="rtl" [(ngModel)]="brothersNumber" type="tel" placeholder="عدد الاخوة للطالب" clearInput
+        maxLength="80"></ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-input [(ngModel)]="brothersAlawail" type="tel" placeholder="عدد الاخوة من طلاب الاوائل الحاليين" clearInput maxLength="30"></ion-input>
-      </ion-item>
+    <ion-item dir="rtl">
+      <ion-input dir="rtl" [(ngModel)]="brotherOrder" type="tel" placeholder="تسلسل الطالب بين اخوته" clearInput
+        maxLength="80"></ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-input [(ngModel)]="lastSchool" placeholder="اخر مدرسة كان فيها الطالب" clearInput maxLength="30"></ion-input>
-      </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="brothersAlawail" type="tel" placeholder="عدد الاخوة من طلاب الاوائل الحاليين" clearInput
+        maxLength="30"></ion-input>
+    </ion-item>
 
-      <ion-item dir="rtl">
-        <ion-label>اخر مرحلة نجح منها الطالب</ion-label>
-        <ion-select [(ngModel)]="lastClass" (click)="onChangeLastClass(lastClass)"  multiple="false" okText="اختيار" cancelText="الغاء" placeholder="تحديد المرحلة">
-          <ion-option value="روضة" checked>روضة</ion-option>
-          <ion-option value="تمهيدي">تمهيدي</ion-option>
-          <ion-option value="الاول الابتدائي">الاول الابتدائي</ion-option>
-          <ion-option value="الثاني الابتدائي">الثاني الابتدائي</ion-option>
-          <ion-option value="الثالث الابتدائي">الثالث الابتدائي</ion-option>
-          <ion-option value="الرابع الابتدائي">الرابع الابتدائي</ion-option>
-          <ion-option value="الخامس الابتدائي">الخامس الابتدائي</ion-option>
-          <ion-option value="السادس الابتدائي">السادس الابتدائي</ion-option>
-          <ion-option value="الاول المتوسط">الاول المتوسط</ion-option>
-          <ion-option value="الثاني المتوسط">الثاني المتوسط</ion-option>
-          <ion-option value="الثالث المتوسط">الثالث المتوسط</ion-option>
-          <ion-option value="الرابع العلمي">الرابع العلمي</ion-option>
-          <ion-option value="الخامس الاحيائي">الخامس الاحيائي</ion-option>
-          <ion-option value="الخامس التطبيقي">الخامس التطبيقي</ion-option>
-          <ion-option value="معيد/السادس الاحيائي">معيد/السادس الاحيائي</ion-option>
-          <ion-option value="معيد/السادس التطبيقي">معيد/السادس التطبيقي</ion-option>
-        </ion-select>
-      </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="lastSchool" placeholder="اخر مدرسة كان فيها الطالب" clearInput maxLength="30"></ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-input [(ngModel)]="average" type="text" placeholder="معدل المرحلة الدراسية السابقة" pattern="[0-9]*" decimal="true" allow-multiple-decimals="true" clearInput></ion-input>
-      </ion-item>
+    <ion-item dir="rtl">
+      <ion-label>اخر مرحلة نجح منها الطالب</ion-label>
+      <ion-select [(ngModel)]="lastClass" (click)="onChangeLastClass(lastClass)" multiple="false" okText="اختيار"
+        cancelText="الغاء" placeholder="تحديد المرحلة">
+        <ion-option value="روضة" checked>روضة</ion-option>
+        <ion-option value="تمهيدي">تمهيدي</ion-option>
+        <ion-option value="الاول الابتدائي">الاول الابتدائي</ion-option>
+        <ion-option value="الثاني الابتدائي">الثاني الابتدائي</ion-option>
+        <ion-option value="الثالث الابتدائي">الثالث الابتدائي</ion-option>
+        <ion-option value="الرابع الابتدائي">الرابع الابتدائي</ion-option>
+        <ion-option value="الخامس الابتدائي">الخامس الابتدائي</ion-option>
+        <ion-option value="السادس الابتدائي">السادس الابتدائي</ion-option>
+        <ion-option value="الاول المتوسط">الاول المتوسط</ion-option>
+        <ion-option value="الثاني المتوسط">الثاني المتوسط</ion-option>
+        <ion-option value="الثالث المتوسط">الثالث المتوسط</ion-option>
+        <ion-option value="الرابع العلمي">الرابع العلمي</ion-option>
+        <ion-option value="الخامس الاحيائي">الخامس الاحيائي</ion-option>
+        <ion-option value="الخامس التطبيقي">الخامس التطبيقي</ion-option>
+        <ion-option value="معيد/السادس الاحيائي">معيد/السادس الاحيائي</ion-option>
+        <ion-option value="معيد/السادس التطبيقي">معيد/السادس التطبيقي</ion-option>
+      </ion-select>
+    </ion-item>
 
-      <br><br>
-      <ion-item dir="rtl">
-        <ion-label>المدرسة التي يرغب التسجيل بها</ion-label>
-        <ion-select  [(ngModel)]="newSchool" (ionChange)="onChangeSchool(newSchool)" multiple="false" okText="اختيار" cancelText="الغاء" placeholder="تحديد المدرسة">
-          <ion-option value="الابتدائية" checked>الابتدائية</ion-option>
-          <ion-option value="ثانوية البنين">ثانوية البنين</ion-option>
-          <ion-option value="ثانوية البنات">ثانوية البنات</ion-option>
-        </ion-select>
-      </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="average" type="text" placeholder="معدل المرحلة الدراسية السابقة" pattern="[0-9]*"
+        decimal="true" allow-multiple-decimals="true" clearInput></ion-input>
+    </ion-item>
 
-      <ion-item dir="rtl">
-        <ion-label>المرحلة الجديدة التي يرغب التسجيل بها</ion-label>
-        <ion-select  [(ngModel)]="newClass" (click)="onChangeNewClass(newClass)"  multiple="false" okText="اختيار" cancelText="الغاء" placeholder="تحديد المرحلة">
-          <ion-option *ngFor="let item of items" value="{{ item.class }}">{{ item.class }}</ion-option>
-        </ion-select>
-      </ion-item>
+    <br><br>
+    <ion-item dir="rtl">
+      <ion-label>المدرسة التي يرغب التسجيل بها</ion-label>
+      <ion-select [(ngModel)]="newSchool" (ionChange)="onChangeSchool(newSchool)" multiple="false" okText="اختيار"
+        cancelText="الغاء" placeholder="تحديد المدرسة">
+        <ion-option value="الابتدائية" checked>الابتدائية</ion-option>
+        <ion-option value="ثانوية البنين">ثانوية البنين</ion-option>
+        <ion-option value="ثانوية البنات">ثانوية البنات</ion-option>
+      </ion-select>
+    </ion-item>
 
-      <ion-item>
-        <ion-textarea dir="rtl" [(ngModel)]="notes" placeholder="الامراض المزمنة و الملاحظات (اختياري)" clearInput></ion-textarea>
-      </ion-item>
+    <ion-item dir="rtl">
+      <ion-label>المرحلة الجديدة التي يرغب التسجيل بها</ion-label>
+      <ion-select [(ngModel)]="newClass" (click)="onChangeNewClass(newClass)" multiple="false" okText="اختيار"
+        cancelText="الغاء" placeholder="تحديد المرحلة">
+        <ion-option *ngFor="let item of items" value="{{ item.class }}">{{ item.class }}</ion-option>
+      </ion-select>
+    </ion-item>
 
-      <ion-item dir="rtl">
-        <ion-input dir="rtl" [(ngModel)]="fatherName" type="text" placeholder="اسم ولي الامرالثلاثي (الاب او من ينوب عنه)" clearInput maxLength="80"></ion-input>
-      </ion-item>
+    <ion-item>
+      <ion-textarea dir="rtl" [(ngModel)]="notes" placeholder="الامراض المزمنة و الملاحظات (اختياري)" clearInput>
+      </ion-textarea>
+    </ion-item>
 
-      <ion-item>
-        <ion-input [(ngModel)]="fatherJob" type="text" placeholder="مهنة ولي الامر الدقيقة ... ومكان العمل" clearInput maxLength="30"></ion-input>
-      </ion-item>
+    <ion-item dir="rtl">
+      <ion-input dir="rtl" [(ngModel)]="fatherName" type="text" placeholder="اسم ولي الامرالثلاثي (الاب او من ينوب عنه)"
+        clearInput maxLength="80"></ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-input [(ngModel)]="fatherCertification" type="text" placeholder="التحصيل الدراسي لولي الامر" clearInput maxLength="30"></ion-input>
-      </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="fatherJob" type="text" placeholder="مهنة ولي الامر الدقيقة ... ومكان العمل" clearInput
+        maxLength="30"></ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-input [(ngModel)]="motherName" type="text" placeholder="اسم الام الثلاثي و اللقب" clearInput maxLength="30"></ion-input>
-      </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="fatherCertification" type="text" placeholder="التحصيل الدراسي لولي الامر" clearInput
+        maxLength="30"></ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-input [(ngModel)]="motherJob" type="text" placeholder="مهنة الام الدقيقة ... ومكان العمل" clearInput maxLength="30"></ion-input>
-      </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="motherName" type="text" placeholder="اسم الام الثلاثي و اللقب" clearInput maxLength="30">
+      </ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-input [(ngModel)]="motherCertification" type="text" placeholder="التحصيل الدراسي للام" clearInput maxLength="30"></ion-input>
-      </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="motherJob" type="text" placeholder="مهنة الام الدقيقة ... ومكان العمل" clearInput
+        maxLength="30"></ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-input [(ngModel)]="fatherMotherAive" type="text" placeholder="هل الام و الاب على قيد الحياة" clearInput maxLength="30"></ion-input>
-      </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="motherCertification" type="text" placeholder="التحصيل الدراسي للام" clearInput
+        maxLength="30"></ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-input [(ngModel)]="phone_1" type="tel" placeholder="رقم الهاتف الاساسي لولي الامر" clearInput maxLength="30"></ion-input>
-      </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="fatherMotherAive" type="text" placeholder="هل الام و الاب على قيد الحياة" clearInput
+        maxLength="30"></ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-input [(ngModel)]="phone_2" type="tel" placeholder="رقم الهاتف البديل لولي الامر" clearInput maxLength="30"></ion-input>
-      </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="phone_1" type="tel" placeholder="رقم الهاتف الاساسي لولي الامر" clearInput maxLength="30">
+      </ion-input>
+    </ion-item>
 
-      <ion-item dir="rtl">
-        <ion-label text-wrap class="hint-ion-label ">ملاحظة لن تكتمل عملية التسجيل الا بالضغط على زر تعليمات وضوابط العام الدراسي الجديد وقرائتها</ion-label>
-      </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="phone_2" type="tel" placeholder="رقم الهاتف البديل لولي الامر" clearInput maxLength="30">
+      </ion-input>
+    </ion-item>
 
-      <ion-item >
-        <button ion-button full (click)="readInfo()" style="padding: 20px; color: #FFF; background-color: red;">تعليمات و ضوابط العام الدراسي الجديد</button>
-      </ion-item>
+    <ion-item dir="rtl">
+      <ion-label text-wrap class="hint-ion-label ">ملاحظة لن تكتمل عملية التسجيل الا بالضغط على زر تعليمات وضوابط العام
+        الدراسي الجديد وقرائتها</ion-label>
+    </ion-item>
 
-      <ion-row>
-        <ion-col>
-          <button ion-button full color="grey" (click)="goBack()" style="color: #000">رجوع</button>
-        </ion-col>
-        <ion-col>
-          <button ion-button full color="bl" (click)="submit()">ارسال</button>
-        </ion-col>
-      </ion-row>
-  
+    <ion-item>
+      <button ion-button full (click)="readInfo()" style="padding: 20px; color: #FFF; background-color: red;">تعليمات و
+        ضوابط العام الدراسي الجديد</button>
+    </ion-item>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button full color="grey" (click)="goBack()" style="color: #000">رجوع</button>
+      </ion-col>
+      <ion-col>
+        <button ion-button full color="bl" (click)="submit()">ارسال</button>
+      </ion-col>
+    </ion-row>
+
   </ion-list>
 
 </ion-content>
