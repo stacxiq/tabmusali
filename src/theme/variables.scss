@@ -76,22 +76,31 @@
   --ion-color-light-tint: #f5f6f9;
 }
 
-// Font path is used to include ionicons,
-// roboto, and noto sans fonts
-$font-path: "../assets/fonts";
-
-@import "roboto";
-@import "noto-sans";
-
 @font-face {
   font-family: STV_0;
   src: url("../assets/fonts/STV_0.ttf");
 }
-  
-body, span, button, h1, h2, h3, h4, h5, h6, p, ion-item, ion-title, ion-input, ion-textarea, summary, ion-row, ion-col, ion-datetime, ion-label, ion-select {
+
+body,
+span,
+button,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ion-item,
+ion-title,
+ion-input,
+ion-textarea,
+summary,
+ion-row,
+ion-col,
+ion-datetime,
+ion-label,
+ion-select {
   font-family: 'STV_0' !important;
   font-size: 16px;
 }
-
-
-
