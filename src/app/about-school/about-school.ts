@@ -1,35 +1,34 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Platform } from 'ionic-angular';
-import { FCM } from '@ionic-native/fcm';
-import { NativeAudio } from '@ionic-native/native-audio';
+import { AlertController, Platform } from '@ionic/angular';
+import { FCM } from '@ionic-native/fcm/ngx';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { InstallmentsPage } from '../installments/installments';
-import { Events } from 'ionic-angular';
+import { Events } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
-import { Badge } from '@ionic-native/badge';
+import { Badge } from '@ionic-native/badge/ngx';
+import { Router } from '@angular/router';
 
-@IonicPage()
 @Component({
   selector: 'page-about-school',
-  templateUrl: 'about-school.html',
+  templateUrl: './about-school.html',
+  styleUrls: ['./about-school.scss'],
 })
 export class AboutSchoolPage {
 
-  public students:any[];
-  isLoggedIn:boolean = false;
-  isDelayed:boolean = false;
-  public installments:any[];
-  username:string = '';
-  password:string = '';
-  participant_id:string;  
-  isLoaded:boolean = false;
-  isConnected:boolean = true;
-  value:string = '';
+  public students: any[];
+  isLoggedIn: boolean = false;
+  isDelayed: boolean = false;
+  public installments: any[];
+  username: string = '';
+  password: string = '';
+  participant_id: string;
+  isLoaded: boolean = false;
+  isConnected: boolean = true;
+  value: string = '';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private badge: Badge,
+  constructor(public router: Router, private badge: Badge,
     private fcm: FCM, private nativeAudio: NativeAudio, private storage: Storage,
-    private http: Http, private alertCtrl: AlertController, public platform: Platform, 
+    private alertCtrl: AlertController, public platform: Platform,
     public events: Events) {
 
     if (platform.is('cordova')) {
@@ -38,9 +37,9 @@ export class AboutSchoolPage {
       }, (err) => {
         // alert(err);
       });
-  
+
       this.fcm.onNotification().subscribe(data => {
-        if(data.wasTapped){
+        if (data.wasTapped) {
           // alert("Received in background");
         } else {
           // alert("Received in foreground");
@@ -63,17 +62,17 @@ export class AboutSchoolPage {
           }
         });
       }, 1000);
-      
+
       if (val == 'true') {
         this.isLoggedIn = true;
 
         setInterval(() => {
           this.storage.get('selected').then((val) => {
             if (val != '' && val != null) {
-              this.value = val;      
-            } 
+              this.value = val;
+            }
           });
-    
+
           this.refreshInfo();
         }, 1000);
       } else {
@@ -94,10 +93,6 @@ export class AboutSchoolPage {
     });
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AboutSchoolPage');
-  }
-
   ionViewWillLeave() {
     this.storage.set('num', 2);
   }
@@ -111,14 +106,14 @@ export class AboutSchoolPage {
     }
   }
 
-  presentAlert(title, body) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      subTitle: '<div dir="rtl">' + body + '</div>',
+  async presentAlert(title, body) {
+    let alert = await this.alertCtrl.create({
+      header: title,
+      message: '<div dir="rtl">' + body + '</div>',
       buttons: ['رجوع']
     });
-    alert.present();
-    this.nativeAudio.play('uniqueId1').then(() => {}, () => {});
+    await alert.present();
+    this.nativeAudio.play('uniqueId1').then(() => { }, () => { });
   }
 
   refreshInfo() {
@@ -148,29 +143,29 @@ export class AboutSchoolPage {
     }
   }
 
-  goToInstallments(username, password, participant_id) {
+  goToInstallments() {
     if (this.isConnected) {
       this.storage.get('selected').then((val) => {
         if (val != null && val != '') {
-          this.navCtrl.push(InstallmentsPage, {
+          this.router.navigate(['installments', {
             student: val
-          });
+          }]);
         } else {
           this.storage.get('st_data').then((val) => {
             if (val != null) {
-              this.navCtrl.push(InstallmentsPage, {
+              this.router.navigate(['installments', {
                 student: val[0]
-              });
+              }]);
             }
           });
         }
-      }); 
+      });
     } else {
       this.storage.get('selected').then((val) => {
-        this.navCtrl.push(InstallmentsPage, {
+        this.router.navigate(['installments', {
           student: val
-        });
+        }]);
       });
     }
-  } 
+  }
 }
