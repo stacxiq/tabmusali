@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
-import { InstallmentsPage } from '../installments/installments';
+import { Router } from '@angular/router';
 
-@IonicPage()
 @Component({
   selector: 'page-about-app',
   templateUrl: './about-app.html',
@@ -13,20 +10,16 @@ import { InstallmentsPage } from '../installments/installments';
 })
 export class AboutAppPage {
 
-  public students: any[];
   isLoggedIn: boolean = false;
   isDelayed: boolean = false;
-  public installments: any[];
   username: string = '';
   password: string = '';
   participant_id: string;
-  isLoaded: boolean = false;
   value: string = '';
   isIos: boolean = false;
   isConnected: boolean = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-    private storage: Storage, private http: Http, public platform: Platform) {
+  constructor(public router: Router, private storage: Storage, public platform: Platform) {
 
     storage.get('isLoggedIn').then((val) => {
       console.log('val is', val);
@@ -78,10 +71,6 @@ export class AboutAppPage {
     }
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AboutAppPage');
-  }
-
   ionViewWillLeave() {
     this.storage.set('num', 6);
   }
@@ -117,28 +106,28 @@ export class AboutAppPage {
     }
   }
 
-  goToInstallments(username, password, participant_id) {
+  goToInstallments() {
     if (this.isConnected) {
       this.storage.get('selected').then((val) => {
         if (val != null && val != '') {
-          this.navCtrl.push(InstallmentsPage, {
+          this.router.navigate(['installments', {
             student: val
-          });
+          }]);
         } else {
           this.storage.get('st_data').then((val) => {
             if (val != null) {
-              this.navCtrl.push(InstallmentsPage, {
+              this.router.navigate(['installments', {
                 student: val[0]
-              });
+              }]);
             }
           });
         }
       });
     } else {
       this.storage.get('selected').then((val) => {
-        this.navCtrl.push(InstallmentsPage, {
+        this.router.navigate(['installments', {
           student: val
-        });
+        }]);
       });
     }
   }
