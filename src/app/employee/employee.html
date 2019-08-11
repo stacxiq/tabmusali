@@ -1,8 +1,8 @@
 <ion-header>
 
-  <ion-navbar>
+  <ion-toolbar>
     <p style="font-size: 16px; color:black; text-align: center;">استمارة التوظيف</p>
-  </ion-navbar>
+  </ion-toolbar>
 
 </ion-header>
 
@@ -23,9 +23,9 @@
       <ion-item dir="rtl">
         <ion-label>المدرسة التي ترغب في التعيين بها</ion-label>
         <ion-select  [(ngModel)]="school" (click)="onChangeSchool(school)" multiple="true" placeholder="تحديد المدرسة" okText="اختيار" cancelText="الغاء">
-          <ion-option value="الابتدائية" checked>الابتدائية</ion-option>
-          <ion-option value="ثانوية البنين">ثانوية البنين</ion-option>
-          <ion-option value="ثانوية البنات">ثانوية البنات</ion-option>
+          <ion-select-option value="الابتدائية" checked>الابتدائية</ion-select-option>
+          <ion-select-option value="ثانوية البنين">ثانوية البنين</ion-select-option>
+          <ion-select-option value="ثانوية البنات">ثانوية البنات</ion-select-option>
         </ion-select>
       </ion-item>
 
@@ -38,8 +38,8 @@
       <ion-item dir="rtl">
           <ion-label>الجنس</ion-label>
           <ion-select  [(ngModel)]="gender" (click)="onChangeGender(gender)" multiple="false" placeholder="تحديد" okText="اختيار" cancelText="الغاء">
-            <ion-option value="ذكر" checked>ذكر</ion-option>
-            <ion-option value="انثى">انثى</ion-option>
+            <ion-select-option value="ذكر" checked>ذكر</ion-select-option>
+            <ion-select-option value="انثى">انثى</ion-select-option>
           </ion-select>
         </ion-item>
 
@@ -53,36 +53,36 @@
       <ion-item dir="rtl">
         <ion-label>محل الولادة</ion-label>
         <ion-select  [(ngModel)]="place" (click)="onChangePlace(place)" multiple="false" okText="اختيار" cancelText="الغاء" placeholder="تحديد المحافظة">
-            <ion-option value="نينوى" checked>نينوى</ion-option>
-            <ion-option value="بغداد">بغداد</ion-option>
-            <ion-option value="البصرة">البصرة</ion-option>
-            <ion-option value="اربيل">اربيل</ion-option>
-            <ion-option value="ديالى">ديالى</ion-option>
-            <ion-option value="كركوك">كركوك</ion-option>
-            <ion-option value="صلاح الدين">صلاح الدين</ion-option>
-            <ion-option value="دهوك">دهوك</ion-option>
-            <ion-option value="السليمانية">السليمانية</ion-option>
-            <ion-option value="الانبار">الانبار</ion-option>
-            <ion-option value="النجف">النجف</ion-option>
-            <ion-option value="كربلاء">كربلاء</ion-option>
-            <ion-option value="المثنى">المثنى</ion-option>
-            <ion-option value="ذي قار">ذي قار</ion-option>
-            <ion-option value="ميسان">ميسان</ion-option>
-            <ion-option value="بابل">بابل</ion-option>
-            <ion-option value="المثنى">المثنى</ion-option>
-            <ion-option value="القادسية">القادسية</ion-option>
+            <ion-select-option value="نينوى" checked>نينوى</ion-select-option>
+            <ion-select-option value="بغداد">بغداد</ion-select-option>
+            <ion-select-option value="البصرة">البصرة</ion-select-option>
+            <ion-select-option value="اربيل">اربيل</ion-select-option>
+            <ion-select-option value="ديالى">ديالى</ion-select-option>
+            <ion-select-option value="كركوك">كركوك</ion-select-option>
+            <ion-select-option value="صلاح الدين">صلاح الدين</ion-select-option>
+            <ion-select-option value="دهوك">دهوك</ion-select-option>
+            <ion-select-option value="السليمانية">السليمانية</ion-select-option>
+            <ion-select-option value="الانبار">الانبار</ion-select-option>
+            <ion-select-option value="النجف">النجف</ion-select-option>
+            <ion-select-option value="كربلاء">كربلاء</ion-select-option>
+            <ion-select-option value="المثنى">المثنى</ion-select-option>
+            <ion-select-option value="ذي قار">ذي قار</ion-select-option>
+            <ion-select-option value="ميسان">ميسان</ion-select-option>
+            <ion-select-option value="بابل">بابل</ion-select-option>
+            <ion-select-option value="المثنى">المثنى</ion-select-option>
+            <ion-select-option value="القادسية">القادسية</ion-select-option>
         </ion-select>
       </ion-item>
 
         <ion-item dir="rtl">
             <ion-label>التحصيل الدراسي</ion-label>
             <ion-select  [(ngModel)]="study" (click)="onChangeStudy(study)" multiple="false" placeholder="تحديد" okText="اختيار" cancelText="الغاء">
-              <ion-option value="ابتدائية" checked>ابتدائية</ion-option>
-              <ion-option value="متوسطة">متوسطة</ion-option>
-              <ion-option value="اعدادية">اعدادية</ion-option>
-              <ion-option value="بكالوريوس">بكالوريوس</ion-option>
-              <ion-option value="ماجستير">ماجستير</ion-option>
-              <ion-option value="دكتوراه">دكتوراه</ion-option>
+              <ion-select-option value="ابتدائية" checked>ابتدائية</ion-select-option>
+              <ion-select-option value="متوسطة">متوسطة</ion-select-option>
+              <ion-select-option value="اعدادية">اعدادية</ion-select-option>
+              <ion-select-option value="بكالوريوس">بكالوريوس</ion-select-option>
+              <ion-select-option value="ماجستير">ماجستير</ion-select-option>
+              <ion-select-option value="دكتوراه">دكتوراه</ion-select-option>
             </ion-select>
           </ion-item>
         
@@ -103,19 +103,19 @@
         <ion-item dir="rtl">
           <ion-label>التقدير</ion-label>
           <ion-select  [(ngModel)]="evaluation" (click)="onChangeEvaluation(evaluation)" multiple="false" placeholder="تحديد" okText="اختيار" cancelText="الغاء">
-            <ion-option value="مقبول" checked>مقبول</ion-option>
-            <ion-option value="متوسط">متوسط</ion-option>
-            <ion-option value="جيد">جيد</ion-option>
-            <ion-option value="جيد جدا">جيد جدا</ion-option>
-            <ion-option value="امتيار">امتيار</ion-option>
+            <ion-select-option value="مقبول" checked>مقبول</ion-select-option>
+            <ion-select-option value="متوسط">متوسط</ion-select-option>
+            <ion-select-option value="جيد">جيد</ion-select-option>
+            <ion-select-option value="جيد جدا">جيد جدا</ion-select-option>
+            <ion-select-option value="امتيار">امتيار</ion-select-option>
           </ion-select>
         </ion-item>
 
         <ion-item dir="rtl">
             <ion-label>الحالة الاجتماعية</ion-label>
             <ion-select  [(ngModel)]="status" (click)="onChangeStatus(status)" multiple="false" placeholder="تحديد" okText="اختيار" cancelText="الغاء">
-              <ion-option value="اعزب" checked>اعزب </ion-option>
-              <ion-option value="متزوج">متزوج</ion-option>
+              <ion-select-option value="اعزب" checked>اعزب </ion-select-option>
+              <ion-select-option value="متزوج">متزوج</ion-select-option>
             </ion-select>
           </ion-item>
 
@@ -156,11 +156,11 @@
         <ion-item dir="rtl">
           <ion-label>اجادة استخدام الحاسوب</ion-label>
           <ion-select  [(ngModel)]="computerUse" (click)="onChangeComputer(computerUse)" multiple="false" placeholder="تحديد" okText="اختيار" cancelText="الغاء">
-            <ion-option value="مقبول" checked>مقبول</ion-option>
-            <ion-option value="متوسط">متوسط</ion-option>
-            <ion-option value="جيد">جيد</ion-option>
-            <ion-option value="جيد جدا">جيد جدا</ion-option>
-            <ion-option value="ممتاز">ممتاز</ion-option>
+            <ion-select-option value="مقبول" checked>مقبول</ion-select-option>
+            <ion-select-option value="متوسط">متوسط</ion-select-option>
+            <ion-select-option value="جيد">جيد</ion-select-option>
+            <ion-select-option value="جيد جدا">جيد جدا</ion-select-option>
+            <ion-select-option value="ممتاز">ممتاز</ion-select-option>
           </ion-select>
         </ion-item>     
         
@@ -197,10 +197,10 @@
 
       <ion-row>
           <ion-col>
-            <button ion-button full color="bl" (click)="submit()">ارسال</button>
+            <ion-button full color="bl" (click)="submit()">ارسال</ion-button>
           </ion-col>
         <ion-col> 
-          <button ion-button full color="grey" (click)="goBack()" style="color: #000">رجوع</button>
+          <ion-button full color="grey" (click)="goBack()" style="color: #000">رجوع</ion-button>
         </ion-col>
       </ion-row>
   </ion-list>

@@ -1,12 +1,12 @@
 <ion-header>
 
-  <ion-navbar *ngIf="isIos">
+  <ion-toolbar *ngIf="isIos">
     <p style="font-size: 16px; color:black; text-align: center;">تسجيل الدخول</p>
-  </ion-navbar>
+  </ion-toolbar>
 
-  <ion-navbar *ngIf="!isIos"  color="bl">
+  <ion-toolbar *ngIf="!isIos"  color="bl">
     <p style="font-size: 16px; color:black; text-align: center;">تسجيل الدخول</p>
-  </ion-navbar>
+  </ion-toolbar>
 
 </ion-header>
 
@@ -31,10 +31,10 @@
 
       <ion-row>
         <ion-col>
-          <button ion-button full color="grey" (click)="goBack()" style="color: #000">رجوع</button>
+          <ion-button full color="grey" (click)="goBack()" style="color: #000">رجوع</ion-button>
         </ion-col>
         <ion-col>
-          <button ion-button full color="bl" (click)="submit()">تسجيل الدخول</button>
+          <ion-button full color="bl" (click)="submit()">تسجيل الدخول</ion-button>
         </ion-col>
       </ion-row>
   

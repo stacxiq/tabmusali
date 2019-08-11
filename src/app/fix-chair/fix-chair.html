@@ -1,7 +1,7 @@
 <ion-header>
 
-    <ion-navbar>
-    </ion-navbar>
+    <ion-toolbar>
+    </ion-toolbar>
   
   </ion-header>
   
@@ -28,49 +28,49 @@
         <ion-item dir="rtl">
             <ion-label>المرحلة التي نجح منها الطالب</ion-label>
             <ion-select [(ngModel)]="lastClass" (click)="onChangeNewClass(newClass)"  multiple="false" okText="اختيار" cancelText="الغاء" placeholder="تحديد المرحلة">
-              <ion-option value="الاول الابتدائي" checked>الاول الابتدائي</ion-option>
-              <ion-option value="الثاني الابتدائي">الثاني الابتدائي</ion-option>
-              <ion-option value="الثالث الابتدائي">الثالث الابتدائي</ion-option>
-              <ion-option value="الرابع الابتدائي">الرابع الابتدائي</ion-option>
-              <ion-option value="الخامس الابتدائي">الخامس الابتدائي</ion-option>
-              <ion-option value="السادس الابتدائي">السادس الابتدائي</ion-option>
-              <ion-option value="الاول المتوسط">الاول المتوسط</ion-option>
-              <ion-option value="الثاني المتوسط">الثاني المتوسط</ion-option>
-              <ion-option value="الثالث المتوسط">الثالث المتوسط</ion-option>
-              <ion-option value="الرابع العلمي">الرابع العلمي</ion-option>
-              <ion-option value="الخامس الاحيائي">الخامس الاحيائي</ion-option>
-              <ion-option value="الخامس التطبيقي">الخامس التطبيقي</ion-option>
-              <ion-option value="السادس الاحيائي">السادس الاحيائي</ion-option>
-              <ion-option value="السادس التطبيقي">السادس التطبيقي</ion-option>
+              <ion-select-option value="الاول الابتدائي" checked>الاول الابتدائي</ion-select-option>
+              <ion-select-option value="الثاني الابتدائي">الثاني الابتدائي</ion-select-option>
+              <ion-select-option value="الثالث الابتدائي">الثالث الابتدائي</ion-select-option>
+              <ion-select-option value="الرابع الابتدائي">الرابع الابتدائي</ion-select-option>
+              <ion-select-option value="الخامس الابتدائي">الخامس الابتدائي</ion-select-option>
+              <ion-select-option value="السادس الابتدائي">السادس الابتدائي</ion-select-option>
+              <ion-select-option value="الاول المتوسط">الاول المتوسط</ion-select-option>
+              <ion-select-option value="الثاني المتوسط">الثاني المتوسط</ion-select-option>
+              <ion-select-option value="الثالث المتوسط">الثالث المتوسط</ion-select-option>
+              <ion-select-option value="الرابع العلمي">الرابع العلمي</ion-select-option>
+              <ion-select-option value="الخامس الاحيائي">الخامس الاحيائي</ion-select-option>
+              <ion-select-option value="الخامس التطبيقي">الخامس التطبيقي</ion-select-option>
+              <ion-select-option value="السادس الاحيائي">السادس الاحيائي</ion-select-option>
+              <ion-select-option value="السادس التطبيقي">السادس التطبيقي</ion-select-option>
             </ion-select>
           </ion-item>
 
           <ion-item dir="rtl">
             <ion-label>المدرسة التي يرغب بالتسجيل بها</ion-label>
             <ion-select  [(ngModel)]="school" (click)="onChangeSchool(school)" multiple="false" okText="اختيار" cancelText="الغاء" placeholder="تحديد المدرسة">
-              <ion-option value="الابتدائية" checked="true">الابتدائية</ion-option>
-              <ion-option value="ثانوية البنين">ثانوية البنين</ion-option>
-              <ion-option value="ثانوية البنات">ثانوية البنات</ion-option>
+              <ion-select-option value="الابتدائية" checked="true">الابتدائية</ion-select-option>
+              <ion-select-option value="ثانوية البنين">ثانوية البنين</ion-select-option>
+              <ion-select-option value="ثانوية البنات">ثانوية البنات</ion-select-option>
             </ion-select>
           </ion-item>
 
         <ion-item dir="rtl">
             <ion-label>المرحلة التي يرغب بالتسجيل بها</ion-label>
             <ion-select [(ngModel)]="newClass" (click)="onChangeNewClass(newClass)"  multiple="false" okText="اختيار" cancelText="الغاء" placeholder="تحديد المرحلة">
-              <ion-option value="الاول الابتدائي" checked>الاول الابتدائي</ion-option>
-              <ion-option value="الثاني الابتدائي">الثاني الابتدائي</ion-option>
-              <ion-option value="الثالث الابتدائي">الثالث الابتدائي</ion-option>
-              <ion-option value="الرابع الابتدائي">الرابع الابتدائي</ion-option>
-              <ion-option value="الخامس الابتدائي">الخامس الابتدائي</ion-option>
-              <ion-option value="السادس الابتدائي">السادس الابتدائي</ion-option>
-              <ion-option value="الاول المتوسط">الاول المتوسط</ion-option>
-              <ion-option value="الثاني المتوسط">الثاني المتوسط</ion-option>
-              <ion-option value="الثالث المتوسط">الثالث المتوسط</ion-option>
-              <ion-option value="الرابع العلمي">الرابع العلمي</ion-option>
-              <ion-option value="الخامس الاحيائي">الخامس الاحيائي</ion-option>
-              <ion-option value="الخامس التطبيقي">الخامس التطبيقي</ion-option>
-              <ion-option value="السادس الاحيائي">السادس الاحيائي</ion-option>
-              <ion-option value="السادس التطبيقي">السادس التطبيقي</ion-option>
+              <ion-select-option value="الاول الابتدائي" checked>الاول الابتدائي</ion-select-option>
+              <ion-select-option value="الثاني الابتدائي">الثاني الابتدائي</ion-select-option>
+              <ion-select-option value="الثالث الابتدائي">الثالث الابتدائي</ion-select-option>
+              <ion-select-option value="الرابع الابتدائي">الرابع الابتدائي</ion-select-option>
+              <ion-select-option value="الخامس الابتدائي">الخامس الابتدائي</ion-select-option>
+              <ion-select-option value="السادس الابتدائي">السادس الابتدائي</ion-select-option>
+              <ion-select-option value="الاول المتوسط">الاول المتوسط</ion-select-option>
+              <ion-select-option value="الثاني المتوسط">الثاني المتوسط</ion-select-option>
+              <ion-select-option value="الثالث المتوسط">الثالث المتوسط</ion-select-option>
+              <ion-select-option value="الرابع العلمي">الرابع العلمي</ion-select-option>
+              <ion-select-option value="الخامس الاحيائي">الخامس الاحيائي</ion-select-option>
+              <ion-select-option value="الخامس التطبيقي">الخامس التطبيقي</ion-select-option>
+              <ion-select-option value="السادس الاحيائي">السادس الاحيائي</ion-select-option>
+              <ion-select-option value="السادس التطبيقي">السادس التطبيقي</ion-select-option>
             </ion-select>
           </ion-item>
   
@@ -84,10 +84,10 @@
   
         <ion-row>
           <ion-col>
-            <button ion-button full color="grey" (click)="goBack()" style="color: #000">رجوع</button>
+            <ion-button full color="grey" (click)="goBack()" style="color: #000">رجوع</ion-button>
           </ion-col>
           <ion-col>
-            <button ion-button full color="bl" (click)="submit()">ارسال</button>
+            <ion-button full color="bl" (click)="submit()">ارسال</ion-button>
           </ion-col>
         </ion-row>
     

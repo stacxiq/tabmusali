@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 })
 export class EditPersonalInfoPage {
 
-  constructor(public router: Router, public navParams: NavParams) {
+  constructor(public router: Router) {
   }
 
   ngOnInit() {
