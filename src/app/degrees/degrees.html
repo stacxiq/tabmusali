@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-item dir="rtl" class="note" (click)="goToInstallments()" *ngIf="isLoggedIn && isDelayed">
+    <p style="color:white !important;">استحق موعد احد الاقساط</p>
+    <ion-avatar item-start>
+        <img src="assets/imgs/ic_warn.png" width="20" height="20"/>
+    </ion-avatar>
+  </ion-item>
+</ion-header>
+
+<ion-content dir="rtl">
+  <div *ngIf="isDelayed"><br><br><br></div>
+  <ion-scroll scrollX="true" scrollY="false" no-padding style="height:100%; width:auto"> 
+    <!-- <ion-row color="primary" text-center nowrap>
+        <ion-col col-4>{{ title }}</ion-col>
+        <ion-col col-4 *ngIf="exam_title_1 != null && exam_title_1 != ''">{{ exam_title_1 }}</ion-col>
+        <ion-col col-4 *ngIf="exam_title_2 != null && exam_title_2 != ''">{{ exam_title_2 }}</ion-col>
+        <ion-col col-4 *ngIf="exam_title_3 != null && exam_title_3 != ''">{{ exam_title_3 }}</ion-col>
+        <ion-col col-4 *ngIf="exam_title_4 != null && exam_title_4 != ''">{{ exam_title_4 }}</ion-col>
+        <ion-col col-4 *ngIf="exam_title_5 != null && exam_title_5 != ''">{{ exam_title_5 }}</ion-col>
+        <ion-col col-4 *ngIf="exam_title_6 != null && exam_title_6 != ''">{{ exam_title_6 }}</ion-col>
+        <ion-col col-4 *ngIf="exam_title_7 != null && exam_title_7 != ''">{{ exam_title_7 }}</ion-col>
+        <ion-col col-4 *ngIf="exam_title_8 != null && exam_title_8 != ''">{{ exam_title_8 }}</ion-col>
+        <ion-col col-4 *ngIf="exam_title_9 != null && exam_title_9 != ''">{{ exam_title_9 }}</ion-col>
+        <ion-col col-4 *ngIf="exam_title_10 != null && exam_title_10 != ''">{{ exam_title_10 }}</ion-col>
+        <ion-col col-4 *ngIf="exam_title_11 != null && exam_title_11 != ''">{{ exam_title_11 }}</ion-col>
+        <ion-col col-4 *ngIf="exam_title_12 != null && exam_title_12 != ''">{{ exam_title_12 }}</ion-col>
+        <ion-col col-4 *ngIf="exam_title_13 != null && exam_title_13 != ''">{{ exam_title_13 }}</ion-col>
+        <ion-col col-4 *ngIf="exam_title_14 != null && exam_title_14 != ''">{{ exam_title_14 }}</ion-col>
+        <ion-col col-4 *ngIf="exam_title_15 != null && exam_title_15 != ''">{{ exam_title_15 }}</ion-col>
+        <ion-col col-4 *ngIf="exam_title_16 != null && exam_title_16 != ''">{{ exam_title_16 }}</ion-col>
+    </ion-row><hr> -->
+    
+    <ion-row color="primary" text-center nowrap *ngFor="let degree of degrees; let i = index">
+        <ion-col col-4>{{ degree.title }}</ion-col>
+        <ion-col col-4 *ngIf="degree.exam_title_1 != null">{{ degree.exam_title_1 }}</ion-col>
+        <ion-col col-4 *ngIf="degree.exam_title_2 != null">{{ degree.exam_title_2 }}</ion-col>
+        <ion-col col-4 *ngIf="degree.exam_title_3 != null">{{ degree.exam_title_3 }}</ion-col>
+        <ion-col col-4 *ngIf="degree.exam_title_4 != null">{{ degree.exam_title_4 }}</ion-col>
+        <ion-col col-4 *ngIf="degree.exam_title_5 != null">{{ degree.exam_title_5 }}</ion-col>
+        <ion-col col-4 *ngIf="degree.exam_title_6 != null">{{ degree.exam_title_6 }}</ion-col>
+        <ion-col col-4 *ngIf="degree.exam_title_7 != null">{{ degree.exam_title_7 }}</ion-col>
+        <ion-col col-4 *ngIf="degree.exam_title_8 != null">{{ degree.exam_title_8 }}</ion-col>
+        <ion-col col-4 *ngIf="degree.exam_title_9 != null">{{ degree.exam_title_9 }}</ion-col>
+        <ion-col col-4 *ngIf="degree.exam_title_10 != null">{{ degree.exam_title_10 }}</ion-col>
+        <ion-col col-4 *ngIf="degree.exam_title_11 != null">{{ degree.exam_title_11 }}</ion-col>
+        <ion-col col-4 *ngIf="degree.exam_title_12 != null">{{ degree.exam_title_12 }}</ion-col>
+        <ion-col col-4 *ngIf="degree.exam_title_13 != null">{{ degree.exam_title_13 }}</ion-col>
+        <ion-col col-4 *ngIf="degree.exam_title_14 != null">{{ degree.exam_title_14 }}</ion-col>
+        <ion-col col-4 *ngIf="degree.exam_title_15 != null">{{ degree.exam_title_15 }}</ion-col>
+        <ion-col col-4 *ngIf="degree.exam_title_16 != null">{{ degree.exam_title_16 }}</ion-col>
+    </ion-row><br><br>
+  </ion-scroll>
+</ion-content>

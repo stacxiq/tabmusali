@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar>
+    <p style="font-size: 16px; color:black; text-align: center;">الطالب</p>
+    <ion-buttons start>
+      <button ion-button icon-only menuToggle>
+          <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-tabs selectedIndex="3"> 
+    <ion-tab [root]="tab1Root" [rootParams]="navParams.data" tabTitle="الدرجات" tabIcon="ios-list-outline"></ion-tab>
+    <ion-tab [root]="tab2Root" [rootParams]="navParams.data" tabTitle="الامتحانات" tabIcon="ios-list-outline"></ion-tab>
+    <ion-tab [root]="tab3Root" [rootParams]="navParams.data" tabTitle="الغيابات" tabIcon="ios-list-outline"></ion-tab>
+    <ion-tab [root]="tab4Root" [rootParams]="navParams.data" tabTitle="جدول الدورس " tabIcon="ios-list-outline"></ion-tab>
+  </ion-tabs>
+</ion-content>

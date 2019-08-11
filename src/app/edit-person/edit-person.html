@@ -1,0 +1,43 @@
+<ion-header>
+
+  <ion-navbar *ngIf="isIos">
+    <p style="font-size: 16px; color:black; text-align: center;">تسجيل الدخول</p>
+  </ion-navbar>
+
+  <ion-navbar *ngIf="!isIos"  color="bl">
+    <p style="font-size: 16px; color:black; text-align: center;">تسجيل الدخول</p>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <div class="bb">
+    <img src="assets/imgs/logo_alawaail_dark.png" width="150" height="150">
+  </div>
+
+  <br>
+
+  <ion-list>
+
+      <h1>تسجيل الدخول</h1>
+
+      <ion-item>
+          <ion-input [(ngModel)]="user" placeholder="اسم الدخول" clearInput></ion-input>
+      </ion-item>
+    
+      <ion-item>
+          <ion-input [(ngModel)]="pass" type="password" placeholder="كلمة المرور" clearInput></ion-input>
+      </ion-item>
+
+      <ion-row>
+        <ion-col>
+          <button ion-button full color="grey" (click)="goBack()" style="color: #000">رجوع</button>
+        </ion-col>
+        <ion-col>
+          <button ion-button full color="bl" (click)="submit()">تسجيل الدخول</button>
+        </ion-col>
+      </ion-row>
+  
+  </ion-list>
+
+</ion-content>

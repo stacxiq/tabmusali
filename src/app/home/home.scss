@@ -1,0 +1,74 @@
+page-home {
+    $toolbar-md-title-text-color: white;
+}
+
+.toolbar {
+    text-align: right;
+}
+
+.title-ios {
+    text-align: center;
+}
+
+.toolbar-title-ios {
+    font-family: -apple-system, "Helvetica Neue", "Roboto", sans-serif;
+}
+
+.toolbar-title-md {
+    font-family: -apple-system, "Helvetica Neue", "Roboto", sans-serif;
+}
+
+.toolbar-title-wp {
+    font-family: -apple-system, "Helvetica Neue", "Roboto", sans-serif;
+}
+
+.note {
+    position: fixed;
+    z-index: 1000;
+    background-color: red;
+    color: white !important;
+}
+
+ion-badge {
+    position: absolute;
+    top: -0.2rem;
+    right: -0.2rem;
+    opacity: 0.9;
+
+    & ~ ion-icon {
+        margin-right: 1.2rem;
+    }
+}
+
+// ion-icon {
+//     &[class*="custom-"] {
+//       mask-size: contain;
+//       mask-position: 50% 50%;
+//       mask-repeat: no-repeat;
+//       background: currentColor;
+//       width: 1em;
+//       height: 1em;
+//     }
+  
+//     &[class*="custom-paper"] {
+//       mask-image: url(../);
+//     }  
+// }
+
+.ion-ios-customicon,
+.ion-md-customicon {
+  content: url(../../assets/fonts/ic.svg);
+  width: 28px; // 24
+  height: 34px; // 32
+  padding: 6px 4px 2px;
+  opacity: 0.9;
+}
+  
+
+
+
+
+
+
+
+

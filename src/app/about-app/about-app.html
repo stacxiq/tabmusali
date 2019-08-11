@@ -1,0 +1,39 @@
+<ion-header>
+
+  <ion-navbar>
+    <p style="font-size: 16px; color:black; text-align: center;">عن التطبيق</p>
+  </ion-navbar>
+  <ion-item dir="rtl" class="note" (click)="goToInstallments()" *ngIf="isLoggedIn && isDelayed">
+      <p style="color:white !important;">استحق موعد احد الاقساط</p>
+      <ion-avatar item-start>
+          <img src="assets/imgs/ic_warn.png" width="20" height="20"/>
+      </ion-avatar>
+  </ion-item>
+</ion-header>
+
+<ion-content padding dir="rtl">
+  <div *ngIf="isDelayed"><br><br><br></div>
+
+  <ion-row>
+    <ion-col>
+        <div>
+          <img src="assets/imgs/AA2.png" style="width:100px; height:100px">           
+        </div>
+    </ion-col>
+    <ion-col (click)="openWebsite()">
+        <div>
+          <img src="assets/imgs/AA1.png" style="width:100px; height:100px"> 
+        </div>            
+    </ion-col>
+  </ion-row>
+
+  <br>
+  <h4 style="text-align: center !important;">تطبيق مدارس الاوائل</h4>
+  <summary style="text-align: center !important;">الاصدار : 1.6</summary>
+
+  <br>
+  <br>
+  <br>
+  <h4 style="text-align: center !important;">منارات للتكنولوجيا</h4>
+  <summary style="text-align: center !important;">تحليل و تصميم و تطوير</summary>
+</ion-content>

@@ -1,0 +1,23 @@
+* {
+    font-family: "Roboto";
+}
+
+p {
+    text-align: right;
+}
+
+summary {
+    text-align: center !important;
+}
+
+.ion-user:before {
+    content: url('assets/imgs/user.png') !important;
+}
+
+.alert-title {
+    text-align: center;
+}
+
+.alert-radio-label {
+    text-align: right;
+}

@@ -1,3 +1,88 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-split-pane>
+    <ion-menu side="right" [content]="mycontent" cache-view="false">
+      <ion-content>
+        <header style="text-align:center; background-color: #303f9f; padding: 10px; color: white;">
+          <img src="assets/imgs/logo_awael.png" width="80" height="80" />
+          <summary *ngIf="!isLoggedIn" style="text-align: center !important">مجموعة مدارس الاوائل</summary>
+          <summary *ngIf="isLoggedIn" style="text-align: center !important">{{ sName }}</summary>
+          <small *ngIf="isLoggedIn">{{ school }} - {{ stage }} - {{ group }}</small>
+        </header>
+
+        <ion-list>
+          <ion-menu-toggle auto-hide="false">
+            <ion-item [routerDirection]="'root'" [routerLink]="/home">
+              <ion-icon style="color:#757575" slot="start" name="home"></ion-icon>
+              <ion-label style="color:#757575">الرئيسية</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item [routerDirection]="'root'" [routerLink]="/certificate">
+              <ion-icon style="color:#757575" slot="start" name="ios-star"></ion-icon>
+              <ion-label style="color:#757575">شهادات المدرسة</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item [routerDirection]="'root'" [routerLink]="/about-school">
+              <ion-icon style="color:#757575" slot="start" name="md-alert"></ion-icon>
+              <ion-label style="color:#757575">نبذة عن المدرسة</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item [routerDirection]="'root'" [routerLink]="/stuff">
+              <ion-icon style="color:#757575" slot="start" name="ios-people"></ion-icon>
+              <ion-label style="color:#757575">كادر المدرسة</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item [routerDirection]="'root'" [routerLink]="/acceptance">
+              <ion-icon style="color:#757575" slot="start" name="md-checkbox"></ion-icon>
+              <ion-label style="color:#757575">الية القبول</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item [routerDirection]="'root'" [routerLink]="/students-form">
+              <ion-icon style="color:#757575" slot="start" name="md-contact"></ion-icon>
+              <ion-label style="color:#757575">تسجيل الطلبة</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item [routerDirection]="'root'" [routerLink]="/employee">
+              <ion-icon style="color:#757575" slot="start" name="ios-paper"></ion-icon>
+              <ion-label style="color:#757575">استمارة التوظيف</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item [routerDirection]="'root'" [routerLink]="/about-app">
+              <ion-icon style="color:#757575" slot="start" name="ios-information-circle"></ion-icon>
+              <ion-label style="color:#757575">عن التطبيق</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false" *ngIf="isLoggedIn">
+            <ion-item [routerDirection]="'root'" [routerLink]="/students">
+              <ion-icon style="color:#757575" slot="start" name="md-people"></ion-icon>
+              <ion-label style="color:#757575">الطلاب</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false" *ngIf="isLoggedIn">
+            <ion-item [routerDirection]="'root'" (click)="signOut()">
+              <ion-icon style="color:#757575" slot="start" name="md-log-out"></ion-icon>
+              <ion-label style="color:#757575">تسجيل الخروج</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet main></ion-router-outlet>
+  </ion-split-pane>
 </ion-app>

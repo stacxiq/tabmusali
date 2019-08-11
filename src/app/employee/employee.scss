@@ -1,0 +1,33 @@
+page-employee {
+    ion-label {
+        font-size: 15px;
+        display: block;
+        color: #757575;
+    }
+}
+
+.date-label {
+    font-size: 15px;
+    padding-right: 30px;
+    display: block;
+    color: #757575;
+}
+
+.img-center { 
+    max-width: 500px;  
+    width: 50%;  
+    margin: 0 auto; display:block;
+    text-align: center;
+}
+
+ion-input {
+    line-height: 25px !important;
+}
+
+.toast {
+    text-align: right;
+}
+
+ion-select {
+    max-width: 100%;
+}

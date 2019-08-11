@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1068477489085",
+    "firebase_url": "https://alawaiilschoolsapp.firebaseio.com",
+    "project_id": "alawaiilschoolsapp",
+    "storage_bucket": "alawaiilschoolsapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1068477489085:android:7d78c837ef1824b8",
+        "android_client_info": {
+          "package_name": "com.alwazan.ammar.awaelschools"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1068477489085-hq9tp4jea8ar251lpqb39r8k8qntfu6c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6GldHBQqnp74DqMrKiCigJGSNHo8z8kE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

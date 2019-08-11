@@ -1,0 +1,44 @@
+<ion-header>
+
+  <ion-navbar>
+    <p style="font-size: 16px; color:black; text-align: center;">الرسالة</p>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <div class="img-center">
+    <img src="assets/imgs/logo_alawaail_dark.png" width="150" height="150">
+  </div>
+
+  <br>
+
+  <ion-list>
+
+      <h1>الرسالة</h1>
+
+      <ion-item>
+        <ion-input [(ngModel)]="studentName" placeholder="اسم الطالب" clearInput maxLength="80"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input [(ngModel)]="title" placeholder="عنوان الرسالة" clearInput maxLength="30"></ion-input>
+      </ion-item>
+    
+      <ion-item dir="rtl">
+        <ion-textarea [(ngModel)]="message" type="text" placeholder="تفاصيل الرسالة" clearInput></ion-textarea>
+      </ion-item>
+
+      <ion-row>
+        <ion-col>
+          <button ion-button full color="grey" (click)="goBack()" style="color: #000">رجوع</button>
+        </ion-col>
+        <ion-col>
+          <button ion-button full color="bl" (click)="submit()">ارسال</button>
+        </ion-col>
+      </ion-row>
+  
+  </ion-list>
+
+</ion-content>
+

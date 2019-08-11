@@ -1,0 +1,39 @@
+.title-ios {
+    text-align: center;
+}
+
+// .item ion-thumbnail {
+//     min-width:15px;    
+//     min-height:15px;
+//     img {
+//         max-width:15px;    
+//         min-width:10px;
+//     }
+// }
+
+.note {
+    position: fixed;
+    z-index: 1000;
+    background-color: red;
+    color: white !important;
+}
+
+ion-badge {
+    position: absolute;
+    top: -0.2rem;
+    right: -0.2rem;
+    opacity: 0.9;
+
+    &~ion-icon {
+        margin-right: 1.2rem;
+    }
+}
+
+.ion-ios-customicon,
+.ion-md-customicon {
+    content: url(../../assets/fonts/ic.svg);
+    width: 28px; // 24
+    height: 34px; // 32
+    padding: 6px 4px 2px;
+    opacity: 0.9;
+}

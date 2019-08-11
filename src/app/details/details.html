@@ -1,0 +1,21 @@
+<ion-header>
+
+  <ion-navbar>
+    <p style="font-size: 16px; color:black; text-align: center;" text-wrap *ngIf="item.title.length > 35">{{ title }}</p>
+    <p style="font-size: 16px; color:black; text-align: center;" text-wrap *ngIf="item.title.length < 35">{{ item.title }}</p>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content dir="rtl" style="width: 100% !important; margin-left: 0px;">
+  <h1 style="padding-right:10px; text-align: right !important;" >{{ item.title }}</h1>
+  <small style="padding-right:10px; text-align: right !important;">{{ item.date }}</small>
+  <br><br>
+  <summary style="padding-right:10px; text-align: right !important;" [innerHTML]="item.content"></summary>
+  <br>
+  <!-- <img src="{{ item.feature }}"/> -->
+  <div *ngFor="let img of images; let i = index">
+      <br>
+      <img src="{{ img.path }}"/>
+  </div>
+</ion-content>

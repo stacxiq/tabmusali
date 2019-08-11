@@ -1,0 +1,131 @@
+<ion-header>
+    <ion-navbar *ngIf="isIos" hideBackButton>
+        <ion-buttons left>
+            <button ion-button icon-only (click)="signin()" *ngIf="!isLoggedIn">
+                <ion-icon name="ios-person"></ion-icon>
+            </button>
+            <button ion-button icon-only (click)="goToNotifications()" *ngIf="isLoggedIn">
+                <!-- <ion-icon name="ios-notifications"></ion-icon> -->
+                <ion-badge *ngIf="counter > 0" color="danger">{{ counter }}</ion-badge>
+                <img src="assets/imgs/ic_notifications.png" width="30" height="30"/>
+            </button>
+            <button style="margin-left:15px;" ion-button icon-only (click)="goToMessage()" *ngIf="isLoggedIn">
+                <!-- <ion-icon name="ios-cash-outline"></ion-icon> -->
+                <ion-icon name="md-mail" style="color:#757575"></ion-icon>
+            </button>
+            <button style="margin-left:15px;" ion-button icon-only (click)="goToInstallments()" *ngIf="isLoggedIn">
+                <!-- <ion-icon name="ios-cash-outline"></ion-icon> -->
+                <img src="assets/imgs/money.png" width="30" height="30"/>
+            </button>
+        </ion-buttons>
+        <ion-buttons end>
+        <button ion-button icon-only menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        </ion-buttons>
+        <p class="title-ios">تواصل معنا</p>
+    </ion-navbar>
+
+    <ion-navbar *ngIf="!isIos" color="bl">
+        <ion-buttons left>
+            <button ion-button icon-only (click)="signin()" *ngIf="!isLoggedIn">
+                <ion-icon name="ios-person"></ion-icon>
+            </button>
+            <button ion-button icon-only (click)="goToNotifications()" *ngIf="isLoggedIn">
+                <ion-badge *ngIf="counter > 0" color="danger">{{ counter }}</ion-badge>
+                <ion-icon name="ios-notifications"></ion-icon>
+            </button>
+            <button ion-button icon-only (click)="goToInstallments()" *ngIf="isLoggedIn">
+                <ion-icon name="ios-cash-outline"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-buttons end>
+        <button ion-button icon-only menuToggle>
+            <ion-icon name="menu"></ion-icon> 
+        </button>
+        </ion-buttons>
+        <p style="font-size: 16px; color:white;">تواصل معنا</p>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-item dir="rtl" class="note" (click)="goToInstallments()" *ngIf="isLoggedIn && isDelayed">
+        <p style="color:white !important;">استحق موعد احد الاقساط</p>
+        <ion-avatar item-start>
+            <img src="assets/imgs/ic_warn.png" width="20" height="20"/>
+        </ion-avatar>
+    </ion-item>
+    <div *ngIf="isDelayed && isLoggedIn"><br><br><br></div>
+    <ion-list>
+        <ion-item (click)="openInstagramApp()" no-lines>
+            <h2 style="text-align:right;">الانستجرام</h2>
+            <p>مجموعة مدارس الاوائل الاهلية</p>
+            <ion-thumbnail item-end>
+                <img src="assets/imgs/ic_instgram.png">
+            </ion-thumbnail>
+        </ion-item>
+        <ion-item (click)="openFacebookApp()" no-lines>
+            <h2 style="text-align:right;">الفيسبوك</h2>
+            <p>مدارس الاوائل - موصل/العراق</p>
+            <ion-thumbnail item-end>
+                <img src="assets/imgs/facebook.png">
+            </ion-thumbnail>
+        </ion-item>
+        <ion-item (click)="openYouTubeApp()" no-lines>
+            <h2 style="text-align:right;">اليوتيوب</h2>
+            <p>مدارس الاوائل - موصل/العراق</p>
+            <ion-thumbnail item-end>
+                <img src="assets/imgs/youtube.png">
+            </ion-thumbnail>
+        </ion-item>
+        <ion-item (click)="openMailApp()" no-lines>
+            <h2 style="text-align:right;">البريد الالكتروني</h2>
+            <p>awaail.schools@gmail.com</p>
+            <ion-thumbnail item-end>
+                <img src="assets/imgs/ic_email.png">
+            </ion-thumbnail>
+        </ion-item>
+        <ion-item (click)="callPhoneNumber('7709422782')" no-lines>
+            <h2 style="text-align:right;">موبايل الابتدائية</h2>
+            <p>07709422782</p>
+            <ion-thumbnail item-end>
+                <img src="assets/imgs/ic_mobile.png">
+            </ion-thumbnail>
+        </ion-item>
+        <ion-item (click)="callPhoneNumber('7740855596')" no-lines>
+            <h2 style="text-align:right;">موبايل الابتدائية 2</h2>
+            <p>07740855596</p>
+            <ion-thumbnail item-end>
+                <img src="assets/imgs/ic_mobile.png">
+            </ion-thumbnail>
+        </ion-item>
+        <ion-item (click)="callPhoneNumber('7714001500')" no-lines>
+            <h2 style="text-align:right;">موبايل ثانوية البنات</h2>
+            <p>07714001500</p>
+            <ion-thumbnail item-end>
+                <img src="assets/imgs/ic_mobile.png">
+            </ion-thumbnail>
+        </ion-item>
+        <ion-item (click)="callPhoneNumber('7740855587')" no-lines>
+            <h2 style="text-align:right;">موبايل ثانوية البنات 2</h2>
+            <p>07740855587</p>
+            <ion-thumbnail item-end>
+                <img src="assets/imgs/ic_mobile.png">
+            </ion-thumbnail>
+        </ion-item>
+        <ion-item (click)="callPhoneNumber('7714001040')" no-lines>
+            <h2 style="text-align:right;">موبايل ثانوية البنين</h2>
+            <p>07714001040</p>
+            <ion-thumbnail item-end>
+                <img src="assets/imgs/ic_mobile.png">
+            </ion-thumbnail>
+        </ion-item>
+        <ion-item (click)="callPhoneNumber('7740855586')" no-lines>
+            <h2 style="text-align:right;">موبايل ثانوية البنات 2</h2>
+            <p>07740855586</p>
+            <ion-thumbnail item-end>
+                <img src="assets/imgs/ic_mobile.png">
+            </ion-thumbnail>
+        </ion-item>
+    </ion-list>
+</ion-content>

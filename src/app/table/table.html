@@ -1,0 +1,105 @@
+<!--
+  Generated template for the TablePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header> 
+    <ion-item dir="rtl" class="note" (click)="goToInstallments()" *ngIf="isLoggedIn && isDelayed">
+        <p style="color:white !important;">استحق موعد احد الاقساط</p>
+        <ion-avatar item-start>
+            <img src="assets/imgs/ic_warn.png" width="20" height="20"/>
+        </ion-avatar>
+    </ion-item>
+</ion-header>
+
+<ion-content padding dir="rtl">
+    
+    <div *ngIf="isDelayed"><br><br><br></div>
+    <ion-row>
+      <ion-col col-4>
+          <ion-row color="primary" text-center nowrap><ion-col col-8 >الدرس</ion-col></ion-row><hr>
+          <ion-row style="margin-top:15px;" color="primary" text-center nowrap><ion-col col-8 >الاول</ion-col></ion-row><br>
+          <ion-row color="primary" text-center nowrap><ion-col col-8 >الثاني</ion-col></ion-row><br>
+          <ion-row color="primary" text-center nowrap><ion-col col-8 >الثالث</ion-col></ion-row><br>
+          <ion-row color="primary" text-center nowrap><ion-col col-8 >الرابع</ion-col></ion-row><br>
+          <ion-row color="primary" text-center nowrap><ion-col col-8 >الخامس</ion-col></ion-row><br>
+          <ion-row color="primary" text-center nowrap><ion-col col-8 >السادس</ion-col></ion-row><br>
+          <ion-row color="primary" text-center nowrap><ion-col col-8 >السابع</ion-col></ion-row><br>
+      </ion-col>
+      <ion-col style="margin-top:-30px;">
+        <ion-col col-12>
+          <ion-scroll scrollX="true" scrollY="false" zoom="false" no-padding style="height:100%"> 
+              <ion-row color="primary" text-center nowrap>
+                  <ion-col col-6 style="padding-bottom:5px;">السبت</ion-col>
+                  <ion-col col-6 style="padding-bottom:5px;">الاحد</ion-col>
+                  <ion-col col-6 style="padding-bottom:5px;">الاثنين</ion-col>
+                  <ion-col col-6 style="padding-bottom:5px;">الثلاثاء</ion-col>
+                  <ion-col col-6 style="padding-bottom:5px;">الاربعاء</ion-col>
+                  <ion-col col-6 style="padding-bottom:5px;">الخميس</ion-col>
+              </ion-row><br>
+              <ion-row color="primary" text-center nowrap>
+                  <ion-col col-6>{{ saturday1 }}</ion-col>
+                  <ion-col col-6>{{ sunday1 }}</ion-col>
+                  <ion-col col-6>{{ monday1 }}</ion-col>
+                  <ion-col col-6>{{ tuesday1 }}</ion-col>
+                  <ion-col col-6>{{ wednesday1 }}</ion-col>
+                  <ion-col col-6>{{ thursday1 }}</ion-col>
+              </ion-row><br>
+              <ion-row color="primary" text-center nowrap>
+                  <ion-col col-6>{{ saturday2 }}</ion-col>
+                  <ion-col col-6>{{ sunday2 }}</ion-col>
+                  <ion-col col-6>{{ monday2 }}</ion-col>
+                  <ion-col col-6>{{ tuesday2 }}</ion-col>
+                  <ion-col col-6>{{ wednesday2 }}</ion-col>
+                  <ion-col col-6>{{ thursday2 }}</ion-col>
+              </ion-row><br>
+              <ion-row color="primary" text-center nowrap>
+                  <ion-col col-6>{{ saturday3 }}</ion-col>
+                  <ion-col col-6>{{ sunday3 }}</ion-col>
+                  <ion-col col-6>{{ monday3 }}</ion-col>
+                  <ion-col col-6>{{ tuesday3 }}</ion-col>
+                  <ion-col col-6>{{ wednesday3 }}</ion-col>
+                  <ion-col col-6>{{ thursday3 }}</ion-col>
+              </ion-row><br>
+              <ion-row color="primary" text-center nowrap>
+                  <ion-col col-6>{{ saturday4 }}</ion-col>
+                  <ion-col col-6>{{ sunday4 }}</ion-col>
+                  <ion-col col-6>{{ monday4 }}</ion-col>
+                  <ion-col col-6>{{ tuesday4 }}</ion-col>
+                  <ion-col col-6>{{ wednesday4 }}</ion-col>
+                  <ion-col col-6>{{ thursday4 }}</ion-col>
+              </ion-row><br>
+              <ion-row color="primary" text-center nowrap>
+                  <ion-col col-6>{{ saturday5 }}</ion-col>
+                  <ion-col col-6>{{ sunday5 }}</ion-col>
+                  <ion-col col-6>{{ monday5 }}</ion-col>
+                  <ion-col col-6>{{ tuesday5 }}</ion-col>
+                  <ion-col col-6>{{ wednesday5 }}</ion-col>
+                  <ion-col col-6>{{ thursday5 }}</ion-col>
+              </ion-row><br>
+              <ion-row color="primary" text-center nowrap>
+                  <ion-col col-6>{{ saturday6 }}</ion-col>
+                  <ion-col col-6>{{ sunday6 }}</ion-col>
+                  <ion-col col-6>{{ monday6 }}</ion-col>
+                  <ion-col col-6>{{ tuesday6 }}</ion-col>
+                  <ion-col col-6>{{ wednesday6 }}</ion-col>
+                  <ion-col col-6>{{ thursday6 }}</ion-col>
+              </ion-row><br>
+              <ion-row color="primary" text-center nowrap>
+                  <ion-col col-6>{{ saturday7 }}</ion-col>
+                  <ion-col col-6>{{ sunday7 }}</ion-col>
+                  <ion-col col-6>{{ monday7 }}</ion-col>
+                  <ion-col col-6>{{ tuesday7 }}</ion-col>
+                  <ion-col col-6>{{ wednesday7 }}</ion-col>
+                  <ion-col col-6>{{ thursday7 }}</ion-col>
+              </ion-row><br>
+          </ion-scroll>
+        </ion-col>
+      </ion-col>
+    </ion-row>
+
+  <div class="row" ng-repeat="">
+    
+  </div>
+</ion-content>

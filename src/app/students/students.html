@@ -1,0 +1,28 @@
+<ion-header>
+
+  <ion-navbar>
+    <p style="font-size: 16px; color:black; text-align: center;">الطلاب</p>
+  </ion-navbar>
+
+  <ion-item dir="rtl" class="note" (click)="goToInstallments()" *ngIf="isLoggedIn && isDelayed">
+      <p style="color:white !important;">استحق موعد احد الاقساط</p>
+      <ion-avatar item-start>
+          <img src="assets/imgs/ic_warn.png" width="20" height="20"/>
+      </ion-avatar>
+  </ion-item>
+
+</ion-header>
+
+<ion-content padding dir="rtl">
+  
+  <div *ngIf="isDelayed"><br><br><br></div>
+  <ion-list *ngFor="let student of students">
+    <ion-item (click)="goToDetails(student)" no-lines>
+      <ion-thumbnail item-start>
+        <img src="assets/imgs/user.png">
+      </ion-thumbnail>
+      <h2>{{ student.name }}</h2>
+      <p>{{ student.class + ' ' + student.class_group }}</p>
+    </ion-item>
+  </ion-list>
+</ion-content>

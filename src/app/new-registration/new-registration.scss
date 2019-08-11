@@ -1,0 +1,49 @@
+page-new-registration {
+    ion-label {
+        font-size: 15px;
+        display: block;
+        color: hsl(0, 0%, 46%);
+    }
+
+    $select-ios-padding-left: 10rem;    
+}
+
+.hint-ion-label {
+    font-size: 15px;
+    display: block;
+    color: red;
+}
+
+.date-label {
+    font-size: 15px;
+    padding-right: 30px;
+    display: block;
+    color: #757575;
+}
+
+.img-center { 
+    max-width: 500px;  
+    width: 50%;  
+    margin: 0 auto; display:block;
+    text-align: center;
+}
+
+ion-input {
+    line-height: 25px !important;
+}
+
+.toast {
+    text-align: right;
+}
+
+h1 {
+    color:red; 
+    text-align: center;
+}
+
+ion-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around; /* optional */
+  }

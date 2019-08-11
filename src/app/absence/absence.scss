@@ -1,0 +1,62 @@
+page-absence {
+
+}
+
+.note {
+  position: fixed;
+  z-index: 1000;
+  background-color: red;
+  color: white !important;
+}
+
+.title-cal {
+  background-color: color($colors, 'ggold');
+}
+
+.monthview-selected {
+    background-color: transparent !important;
+    color: black !important;
+}
+
+td.monthview-current {
+  color: white;
+
+  .calendar-day {
+    background-color: color($colors, 'ggold') !important;
+  }
+}
+
+.monthview-datetable {
+  border: 0 !important;
+
+  td, th {
+    border: 0 !important;
+    padding: 3px!important;
+    background-color: transparent!important;
+  }
+}
+
+.calendar-day {
+    border-radius: 6px;
+    padding: 3px 5px;
+
+  &.primary {
+    background-color: blue;
+    color: black;
+  }
+
+  &.success {
+    background-color: #999999;
+    color: black;
+  }
+
+  &.warning {
+    background-color: yellow;
+    color: black;
+  }
+
+  &.danger {
+    background-color: red;
+    color: black;
+  }
+}

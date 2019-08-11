@@ -1,0 +1,29 @@
+<ion-header>
+
+  <ion-navbar>
+    <p style="font-size: 16px; color:black; text-align: center;">الاقساط</p>
+  </ion-navbar>
+
+  <ion-item dir="rtl" class="note" *ngIf="isLoggedIn && isDelayed">
+      <p style="color:white !important;">استحق موعد احد الاقساط</p>
+      <ion-avatar item-start>
+          <img src="assets/imgs/ic_warn.png" width="20" height="20"/>
+      </ion-avatar>
+  </ion-item>
+
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="isDelayed && isLoggedIn"><br><br><br></div>
+
+  <ion-list *ngFor="let item of items">
+    <ion-item no-lines>
+      <ion-icon name="ios-cash-outline" item-end></ion-icon>
+      <h2>{{ item.name }}</h2>
+      <p>{{ item.date }}</p> 
+      <ion-icon *ngIf="item.status == 'غير مدفوع'" name="md-close" style="color:red" item-start></ion-icon>
+      <ion-icon *ngIf="item.status == 'مدفوع'" name="md-checkmark" style="color:green" item-start></ion-icon>
+      <ion-icon *ngIf="item.status == 'غير مستحق'" name="md-remove" style="color:black" item-start></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>

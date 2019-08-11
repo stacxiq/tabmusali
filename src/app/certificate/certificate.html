@@ -1,0 +1,55 @@
+<!--
+  Generated template for the CertificatePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <p style="font-size: 16px; color:black; text-align: center;">شهادات المدرسة</p>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-item dir="rtl" class="note" (click)="goToInstallments()" *ngIf="isLoggedIn && isDelayed">
+      <p style="color:white !important;">استحق موعد احد الاقساط</p>
+      <ion-avatar item-start>
+          <img src="assets/imgs/ic_warn.png" width="20" height="20"/>
+      </ion-avatar>
+  </ion-item>
+  <div *ngIf="isDelayed"><br><br><br></div>
+  <ion-card style="width: 100% !important; margin-left: 0px; box-shadow: none;">
+    <img src="http://manaratech.com/_test/images/aa.jpg"/>
+    <ion-card-content>
+      <ion-card-title>
+      </ion-card-title>
+      <summary dir="rtl">
+        1 -  درع التميز من مديرية تربية نينوى / النشاط المدرسي.
+        <br>
+        2 -  درع جامعة الموصل / كلية التربية.
+        <br>
+        3 -  درع حملة اخلاقي .. نبراس حياتي.
+        <br>
+        4 - درع اتحاد الريشة الطائرة / نينوى.
+        <br>
+        5 - شهادة تقديرية من اتحاد الشطرنج العراقي.
+        <br>
+        6 - شكر و تقدير من مديرية الاشراف التربوي.
+        <br>
+        7 - شكر و تقدير من وزارة التعليم العالي و البحث العلمي / كلية العلوم.
+        <br>
+        8 - شهادة تقديرية من رابطة ابطال التايكوندو / نينوى.
+        <br>
+        9 - شهادة تقديرية من نادي الصقور الجوي.
+        <br>
+        10 - شكر و تقدير من مديرية تربية نينوى.
+        <br>
+        11 - شكر و تقدير من مديرية تربية نينوى / النشاط المدرسي.
+        <br>
+        12 - شكر و تقدير من مديرية تربية نينوى / الشؤون الفنية.
+      </summary>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
