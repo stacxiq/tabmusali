@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Platform } from 'ionic-angular';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { NavParams, AlertController, Platform } from '@ionic/angular';
+import { HttpClient } from '@angular/common/http';
+
 import { Storage } from '@ionic/storage';
-import { FCM } from '@ionic-native/fcm';
-import { NativeAudio } from '@ionic-native/native-audio';
-import { Events } from 'ionic-angular';
+import { FCM } from '@ionic-native/fcm/ngx';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
+import { Events } from '@ionic/angular';
 import { window } from 'rxjs/operator/window';
 import { InstallmentsPage } from '../installments/installments';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Network } from '@ionic-native/network';
-import { Badge } from '@ionic-native/badge';
+import { Badge } from '@ionic-native/badge/ngx';
 
 @IonicPage()
 @Component({
@@ -82,8 +82,8 @@ export class TablePage {
   value:string = '';
   isConnected:boolean = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, 
-    private http: Http, private storage: Storage, private fcm: FCM, private badge: Badge,
+  constructor(public router: Router, public navParams: NavParams, 
+    private http: HttpClient, private storage: Storage, private fcm: FCM, private badge: Badge,
     private nativeAudio: NativeAudio, private alertCtrl: AlertController,
     public platform: Platform, public events: Events, private network: Network, 
     private sqlite: SQLite) {
@@ -162,13 +162,13 @@ export class TablePage {
     }
   }
 
-  presentAlert(title, body) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      subTitle: '<div dir="rtl">' + body + '</div>',
+  async presentAlert(title, body) {
+    let alert = await this.alertCtrl.create({
+      header: title,
+      message: '<div dir="rtl">' + body + '</div>',
       buttons: ['رجوع']
     });
-    alert.present();
+    await alert.present();
     this.nativeAudio.play('uniqueId1').then(() => {}, () => {});
   }
 
@@ -320,7 +320,7 @@ export class TablePage {
 
   goToInstallments() {
     this.storage.get('selected').then((val) => {
-      this.navCtrl.push(InstallmentsPage, {
+      this.router.navigate(InstallmentsPage, {
         student: val
       });
     });

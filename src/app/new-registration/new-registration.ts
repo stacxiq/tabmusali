@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, LoadingController, AlertController
 import { TabsPage } from '../tabs/tabs'
 import { Storage } from '@ionic/storage';
 import { Http, Headers, RequestOptions } from '@angular/http';
-import 'rxjs/add/operator/map';
+
 
 import { ReadInfoPage } from '../read-info/read-info';
 import { StudentsFormPage } from '../students-form/students-form';
@@ -47,7 +47,7 @@ export class NewRegistrationPage {
 
   public items : any = [];
 
-  constructor(private storage: Storage, public loadingCtrl: LoadingController, private alertCtrl: AlertController, public toastCtrl: ToastController, private http: Http, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private storage: Storage, public loadingCtrl: LoadingController, private alertCtrl: AlertController, public toastCtrl: ToastController, private http: HttpClient, public router: Router, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
@@ -61,7 +61,7 @@ export class NewRegistrationPage {
   }
 
   goBack() {
-    this.navCtrl.push(TabsPage, {
+    this.router.navigate(TabsPage, {
       status: 'signedIn'
     }); 
   }
@@ -318,8 +318,8 @@ export class NewRegistrationPage {
   }
 
   presentAlertSuccess(title: string, message: string, regNumber) {
-    let alert = this.alertCtrl.create({
-      title: title,
+    let alert = await this.alertCtrl.create({
+      header: title,
       subTitle: message + '<br><h1><center>' + regNumber + '</center></h1>',
       buttons: [
         {
@@ -330,16 +330,16 @@ export class NewRegistrationPage {
         }
       ]
     });
-    alert.present();
+    await alert.present();
   }
 
   presentAlertFail(title: string, message: string) {
-    let alert = this.alertCtrl.create({
-      title: title,
+    let alert = await this.alertCtrl.create({
+      header: title,
       subTitle: message,
       buttons: ['رجوع']
     });
-    alert.present();
+    await alert.present();
   }
 
   getRegistrationInformation() {
@@ -394,6 +394,6 @@ export class NewRegistrationPage {
 
   readInfo() {
     this.updatePolicy();
-    this.navCtrl.push(ReadInfoPage);
+    this.router.navigate(ReadInfoPage);
   }
 }

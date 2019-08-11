@@ -10,7 +10,7 @@ export class StuffDetailsPage {
 
   item:any
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public router: Router, public navParams: NavParams) {
     this.item = navParams.get('item');
   }
 

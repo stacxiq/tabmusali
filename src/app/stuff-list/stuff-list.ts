@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController, Platform } from 'ionic-angular';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
-import { FCM } from '@ionic-native/fcm';
-import { NativeAudio } from '@ionic-native/native-audio';
+import { HttpClient } from '@angular/common/http';
+
+import { FCM } from '@ionic-native/fcm/ngx';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { InstallmentsPage } from '../installments/installments';
-import { Events } from 'ionic-angular';
+import { Events } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-import { Badge } from '@ionic-native/badge';
+import { Badge } from '@ionic-native/badge/ngx';
 import { StuffDetailsPage } from '../stuff-details/stuff-details';
 
 @IonicPage()
@@ -31,8 +31,8 @@ export class StuffListPage {
   participant_id:string;
   loader:any = this.loadingCtrl.create();
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, 
-    private http: Http, private fcm: FCM, private nativeAudio: NativeAudio, 
+  constructor(public router: Router, public navParams: NavParams, 
+    private http: HttpClient, private fcm: FCM, private nativeAudio: NativeAudio, 
     private alertCtrl: AlertController, public platform: Platform, private badge: Badge,
     private storage: Storage, public events: Events, public loadingCtrl: LoadingController) {
 
@@ -98,13 +98,13 @@ export class StuffListPage {
     });
   }
 
-  presentAlert(title, body) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      subTitle: '<div dir="rtl">' + body + '</div>',
+  async presentAlert(title, body) {
+    let alert = await this.alertCtrl.create({
+      header: title,
+      message: '<div dir="rtl">' + body + '</div>',
       buttons: ['رجوع']
     });
-    alert.present();
+    await alert.present();
     this.nativeAudio.play('uniqueId1').then(() => {}, () => {});
   }
 
@@ -235,13 +235,13 @@ export class StuffListPage {
     if (this.isConnected) {
       this.storage.get('selected').then((val) => {
         if (val != null && val != '') {
-          this.navCtrl.push(InstallmentsPage, {
+          this.router.navigate(InstallmentsPage, {
             student: val
           });
         } else {
           this.storage.get('st_data').then((val) => {
             if (val != null) {
-              this.navCtrl.push(InstallmentsPage, {
+              this.router.navigate(InstallmentsPage, {
                 student: val[0]
               });
             }
@@ -250,7 +250,7 @@ export class StuffListPage {
       }); 
     } else {
       this.storage.get('selected').then((val) => {
-        this.navCtrl.push(InstallmentsPage, {
+        this.router.navigate(InstallmentsPage, {
           student: val
         });
       });
@@ -258,7 +258,7 @@ export class StuffListPage {
 	} 
 	
 	goToDetails(item) {
-		this.navCtrl.push(StuffDetailsPage, {
+		this.router.navigate(StuffDetailsPage, {
 			item: item
 		});
 	}

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Platform } from 'ionic-angular';
-import { FCM } from '@ionic-native/fcm';
-import { NativeAudio } from '@ionic-native/native-audio';
+import { NavParams, AlertController, Platform } from '@ionic/angular';
+import { FCM } from '@ionic-native/fcm/ngx';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { Storage } from '@ionic/storage';
-import { Badge } from '@ionic-native/badge';
+import { Badge } from '@ionic-native/badge/ngx';
 
 @IonicPage()
 @Component({
@@ -12,9 +12,9 @@ import { Badge } from '@ionic-native/badge';
 })
 export class NotificationDetailsPage {
 
-  public item:any;
+  public item: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private badge: Badge,
+  constructor(public router: Router, public navParams: NavParams, private badge: Badge,
     private fcm: FCM, private nativeAudio: NativeAudio, private storage: Storage,
     private alertCtrl: AlertController, public platform: Platform) {
 
@@ -26,9 +26,9 @@ export class NotificationDetailsPage {
       }, (err) => {
         // alert(err);
       });
-      
+
       this.fcm.onNotification().subscribe(data => {
-        if(data.wasTapped){
+        if (data.wasTapped) {
           // alert("Received in background");
         } else {
           // alert("Received in foreground");
@@ -53,14 +53,14 @@ export class NotificationDetailsPage {
     }
   }
 
-  presentAlert(title, body) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      subTitle: '<div dir="rtl">' + body + '</div>',
+  async presentAlert(title, body) {
+    let alert = await this.alertCtrl.create({
+      header: title,
+      message: '<div dir="rtl">' + body + '</div>',
       buttons: ['رجوع']
     });
-    alert.present();
-    this.nativeAudio.play('uniqueId1').then(() => {}, () => {});
+    await alert.present();
+    this.nativeAudio.play('uniqueId1').then(() => { }, () => { });
   }
 
 }

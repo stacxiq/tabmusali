@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController  } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs'
 import { Storage } from '@ionic/storage';
 import { Http, Headers, RequestOptions } from '@angular/http';
-import 'rxjs/add/operator/map';
+
 
 import { ReadInfoPage } from '../read-info/read-info';
 
@@ -14,16 +14,16 @@ import { ReadInfoPage } from '../read-info/read-info';
 })
 export class FixChairPage {
 
-  private studentName : string;
-  private fatherName : string;
-  private school : string;
-  private lastClass : string;
-  private newClass : string;
-  private policy : boolean = false;
+  private studentName: string;
+  private fatherName: string;
+  private school: string;
+  private lastClass: string;
+  private newClass: string;
+  private policy: boolean = false;
 
   public registrationIntroduction: any;
 
-  constructor(public loadingCtrl: LoadingController, private alertCtrl: AlertController, public toastCtrl: ToastController, private http: Http, private storage: Storage, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public loadingCtrl: LoadingController, private alertCtrl: AlertController, public toastCtrl: ToastController, private http: HttpClient, private storage: Storage, public router: Router, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
@@ -37,9 +37,9 @@ export class FixChairPage {
   }
 
   goBack() {
-    this.navCtrl.push(TabsPage, {
+    this.router.navigate(TabsPage, {
       status: 'signedIn'
-    }); 
+    });
   }
 
   onChangeSchool(school) {
@@ -54,7 +54,7 @@ export class FixChairPage {
     this.newClass = newClass;
   }
 
-  submit() {    
+  submit() {
     if (!this.studentName && !this.fatherName && !this.lastClass && !this.school && !this.newClass) {
       this.showToast('الرجاء ادخال المعلومات المطلوبة');
       return;
@@ -104,7 +104,7 @@ export class FixChairPage {
     let loading = this.loadingCtrl.create({
       content: 'جاري ارسال المعلومات'
     });
-  
+
     loading.present();
 
     let url = 'http://alawaail.com/_mobile_data/api/seats.php';
@@ -120,37 +120,37 @@ export class FixChairPage {
     data.append('new_class', this.newClass);
     data.append('class', this.lastClass);
 
-    await this.http.post(url, data, options) 
-    .map(res => res.text())
-    .subscribe(data => {
-      var s = data.replace(/\\n/g, "\\n")  
-      .replace(/\\'/g, "\\'")
-      .replace(/\\"/g, '\\"')
-      .replace(/\\&/g, "\\&")
-      .replace(/\\r/g, "\\r")
-      .replace(/\\t/g, "\\t")
-      .replace(/\\b/g, "\\b")
-      .replace(/\\f/g, "\\f");
+    await this.http.post(url, data, options)
+      .map(res => res.text())
+      .subscribe(data => {
+        var s = data.replace(/\\n/g, "\\n")
+          .replace(/\\'/g, "\\'")
+          .replace(/\\"/g, '\\"')
+          .replace(/\\&/g, "\\&")
+          .replace(/\\r/g, "\\r")
+          .replace(/\\t/g, "\\t")
+          .replace(/\\b/g, "\\b")
+          .replace(/\\f/g, "\\f");
 
-      s = s.replace(/[\u0000-\u0019]+/g,""); 
-      let jsonData = JSON.parse(s);
+        s = s.replace(/[\u0000-\u0019]+/g, "");
+        let jsonData = JSON.parse(s);
 
-      let seats = jsonData.seats;
-      let status = seats.status;
+        let seats = jsonData.seats;
+        let status = seats.status;
 
-      if (status === 'true') {
-        loading.dismiss();
-        this.presentAlertSuccess('تم حجز المقعد');
-      } else {
-        loading.dismiss();
-        this.presentAlertFail('خطا', 'عذرا حصل خطأ ... حاول مرة آخرى.');
-      }
-    });
+        if (status === 'true') {
+          loading.dismiss();
+          this.presentAlertSuccess('تم حجز المقعد');
+        } else {
+          loading.dismiss();
+          this.presentAlertFail('خطا', 'عذرا حصل خطأ ... حاول مرة آخرى.');
+        }
+      });
   }
 
   showToast(title) {
     let toast = this.toastCtrl.create({
-      message: title, 
+      message: title,
       duration: 3000,
       position: 'bottom',
       cssClass: 'toast'
@@ -159,8 +159,8 @@ export class FixChairPage {
   }
 
   presentAlertSuccess(title: string) {
-    let alert = this.alertCtrl.create({
-      title: title,
+    let alert = await this.alertCtrl.create({
+      header: title,
       buttons: [
         {
           text: 'انهاء الحجز',
@@ -170,16 +170,16 @@ export class FixChairPage {
         }
       ]
     });
-    alert.present();
+    await alert.present();
   }
 
   presentAlertFail(title: string, message: string) {
-    let alert = this.alertCtrl.create({
-      title: title,
+    let alert = await this.alertCtrl.create({
+      header: title,
       subTitle: message,
       buttons: ['رجوع']
     });
-    alert.present();
+    await alert.present();
   }
 
   getRegistrationInformation() {
@@ -191,14 +191,14 @@ export class FixChairPage {
 
     let link = `http://alawaail.com/_mobile_data/api/registration_information.php`;
     this.http.get(link)
-    .map(res => res.json())
-    .subscribe(data => {
-      loading.dismiss();
-      this.registrationIntroduction = data.registration_information[1].registration_introduction; 
-      this.storage.set('policy_fix', false);
-    }, err => {
-      alert(err);
-    });
+      .map(res => res.json())
+      .subscribe(data => {
+        loading.dismiss();
+        this.registrationIntroduction = data.registration_information[1].registration_introduction;
+        this.storage.set('policy_fix', false);
+      }, err => {
+        alert(err);
+      });
   }
 
   updatePolicy() {
@@ -208,6 +208,6 @@ export class FixChairPage {
 
   readInfo() {
     this.updatePolicy();
-    this.navCtrl.push(ReadInfoPage);
+    this.router.navigate(ReadInfoPage);
   }
 }

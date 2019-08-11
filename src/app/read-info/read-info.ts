@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController, Platform  } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { HttpClient } from '@angular/common/http';
+
 import { InstallmentsPage } from '../installments/installments';
 import { Navbar } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs'
@@ -31,7 +31,7 @@ export class ReadInfoPage {
 
   @ViewChild(Navbar) navBar: Navbar;
 
-  constructor(public loadingCtrl: LoadingController, private alertCtrl: AlertController, public toastCtrl: ToastController, private http: Http, public navCtrl: NavController, public navParams: NavParams,
+  constructor(public loadingCtrl: LoadingController, private alertCtrl: AlertController, public toastCtrl: ToastController, private http: HttpClient, public router: Router, public navParams: NavParams,
     private storage: Storage, public platform: Platform) {
 
     storage.get('isLoggedIn').then((val) => {
@@ -138,13 +138,13 @@ export class ReadInfoPage {
     if (this.isConnected) {
       this.storage.get('selected').then((val) => {
         if (val != null && val != '') {
-          this.navCtrl.push(InstallmentsPage, {
+          this.router.navigate(InstallmentsPage, {
             student: val
           });
         } else {
           this.storage.get('st_data').then((val) => {
             if (val != null) {
-              this.navCtrl.push(InstallmentsPage, {
+              this.router.navigate(InstallmentsPage, {
                 student: val[0]
               });
             }
@@ -153,7 +153,7 @@ export class ReadInfoPage {
       }); 
     } else {
       this.storage.get('selected').then((val) => {
-        this.navCtrl.push(InstallmentsPage, {
+        this.router.navigate(InstallmentsPage, {
           student: val
         });
       });
@@ -161,7 +161,7 @@ export class ReadInfoPage {
   } 
 
   goBack() {
-    this.navCtrl.push(TabsPage, {
+    this.router.navigate(TabsPage, {
       status: 'signedIn'
     }); 
   }

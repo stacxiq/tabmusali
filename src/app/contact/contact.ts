@@ -6,11 +6,11 @@ import { InstallmentsPage } from '../installments/installments';
 import { NotificationPage } from '../notification/notification';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Storage } from '@ionic/storage';
-import 'rxjs/add/operator/map';
-import { Events } from 'ionic-angular';
-import { FCM } from '@ionic-native/fcm';
-import { NativeAudio } from '@ionic-native/native-audio';
-import { Badge } from '@ionic-native/badge';
+
+import { Events } from '@ionic/angular';
+import { FCM } from '@ionic-native/fcm/ngx';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
+import { Badge } from '@ionic-native/badge/ngx';
 import { isNumber } from 'ionic-angular/util/util';
 import { SendMessagePage } from '../send-message/send-message';
 
@@ -23,31 +23,31 @@ export class ContactPage {
   @ViewChild(Content) content: Content;
 
   isIos: boolean = false;
-  isLoggedIn:boolean = false;
-  isDelayed:boolean = false;
-  public items:any[];
-  public students:any[];
-  public installments:any[];
-  participant_id:string;
-  username:string = '';
-  password:string = '';  
-  isLoaded:boolean = false;
-  value:string = '';
-  isConnected:boolean = true;
-  isConnected2:boolean = false;
-  isRefreshed:boolean = false;
-  counter:number = 0;
-  loader:any = this.loadingCtrl.create();
+  isLoggedIn: boolean = false;
+  isDelayed: boolean = false;
+  public items: any[];
+  public students: any[];
+  public installments: any[];
+  participant_id: string;
+  username: string = '';
+  password: string = '';
+  isLoaded: boolean = false;
+  value: string = '';
+  isConnected: boolean = true;
+  isConnected2: boolean = false;
+  isRefreshed: boolean = false;
+  counter: number = 0;
+  loader: any = this.loadingCtrl.create();
 
-  constructor(public navCtrl: NavController, public events: Events, public plt: Platform, private http: Http, 
+  constructor(public router: Router, public events: Events, public plt: Platform, private http: HttpClient,
     private storage: Storage, private fcm: FCM, private nativeAudio: NativeAudio, private alertCtrl: AlertController,
     public loadingCtrl: LoadingController, private badge: Badge) {
 
     if (plt.is('cordova')) {
       this.nativeAudio.preloadSimple('uniqueId1', 'assets/sound/demo.mp3');
-      
+
       this.fcm.onNotification().subscribe(data => {
-        if(data.wasTapped){
+        if (data.wasTapped) {
           console.log("Received in background");
         } else {
           // alert("Received in foreground");
@@ -94,10 +94,10 @@ export class ContactPage {
         this.isConnected2 = this.isConnected;
 
       }, 1000);
-      
+
       if (val == 'true') {
         this.isLoggedIn = true;
-		
+
         this.storage.get('username').then((val) => {
           this.username = val;
         });
@@ -110,21 +110,21 @@ export class ContactPage {
           this.participant_id = val;
 
           this.loadStudentData(this.username, this.password, this.participant_id);
-        });	
-        
+        });
+
         setInterval(() => {
           this.storage.get('selected').then((val) => {
             if (val != '' && val != null) {
-              this.value = val;      
-            } 
+              this.value = val;
+            }
           });
 
           this.storage.get('num').then((val) => {
             if (val != '' && val != null) {
               if (isNumber(val)) {
                 this.setSubscribe();
-              }     
-            } 
+              }
+            }
           });
           this.getBadges();
           this.refreshInfo();
@@ -171,10 +171,10 @@ export class ContactPage {
 
   setSubscribe() {
     this.fcm.onNotification().subscribe(data => {
-      if(data.wasTapped){
+      if (data.wasTapped) {
         console.log("Received in background");
         this.storage.get('selected').then((val) => {
-          this.navCtrl.push(NotificationPage, {
+          this.router.navigate(NotificationPage, {
             student: val,
             push: 'background'
           }).catch(e => console.log(e));
@@ -211,14 +211,14 @@ export class ContactPage {
     }, false);
   }
 
-  presentAlert(title, body) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      subTitle: '<div dir="rtl">' + body + '</div>',
+  async presentAlert(title, body) {
+    let alert = await this.alertCtrl.create({
+      header: title,
+      message: '<div dir="rtl">' + body + '</div>',
       buttons: ['رجوع']
     });
-    alert.present();
-    this.nativeAudio.play('uniqueId1').then(() => {}, () => {});
+    await alert.present();
+    this.nativeAudio.play('uniqueId1').then(() => { }, () => { });
   }
 
   playSound() {
@@ -226,7 +226,7 @@ export class ContactPage {
   }
 
   signin() {
-    this.navCtrl.push(EditPersonPage).then(
+    this.router.navigate(EditPersonPage).then(
       response => {
         console.log('Response ' + response);
       },
@@ -242,7 +242,7 @@ export class ContactPage {
     this.storage.get('participant_id').then((val) => {
       this.checkStatus(val);
     });
-    
+
     this.loader.present();
 
     if (!this.isConnected) {
@@ -250,35 +250,35 @@ export class ContactPage {
     }
 
     this.http.get('http://alawaail.com/_mobile_data/api/retrieval.php?operation=events').map(res => res.text())
-    .subscribe(data => {
-      this.items = [];
-      var s = data.replace(/\\n/g, "\\n")  
-      .replace(/\\'/g, "\\'")
-      .replace(/\\"/g, '\\"')
-      .replace(/\\&/g, "\\&")
-      .replace(/\\r/g, "\\r")
-      .replace(/\\t/g, "\\t")
-      .replace(/\\b/g, "\\b")
-      .replace(/\\f/g, "\\f");
-      // remove non-printable and other non-valid JSON chars
-      // s = s.replace(/[\u0000-\u0019]+/g,""); 
-      s = s.replace(/(?:\r\n|\r|\n)/g, '<br/>'); 
-
-      if (s != null && s != '') {
-        var d = JSON.parse(s);
-  
+      .subscribe(data => {
         this.items = [];
-        this.items = d.events;
-        this.storage.set('events_list', this.items);
-        this.loader.dismiss();
-      }
-    });
+        var s = data.replace(/\\n/g, "\\n")
+          .replace(/\\'/g, "\\'")
+          .replace(/\\"/g, '\\"')
+          .replace(/\\&/g, "\\&")
+          .replace(/\\r/g, "\\r")
+          .replace(/\\t/g, "\\t")
+          .replace(/\\b/g, "\\b")
+          .replace(/\\f/g, "\\f");
+        // remove non-printable and other non-valid JSON chars
+        // s = s.replace(/[\u0000-\u0019]+/g,""); 
+        s = s.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+
+        if (s != null && s != '') {
+          var d = JSON.parse(s);
+
+          this.items = [];
+          this.items = d.events;
+          this.storage.set('events_list', this.items);
+          this.loader.dismiss();
+        }
+      });
   }
 
   doRefresh(refresher) {
     this.isRefreshed = true;
     console.log('Begin async operation', refresher);
-    this.loadData(); 
+    this.loadData();
 
     setTimeout(() => {
       this.isRefreshed = false;
@@ -289,28 +289,28 @@ export class ContactPage {
 
   loadStudentData(username, password, participant_id) {
     this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + participant_id).map(res => res.text())
-    .subscribe(data => {
-      
-      if (data != null && data != null) {
-        var s = data.replace(/\\n/g, "\\n")  
-        .replace(/\\'/g, "\\'")
-        .replace(/\\"/g, '\\"')
-        .replace(/\\&/g, "\\&")
-        .replace(/\\r/g, "\\r")
-        .replace(/\\t/g, "\\t")
-        .replace(/\\b/g, "\\b")
-        .replace(/\\f/g, "\\f");
-        // remove non-printable and other non-valid JSON chars
-        // s = s.replace(/[\u0000-\u0019]+/g,""); 
-        s = s.replace(/(?:\r\n|\r|\n)/g, '<br/>');
-        s = s.replace(/[\u0000-\u0019]+/g,"");
-        var d = JSON.parse(s);
-      
-        this.students = d.accountData[0].students;
-        
-        this.installments = this.students[0].installment;
-      }
-    });
+      .subscribe(data => {
+
+        if (data != null && data != null) {
+          var s = data.replace(/\\n/g, "\\n")
+            .replace(/\\'/g, "\\'")
+            .replace(/\\"/g, '\\"')
+            .replace(/\\&/g, "\\&")
+            .replace(/\\r/g, "\\r")
+            .replace(/\\t/g, "\\t")
+            .replace(/\\b/g, "\\b")
+            .replace(/\\f/g, "\\f");
+          // remove non-printable and other non-valid JSON chars
+          // s = s.replace(/[\u0000-\u0019]+/g,""); 
+          s = s.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+          s = s.replace(/[\u0000-\u0019]+/g, "");
+          var d = JSON.parse(s);
+
+          this.students = d.accountData[0].students;
+
+          this.installments = this.students[0].installment;
+        }
+      });
   }
 
   getFromCache() {
@@ -339,41 +339,41 @@ export class ContactPage {
 
   updateInfo(username, password, participant_id) {
     this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + participant_id).map(res => res.text())
-    .subscribe(data => {
-      if (data != null && data != '') {
-        var s = data.replace(/\\n/g, "\\n")  
-        .replace(/\\'/g, "\\'")
-        .replace(/\\"/g, '\\"')
-        .replace(/\\&/g, "\\&")
-        .replace(/\\r/g, "\\r")
-        .replace(/\\t/g, "\\t")
-        .replace(/\\b/g, "\\b")
-        .replace(/\\f/g, "\\f");
-        // remove non-printable and other non-valid JSON chars
-        s = s.replace(/[\u0000-\u0019]+/g,""); 
-        var d = JSON.parse(s);
-      
-        this.students = d.accountData[0].students;
+      .subscribe(data => {
+        if (data != null && data != '') {
+          var s = data.replace(/\\n/g, "\\n")
+            .replace(/\\'/g, "\\'")
+            .replace(/\\"/g, '\\"')
+            .replace(/\\&/g, "\\&")
+            .replace(/\\r/g, "\\r")
+            .replace(/\\t/g, "\\t")
+            .replace(/\\b/g, "\\b")
+            .replace(/\\f/g, "\\f");
+          // remove non-printable and other non-valid JSON chars
+          s = s.replace(/[\u0000-\u0019]+/g, "");
+          var d = JSON.parse(s);
 
-        this.storage.get('selected').then((val) => {
-          if (val != null && val != '') {
-            for (var i = 0; i < this.students.length; i++) {
-              if (this.students[i].name == val.name) {
-                this.storage.set('selected', this.students[i]);
-                break;
+          this.students = d.accountData[0].students;
+
+          this.storage.get('selected').then((val) => {
+            if (val != null && val != '') {
+              for (var i = 0; i < this.students.length; i++) {
+                if (this.students[i].name == val.name) {
+                  this.storage.set('selected', this.students[i]);
+                  break;
+                }
+              }
+            } else {
+              for (i = 0; i < this.students.length; i++) {
+                if (this.students[i].name == this.students[0].name) {
+                  this.storage.set('selected', this.students[i]);
+                  break;
+                }
               }
             }
-          } else {
-            for (i = 0; i < this.students.length; i++) {
-              if (this.students[i].name == this.students[0].name) {
-                this.storage.set('selected', this.students[i]);
-                break;
-              }
-            }
-          }
-        }); 
-      }
-    });
+          });
+        }
+      });
   }
 
   setInstallments(value) {
@@ -390,7 +390,7 @@ export class ContactPage {
   }
 
   viewMore(item) {
-    this.navCtrl.push(DetailsPage, {
+    this.router.navigate(DetailsPage, {
       item: item,
     }).then().catch((e) => alert(e));
   }
@@ -399,18 +399,18 @@ export class ContactPage {
     if (this.isConnected2) {
       this.storage.get('selected').then((val) => {
         if (val != null && val != '') {
-          this.navCtrl.push(NotificationPage, {
+          this.router.navigate(NotificationPage, {
             student: val
           });
         } else {
-          this.navCtrl.push(NotificationPage, {
+          this.router.navigate(NotificationPage, {
             student: this.students[0]
           });
         }
       });
     } else {
       this.storage.get('selected').then((val) => {
-        this.navCtrl.push(NotificationPage, {
+        this.router.navigate(NotificationPage, {
           student: val
         });
       });
@@ -421,19 +421,19 @@ export class ContactPage {
     if (this.isConnected2) {
       this.storage.get('selected').then((val) => {
         if (val != null && val != '') {
-          this.navCtrl.push(InstallmentsPage, {
+          this.router.navigate(InstallmentsPage, {
             student: val
           });
         } else {
-          this.navCtrl.push(InstallmentsPage, {
+          this.router.navigate(InstallmentsPage, {
             student: this.students[0]
           });
         }
-      }); 
+      });
     } else {
       this.storage.get('selected').then((val) => {
         if (val != null) {
-          this.navCtrl.push(InstallmentsPage, {
+          this.router.navigate(InstallmentsPage, {
             student: val
           });
         }
@@ -471,7 +471,7 @@ export class ContactPage {
   }
 
   goToMessage() {
-    this.navCtrl.push(SendMessagePage);
+    this.router.navigate(SendMessagePage);
   }
 
   async checkStatus(userId) {
@@ -485,41 +485,41 @@ export class ContactPage {
     data.append('operation', 'check');
     data.append('id', userId);
 
-    await this.http.post(url, data, options) 
-    .map(res => res.text())
-    .subscribe(data => {
-      var s = data.replace(/\\n/g, "\\n")  
-      .replace(/\\'/g, "\\'")
-      .replace(/\\"/g, '\\"')
-      .replace(/\\&/g, "\\&")
-      .replace(/\\r/g, "\\r")
-      .replace(/\\t/g, "\\t")
-      .replace(/\\b/g, "\\b")
-      .replace(/\\f/g, "\\f");
+    await this.http.post(url, data, options)
+      .map(res => res.text())
+      .subscribe(data => {
+        var s = data.replace(/\\n/g, "\\n")
+          .replace(/\\'/g, "\\'")
+          .replace(/\\"/g, '\\"')
+          .replace(/\\&/g, "\\&")
+          .replace(/\\r/g, "\\r")
+          .replace(/\\t/g, "\\t")
+          .replace(/\\b/g, "\\b")
+          .replace(/\\f/g, "\\f");
 
-      s = s.replace(/[\u0000-\u0019]+/g,""); 
-      let jsonData = JSON.parse(s);
+        s = s.replace(/[\u0000-\u0019]+/g, "");
+        let jsonData = JSON.parse(s);
 
-      let response = jsonData.login_status[0].status;
+        let response = jsonData.login_status[0].status;
 
-      if (response == 'logged_in') {
-        //alert('here1');
-        return;
-      } else if (response == 'logged_out') {
-        //alert('here2');
-        this.events.publish('user:removed', '', Date.now());
-        // this.storage.set('st_data', '');
-        this.storage.set('selected', '');
-        this.storage.set('installs', '');
-        this.storage.set('news', '');
-        this.storage.set('events', '');
+        if (response == 'logged_in') {
+          //alert('here1');
+          return;
+        } else if (response == 'logged_out') {
+          //alert('here2');
+          this.events.publish('user:removed', '', Date.now());
+          // this.storage.set('st_data', '');
+          this.storage.set('selected', '');
+          this.storage.set('installs', '');
+          this.storage.set('news', '');
+          this.storage.set('events', '');
 
-        this.storage.set('isLoggedIn', 'false');
-        this.isLoggedIn = false; 
-      }
+          this.storage.set('isLoggedIn', 'false');
+          this.isLoggedIn = false;
+        }
 
-    }, error => {
-      // this.loader.dismiss();
-    });
+      }, error => {
+        // this.loader.dismiss();
+      });
   }
 }

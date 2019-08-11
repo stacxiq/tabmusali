@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, Platform, AlertController } from 'ionic-angular';
 import { StuffListPage } from '../stuff-list/stuff-list';
-import { FCM } from '@ionic-native/fcm';
-import { NativeAudio } from '@ionic-native/native-audio';
+import { FCM } from '@ionic-native/fcm/ngx';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { Storage } from '@ionic/storage';
-import { Badge } from '@ionic-native/badge';
+import { Badge } from '@ionic-native/badge/ngx';
 
 @IonicPage()
 @Component({
@@ -13,7 +13,7 @@ import { Badge } from '@ionic-native/badge';
 })
 export class StuffPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, 
+  constructor(public router: Router, public navParams: NavParams, 
     public toastCtrl: ToastController, private fcm: FCM, private badge: Badge,
     private nativeAudio: NativeAudio, private storage: Storage,
     private alertCtrl: AlertController, public platform: Platform) {
@@ -55,18 +55,18 @@ export class StuffPage {
     }
   }
 
-  presentAlert(title, body) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      subTitle: '<div dir="rtl">' + body + '</div>',
+  async presentAlert(title, body) {
+    let alert = await this.alertCtrl.create({
+      header: title,
+      message: '<div dir="rtl">' + body + '</div>',
       buttons: ['رجوع']
     });
-    alert.present();
+    await alert.present();
     this.nativeAudio.play('uniqueId1').then(() => {}, () => {});
   }
 
   viewStuff(flag) {
-    this.navCtrl.push(StuffListPage, {
+    this.router.navigate(StuffListPage, {
       flag: flag
     });
   }

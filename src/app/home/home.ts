@@ -6,12 +6,12 @@ import { InstallmentsPage } from '../installments/installments';
 import { NotificationPage } from '../notification/notification';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Storage } from '@ionic/storage';
-import 'rxjs/add/operator/map';
-import { Events } from 'ionic-angular';	
+
+import { Events } from '@ionic/angular';	
 import 'rxjs/add/operator/catch';
-import { FCM } from '@ionic-native/fcm';
-import { NativeAudio } from '@ionic-native/native-audio';
-import { Badge } from '@ionic-native/badge';
+import { FCM } from '@ionic-native/fcm/ngx';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
+import { Badge } from '@ionic-native/badge/ngx';
 import { isNumber } from 'ionic-angular/util/util';
 import { SendMessagePage } from '../send-message/send-message';
 
@@ -39,8 +39,8 @@ export class HomePage {
   counter:number = 0;
   loader:any = this.loadingCtrl.create();
 
-  constructor(public navCtrl: NavController, private fcm: FCM, private nativeAudio: NativeAudio, 
-    public toastCtrl: ToastController, public events: Events, public plt: Platform, private http: Http, 
+  constructor(public router: Router, private fcm: FCM, private nativeAudio: NativeAudio, 
+    public toastCtrl: ToastController, public events: Events, public plt: Platform, private http: HttpClient, 
     private storage: Storage, private alertCtrl: AlertController, private badge: Badge,
     public loadingCtrl: LoadingController, public navParams: NavParams) {
 
@@ -179,7 +179,7 @@ export class HomePage {
       if(data.wasTapped){
         // alert("Received in background");
         this.storage.get('selected').then((val) => {
-          this.navCtrl.push(NotificationPage, {
+          this.router.navigate(NotificationPage, {
             student: val,
             push: 'background'
           }).catch(e => console.log(e));
@@ -246,13 +246,13 @@ export class HomePage {
     this.nativeAudio.play('uniqueId1', () => console.log('uniqueId1 is done playing'));
   }
 
-  presentAlert(title, body) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      subTitle: '<div dir="rtl">' + body + '</div>',
+  async presentAlert(title, body) {
+    let alert = await this.alertCtrl.create({
+      header: title,
+      message: '<div dir="rtl">' + body + '</div>',
       buttons: ['رجوع']
     });
-    alert.present();
+    await alert.present();
     this.nativeAudio.play('uniqueId1').then(() => {}, () => {});
   }
 
@@ -261,7 +261,7 @@ export class HomePage {
   }
 
   signin() {
-    this.navCtrl.push(EditPersonPage);
+    this.router.navigate(EditPersonPage);
   }
 
   loadData() {
@@ -426,7 +426,7 @@ export class HomePage {
   }
 
   viewMore(item) {
-    this.navCtrl.push(DetailsPage, {
+    this.router.navigate(DetailsPage, {
       item: item,
     }).then().catch((e) => alert(e));
   }
@@ -435,12 +435,12 @@ export class HomePage {
     if (this.isConnected) {
       this.storage.get('selected').then((val) => {
         if (val != null && val != '') {
-          this.navCtrl.push(NotificationPage, {
+          this.router.navigate(NotificationPage, {
             student: val,
             push: 'bb'
           });
         } else {
-          this.navCtrl.push(NotificationPage, {
+          this.router.navigate(NotificationPage, {
             student: this.students[0],
             push: 'bb'
           });
@@ -448,7 +448,7 @@ export class HomePage {
       });
     } else {
       this.storage.get('selected').then((val) => {
-        this.navCtrl.push(NotificationPage, {
+        this.router.navigate(NotificationPage, {
           student: val,
           push: 'bb'
         });
@@ -460,18 +460,18 @@ export class HomePage {
     if (this.isConnected) {
       this.storage.get('selected').then((val) => {
         if (val != null && val != '') {
-          this.navCtrl.push(InstallmentsPage, {
+          this.router.navigate(InstallmentsPage, {
             student: val
           });
         } else {
-          this.navCtrl.push(InstallmentsPage, {
+          this.router.navigate(InstallmentsPage, {
             student: this.students[0]
           });
         }
       }); 
     } else {
       this.storage.get('selected').then((val) => {
-        this.navCtrl.push(InstallmentsPage, {
+        this.router.navigate(InstallmentsPage, {
           student: val
         });
       });
@@ -508,7 +508,7 @@ export class HomePage {
   }
 
   goToMessage() {
-    this.navCtrl.push(SendMessagePage);
+    this.router.navigate(SendMessagePage);
   }
 
   async checkStatus(userId) {

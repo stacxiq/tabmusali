@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Platform } from 'ionic-angular';
+import { NavParams, AlertController, Platform } from '@ionic/angular';
 import { NotificationDetailsPage } from '../notification-details/notification-details';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { HttpClient } from '@angular/common/http';
+
 import { Storage } from '@ionic/storage';
-import { FCM } from '@ionic-native/fcm';
-import { NativeAudio } from '@ionic-native/native-audio';
-import { Events } from 'ionic-angular';	
+import { FCM } from '@ionic-native/fcm/ngx';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
+import { Events } from '@ionic/angular';
 import { InstallmentsPage } from '../installments/installments';
 import { Network } from '@ionic-native/network';
-import { Badge } from '@ionic-native/badge';
+import { Badge } from '@ionic-native/badge/ngx';
 import { Jsonp } from '@angular/http/src/http';
 
 @IonicPage()
@@ -19,22 +19,22 @@ import { Jsonp } from '@angular/http/src/http';
 })
 export class NotificationPage {
 
-  public students:any[];
-  public notes:any[];
-  gategory:boolean = false;
-  username:string = '';
-  password:string = '';
-  participant_id:string;
-  student:any;
+  public students: any[];
+  public notes: any[];
+  gategory: boolean = false;
+  username: string = '';
+  password: string = '';
+  participant_id: string;
+  student: any;
 
-  isLoggedIn:boolean = false;
-  isDelayed:boolean = false;
-  public installments:any[];
-  isConnected:boolean = true;
-  isRefreshed:boolean = false;
+  isLoggedIn: boolean = false;
+  isDelayed: boolean = false;
+  public installments: any[];
+  isConnected: boolean = true;
+  isRefreshed: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private badge: Badge,
-    private http: Http, private storage: Storage, private fcm: FCM, 
+  constructor(public router: Router, public navParams: NavParams, private badge: Badge,
+    private http: HttpClient, private storage: Storage, private fcm: FCM,
     private nativeAudio: NativeAudio, private alertCtrl: AlertController,
     public platform: Platform, public events: Events, private network: Network) {
 
@@ -70,11 +70,11 @@ export class NotificationPage {
       this.storage.get('username').then((val) => {
         this.username = val;
       });
-  
+
       this.storage.get('password').then((val) => {
         this.password = val;
       });
-  
+
       this.storage.get('participant_id').then((val) => {
         this.participant_id = val;
         // alert(this.username + '  ' +this.password + '  '+ this.participant_id);
@@ -82,11 +82,11 @@ export class NotificationPage {
       });
       return;
     }
-    
+
     if (platform.is('cordova')) {
 
       this.fcm.onNotification().subscribe(data => {
-        if(data.wasTapped){
+        if (data.wasTapped) {
           // alert("Received in background");
         } else {
           // alert("Received in foreground");          
@@ -97,7 +97,7 @@ export class NotificationPage {
         this.playSound();
       });
     }
-    
+
     this.storage.get('username').then((val) => {
       this.username = val;
     });
@@ -134,49 +134,49 @@ export class NotificationPage {
   clearBadge(participant_id) {
     let url = 'http://alawaail.com/_mobile_data/api/clear.php?participant_id=' + participant_id;
     this.http.get(url).map(res => res.text())
-    .subscribe(data => {
-      console.log(data);
-    });
+      .subscribe(data => {
+        console.log(data);
+      });
   }
 
-  presentAlert(title, body) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      subTitle: '<div dir="rtl">' + body + '</div>',
+  async presentAlert(title, body) {
+    let alert = await this.alertCtrl.create({
+      header: title,
+      message: '<div dir="rtl">' + body + '</div>',
       buttons: ['رجوع']
     });
-    alert.present();
-    this.nativeAudio.play('uniqueId1').then(() => {}, () => {});
+    await alert.present();
+    this.nativeAudio.play('uniqueId1').then(() => { }, () => { });
   }
 
   loadStudentData(username, password, participant_id) {
     this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + participant_id).map(res => res.text())
-    .subscribe(data => {
-      var s = data.replace(/\\n/g, "\\n")  
-      .replace(/\\'/g, "\\'")
-      .replace(/\\"/g, '\\"')
-      .replace(/\\&/g, "\\&")
-      .replace(/\\r/g, "\\r")
-      .replace(/\\t/g, "\\t")
-      .replace(/\\b/g, "\\b")
-      .replace(/\\f/g, "\\f");
-      // remove non-printable and other non-valid JSON chars
-      //s = s.replace(/[\u0000-\u0019]+/g,""); 
-      s = s.replace(/(?:\r\n|\r|\n)/g, '<br/>');
-      s = s.replace(/[\u0000-\u0019]+/g,"");
-      var d = JSON.parse(s);
-    
-      this.students = d.accountData[0].students;
-      let stu = this.navParams.get('student');
-      
-      for (var i = 0; i < this.students.length; i++) {
-        if (this.students[i].name == stu.name) {
-          this.notes = [];
-          this.notes = this.students[i].notification;
-          break;
+      .subscribe(data => {
+        var s = data.replace(/\\n/g, "\\n")
+          .replace(/\\'/g, "\\'")
+          .replace(/\\"/g, '\\"')
+          .replace(/\\&/g, "\\&")
+          .replace(/\\r/g, "\\r")
+          .replace(/\\t/g, "\\t")
+          .replace(/\\b/g, "\\b")
+          .replace(/\\f/g, "\\f");
+        // remove non-printable and other non-valid JSON chars
+        //s = s.replace(/[\u0000-\u0019]+/g,""); 
+        s = s.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+        s = s.replace(/[\u0000-\u0019]+/g, "");
+        var d = JSON.parse(s);
+
+        this.students = d.accountData[0].students;
+        let stu = this.navParams.get('student');
+
+        for (var i = 0; i < this.students.length; i++) {
+          if (this.students[i].name == stu.name) {
+            this.notes = [];
+            this.notes = this.students[i].notification;
+            break;
+          }
         }
-      }
-    });
+      });
   }
 
   doRefresh(refresher) {
@@ -192,7 +192,7 @@ export class NotificationPage {
   }
 
   goToDetails(item) {
-    this.navCtrl.push(NotificationDetailsPage, {
+    this.router.navigate(NotificationDetailsPage, {
       item: item
     });
   }
@@ -227,22 +227,22 @@ export class NotificationPage {
     if (this.isConnected) {
       this.storage.get('selected').then((val) => {
         if (val != null && val != '') {
-          this.navCtrl.push(InstallmentsPage, {
+          this.router.navigate(InstallmentsPage, {
             student: val
           });
         } else {
           this.storage.get('st_data').then((val) => {
             if (val != null) {
-              this.navCtrl.push(InstallmentsPage, {
+              this.router.navigate(InstallmentsPage, {
                 student: val[0]
               });
             }
           });
         }
-      }); 
+      });
     } else {
       this.storage.get('selected').then((val) => {
-        this.navCtrl.push(InstallmentsPage, {
+        this.router.navigate(InstallmentsPage, {
           student: val
         });
       });

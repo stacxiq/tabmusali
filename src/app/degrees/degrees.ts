@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Platform } from 'ionic-angular';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { NavParams, AlertController, Platform } from '@ionic/angular';
+import { HttpClient } from '@angular/common/http';
+
 import { InstallmentsPage } from '../installments/installments';
 import { Storage } from '@ionic/storage';
-import { FCM } from '@ionic-native/fcm';
-import { Events } from 'ionic-angular';
+import { FCM } from '@ionic-native/fcm/ngx';
+import { Events } from '@ionic/angular';
 import { NotificationPage } from '../notification/notification';
-import { Badge } from '@ionic-native/badge';
+import { Badge } from '@ionic-native/badge/ngx';
 import * as $ from 'jquery';
 
 @IonicPage()
@@ -17,41 +17,41 @@ import * as $ from 'jquery';
 })
 export class DegreesPage {
 
-  public students:any[];
-  public installments:any[];
-  public degrees:any[];
-  isLoggedIn:boolean = false;
-  isDelayed:boolean = false;
-  participant_id:string;
-  username:string = '';
-  password:string = '';
-  value:string = '';
-  isConnected:boolean = true;
-  title:string;
-  exam_title_1:string;
-  exam_title_2:string;
-  exam_title_3:string;
-  exam_title_4:string;
-  exam_title_5:string;
-  exam_title_6:string;
-  exam_title_7:string;
-  exam_title_8:string;
-  exam_title_9:string;
-  exam_title_10:string;
-  exam_title_11:string;
-  exam_title_12:string;
-  exam_title_13:string;
-  exam_title_14:string;
-  exam_title_15:string;
-  exam_title_16:string;
+  public students: any[];
+  public installments: any[];
+  public degrees: any[];
+  isLoggedIn: boolean = false;
+  isDelayed: boolean = false;
+  participant_id: string;
+  username: string = '';
+  password: string = '';
+  value: string = '';
+  isConnected: boolean = true;
+  title: string;
+  exam_title_1: string;
+  exam_title_2: string;
+  exam_title_3: string;
+  exam_title_4: string;
+  exam_title_5: string;
+  exam_title_6: string;
+  exam_title_7: string;
+  exam_title_8: string;
+  exam_title_9: string;
+  exam_title_10: string;
+  exam_title_11: string;
+  exam_title_12: string;
+  exam_title_13: string;
+  exam_title_14: string;
+  exam_title_15: string;
+  exam_title_16: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, 
-    private http: Http, 
-    private storage: Storage, 
-    private fcm: FCM, 
+  constructor(public router: Router, public navParams: NavParams,
+    private http: HttpClient,
+    private storage: Storage,
+    private fcm: FCM,
     private badge: Badge,
     private alertCtrl: AlertController,
-    public platform: Platform, 
+    public platform: Platform,
     public events: Events) {
 
     if (platform.is('cordova')) {
@@ -63,11 +63,11 @@ export class DegreesPage {
             this.isConnected = false;
           }
         });
-  
+
         this.storage.get('selected').then((val) => {
           if (val != '' && val != null) {
-            this.value = val;   
-          } 
+            this.value = val;
+          }
         });
       }, 1000);
 
@@ -76,9 +76,9 @@ export class DegreesPage {
       } else {
         this.loadStudentData(this.value);
       }
-  
-      this.fcm.onNotification().subscribe(data=>{
-        if(data.wasTapped){
+
+      this.fcm.onNotification().subscribe(data => {
+        if (data.wasTapped) {
           // alert("Received in background");
         } else {
           // alert("Received in foreground");
@@ -111,13 +111,13 @@ export class DegreesPage {
     }, false);
   }
 
-  presentAlert(title, body) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      subTitle: '<div dir="rtl">' + body + '</div>',
+  async presentAlert(title, body) {
+    let alert = await this.alertCtrl.create({
+      header: title,
+      message: '<div dir="rtl">' + body + '</div>',
       buttons: ['رجوع']
     });
-    alert.present();
+    await alert.present();
   }
 
   async increaseBadges(counter: number) {
@@ -161,9 +161,9 @@ export class DegreesPage {
 
   goToInstallments() {
     this.storage.get('selected').then((val) => {
-      this.navCtrl.push(InstallmentsPage, {
+      this.router.navigate(InstallmentsPage, {
         student: val
       });
     });
-  } 
+  }
 }

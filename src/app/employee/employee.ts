@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, LoadingController, AlertController } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs'
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { HttpClient } from '@angular/common/http';
+
 
 @IonicPage()
 @Component({
@@ -11,34 +11,34 @@ import 'rxjs/add/operator/map';
 })
 export class EmployeePage {
 
-  private school : string;
-  private name : string;
-  private gender : string;
-  private birthDate : string;
-  private place : string;
-  private study : string;
-  private college : string;
-  private dept : string;
-  private year : string;
-  private evaluation : string;
-  private status : string;
-  private children : string;
-  private address : string;
-  private phone_1 : string;
-  private phone_2 : string;
-  private question1 : string;
-  private expYears : string;
-  private question2 : string;
-  private computerUse : string;
-  private programming : string;
-  private langs : string;
-  private courses : string;
-  private thanking : string;
-  private hobbies : string;
-  private question3 : string;
-  private policy : boolean = false;
+  private school: string;
+  private name: string;
+  private gender: string;
+  private birthDate: string;
+  private place: string;
+  private study: string;
+  private college: string;
+  private dept: string;
+  private year: string;
+  private evaluation: string;
+  private status: string;
+  private children: string;
+  private address: string;
+  private phone_1: string;
+  private phone_2: string;
+  private question1: string;
+  private expYears: string;
+  private question2: string;
+  private computerUse: string;
+  private programming: string;
+  private langs: string;
+  private courses: string;
+  private thanking: string;
+  private hobbies: string;
+  private question3: string;
+  private policy: boolean = false;
 
-  constructor(private http: Http, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private http: HttpClient, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, public router: Router, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
@@ -211,37 +211,37 @@ export class EmployeePage {
     let loading = this.loadingCtrl.create({
       content: 'جاري ارسال المعلومات'
     });
-  
+
     loading.present();
 
     let link = `http://alawaail.com/_mobile_data/api/job.php?school=${this.school}&name=${this.name}&gender=${this.gender}&birthdate=${this.birthDate}&province=${this.place}&graduate=${this.year}&college=${this.college}&department=${this.dept}&year=${this.year}&grade=${this.study}&social_status=${this.status}&kids=${this.children}&address=${this.address}&phone_1=${this.phone_1}&phone_2=${this.phone_2}&experience=${this.question1}&experience_years=${this.expYears}&experience_location=${this.question2}&computer_skills=${this.computerUse}&computer_programs=${this.programming}&languages=${this.langs}&training_courses=${this.courses}&letter_of_thanks=${this.thanking}&hobbies=${this.hobbies}&reasons=${this.question3}`;
     this.http.get(link)
-    .map(res => res.json())
-    .subscribe(data => {
+      .map(res => res.json())
+      .subscribe(data => {
 
-      setTimeout(() => {
-        loading.dismiss();
+        setTimeout(() => {
+          loading.dismiss();
 
-        let job = data.job;
+          let job = data.job;
 
-        let status = job[0].status;
+          let status = job[0].status;
 
-        if (status === 'true') {
-          this.presentAlertSuccess('نجاح', 'تم تسجيل المعلومات');
-        } else {
-          this.presentAlertFail('خطا', 'عذرا حصل خطأ ... حاول مرة آخرى.');
-        }
+          if (status === 'true') {
+            this.presentAlertSuccess('نجاح', 'تم تسجيل المعلومات');
+          } else {
+            this.presentAlertFail('خطا', 'عذرا حصل خطأ ... حاول مرة آخرى.');
+          }
 
-      }, 3000);
-      
-    }, err => {
-      alert(err);
-    });
+        }, 3000);
+
+      }, err => {
+        alert(err);
+      });
   }
 
   showToast(title) {
     let toast = this.toastCtrl.create({
-      message: title, 
+      message: title,
       duration: 3000,
       position: 'bottom',
       cssClass: 'toast'
@@ -250,8 +250,8 @@ export class EmployeePage {
   }
 
   presentAlertSuccess(title: string, message: string) {
-    let alert = this.alertCtrl.create({
-      title: title,
+    let alert = await this.alertCtrl.create({
+      header: title,
       subTitle: message,
       buttons: [
         {
@@ -262,22 +262,22 @@ export class EmployeePage {
         }
       ]
     });
-    alert.present();
+    await alert.present();
   }
 
   presentAlertFail(title: string, message: string) {
-    let alert = this.alertCtrl.create({
-      title: title,
+    let alert = await this.alertCtrl.create({
+      header: title,
       subTitle: message,
       buttons: ['رجوع']
     });
-    alert.present();
+    await alert.present();
   }
- 
+
   goBack() {
-    this.navCtrl.push(TabsPage, {
+    this.router.navigate(TabsPage, {
       status: 'signedIn'
-    }); 
+    });
   }
 
 }

@@ -105,13 +105,13 @@ export class AboutSchoolPage {
     }
   }
 
-  async presentAlert(title, body) {
-    let alert = await this.alertCtrl.create({
+  async async presentAlert(title, body) {
+    let alert = await await this.alertCtrl.create({
       header: title,
       message: '<div dir="rtl">' + body + '</div>',
       buttons: ['رجوع']
     });
-    await alert.present();
+    await await alert.present();
     this.nativeAudio.play('uniqueId1').then(() => { }, () => { });
   }
 

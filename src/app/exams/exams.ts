@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Platform } from 'ionic-angular';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { NavParams, AlertController, Platform } from '@ionic/angular';
+import { HttpClient } from '@angular/common/http';
+
 import { Storage } from '@ionic/storage';
-import { FCM } from '@ionic-native/fcm';
-import { NativeAudio } from '@ionic-native/native-audio';
-import { Events } from 'ionic-angular';
+import { FCM } from '@ionic-native/fcm/ngx';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
+import { Events } from '@ionic/angular';
 import { InstallmentsPage } from '../installments/installments';
 import { Network } from '@ionic-native/network';
-import { Badge } from '@ionic-native/badge';
+import { Badge } from '@ionic-native/badge/ngx';
 
 @IonicPage()
 @Component({
@@ -17,20 +17,20 @@ import { Badge } from '@ionic-native/badge';
 })
 export class ExamsPage {
 
-  public students:any[];
-  public items:any[];
-  username:string = '';
-  password:string = '';
-  participant_id:string;  
-  isLoaded:boolean = false;
-  value:string = '';
-  public installments:any[];
-  isLoggedIn:boolean = false;
-  isDelayed:boolean = false;
-  isConnected:boolean = true;
+  public students: any[];
+  public items: any[];
+  username: string = '';
+  password: string = '';
+  participant_id: string;
+  isLoaded: boolean = false;
+  value: string = '';
+  public installments: any[];
+  isLoggedIn: boolean = false;
+  isDelayed: boolean = false;
+  isConnected: boolean = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, 
-    private http: Http,  private storage: Storage, private fcm: FCM, private badge: Badge,
+  constructor(public router: Router, public navParams: NavParams,
+    private http: HttpClient, private storage: Storage, private fcm: FCM, private badge: Badge,
     private nativeAudio: NativeAudio, private alertCtrl: AlertController,
     public platform: Platform, public events: Events, private network: Network) {
 
@@ -45,8 +45,8 @@ export class ExamsPage {
 
       this.storage.get('selected').then((val) => {
         if (val != '' && val != null) {
-          this.value = val;   
-        } 
+          this.value = val;
+        }
       });
     }, 1000);
 
@@ -55,7 +55,7 @@ export class ExamsPage {
     } else {
       this.loadStudentData(this.value);
     }
-    
+
     if (platform.is('cordova')) {
       nativeAudio.preloadSimple('uniqueId1', 'assets/sound/demo.mp3').then(() => {
         // alert('okay');
@@ -64,7 +64,7 @@ export class ExamsPage {
       });
 
       this.fcm.onNotification().subscribe(data => {
-        if(data.wasTapped){
+        if (data.wasTapped) {
           // alert("Received in background");
         } else {
           // alert("Received in foreground");
@@ -106,20 +106,20 @@ export class ExamsPage {
     }
   }
 
-  presentAlert(title, body) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      subTitle: '<div dir="rtl">' + body + '</div>',
+  async presentAlert(title, body) {
+    let alert = await this.alertCtrl.create({
+      header: title,
+      message: '<div dir="rtl">' + body + '</div>',
       buttons: ['رجوع']
     });
-    alert.present();
-    this.nativeAudio.play('uniqueId1').then(() => {}, () => {});
+    await alert.present();
+    this.nativeAudio.play('uniqueId1').then(() => { }, () => { });
   }
 
   loadStudentData(data) {
     this.items = data.student.exams;
-    this.installments = data.student.installment; 
-    
+    this.installments = data.student.installment;
+
     for (var j = 0; j < this.installments.length; j++) {
       if (this.installments[j].status == 'غير مدفوع') {
         this.isDelayed = true;
@@ -130,9 +130,9 @@ export class ExamsPage {
 
   goToInstallments() {
     this.storage.get('selected').then((val) => {
-      this.navCtrl.push(InstallmentsPage, {
+      this.router.navigate(InstallmentsPage, {
         student: val
       });
     });
-  } 
+  }
 }

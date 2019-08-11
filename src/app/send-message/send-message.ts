@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { HttpClient } from '@angular/common/http';
+
 import { TabsPage } from '../tabs/tabs'
 import { Platform, ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
@@ -18,7 +18,7 @@ export class SendMessagePage {
   private studentName: string = '';
   private isIOS: boolean = false;
 
-  constructor(public loadingCtrl: LoadingController, private alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, private http: Http, private storage: Storage, public platform: Platform) {
+  constructor(public loadingCtrl: LoadingController, private alertCtrl: AlertController, public router: Router, public navParams: NavParams, public toastCtrl: ToastController, private http: HttpClient, private storage: Storage, public platform: Platform) {
   }
 
   ionViewDidLoad() {
@@ -30,7 +30,7 @@ export class SendMessagePage {
   }
 
   goBack() {
-    this.navCtrl.push(TabsPage, {
+    this.router.navigate(TabsPage, {
       status: 'signedIn'
     }); 
   }
@@ -115,8 +115,8 @@ export class SendMessagePage {
   }
 
   presentAlertSuccess(title: string, message: string) {
-    let alert = this.alertCtrl.create({
-      title: title,
+    let alert = await this.alertCtrl.create({
+      header: title,
       subTitle: message,
       buttons: [
         {
@@ -127,16 +127,16 @@ export class SendMessagePage {
         }
       ]
     });
-    alert.present();
+    await alert.present();
   }
 
   presentAlertFail(title: string, message: string) {
-    let alert = this.alertCtrl.create({
-      title: title,
+    let alert = await this.alertCtrl.create({
+      header: title,
       subTitle: message,
       buttons: ['رجوع']
     });
-    alert.present();
+    await alert.present();
   }
 
 }

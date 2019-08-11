@@ -4,7 +4,7 @@ import { TablePage } from '../table/table';
 import { AbsencePage } from '../absence/absence';
 import { ExamsPage } from '../exams/exams';
 import { DegreesPage } from '../degrees/degrees';
-import { Events } from 'ionic-angular';	
+import { Events } from '@ionic/angular';	
 
 
 @IonicPage()
@@ -21,7 +21,7 @@ export class StudentInfoPage {
 
   public student:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, 
+  constructor(public router: Router, public navParams: NavParams, 
     public config: Config, public events: Events) {
 
     this.config.set('tabsHideOnSubPages', false);
