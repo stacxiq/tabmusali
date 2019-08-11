@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { AlertController, Platform } from '@ionic/angular';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
-import { InstallmentsPage } from '../installments/installments';
 import { Events } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { Badge } from '@ionic-native/badge/ngx';

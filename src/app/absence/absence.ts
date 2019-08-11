@@ -1,71 +1,64 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Platform } from 'ionic-angular';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { NavParams, AlertController, Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-import { FCM } from '@ionic-native/fcm';
-import { NativeAudio } from '@ionic-native/native-audio';
-import { Events } from 'ionic-angular';
-import { InstallmentsPage } from '../installments/installments';
-import { Network } from '@ionic-native/network';
-import { Badge } from '@ionic-native/badge';
+import { FCM } from '@ionic-native/fcm/ngx';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
+import { Badge } from '@ionic-native/badge/ngx';
+import { Router } from '@angular/router';
 
-@IonicPage()
 @Component({
   selector: 'page-absence',
-  templateUrl: 'absence.html',
+  templateUrl: './absence.html',
+  styleUrls: ['./absence.scss'],
 })
 export class AbsencePage {
 
-  public installments:any[];
-  isLoggedIn:boolean = false;
-  isDelayed:boolean = false;
-  public promise;
-  isLoaded:boolean = false;
-  value:string = '';
-  selectedDay = new Date();
+  public installments: any[];
+  isLoggedIn: boolean = false;
+  isDelayed: boolean = false;
+  value: string = '';
   eventSource;
   viewTitle;
 
   calendar = {
     mode: 'month',
     dateFormatter: {
-      formatMonthViewDay: function(date:Date) {
-          return date.getDate().toString();
+      formatMonthViewDay: function (date: Date) {
+        return date.getDate().toString();
       },
-      formatMonthViewDayHeader: function(date:Date) {
-          return 'testMDH';
+      formatMonthViewDayHeader: function (date: Date) {
+        return 'testMDH';
       },
-      formatMonthViewTitle: function(date:Date) {
-          return 'testMT';
+      formatMonthViewTitle: function (date: Date) {
+        return 'testMT';
       },
-      formatWeekViewDayHeader: function(date:Date) {
-          return 'testWDH';
+      formatWeekViewDayHeader: function (date: Date) {
+        return 'testWDH';
       },
-      formatWeekViewTitle: function(date:Date) {
-          return 'testWT';
+      formatWeekViewTitle: function (date: Date) {
+        return 'testWT';
       },
-      formatWeekViewHourColumn: function(date:Date) {
-          return 'testWH';
+      formatWeekViewHourColumn: function (date: Date) {
+        return 'testWH';
       },
-      formatDayViewHourColumn: function(date:Date) {
-          return 'testDH';
+      formatDayViewHourColumn: function (date: Date) {
+        return 'testDH';
       },
-      formatDayViewTitle: function(date:Date) {
-          return 'testDT';
+      formatDayViewTitle: function (date: Date) {
+        return 'testDT';
       }
     },
     locale: 'ar-GB'
-  };        
+  };
 
-  public absences:any[];
-  public excuses:any[];
-  isConnected:boolean = true;
+  public absences: any[];
+  public excuses: any[];
+  isConnected: boolean = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, 
-    private http: Http, private storage: Storage, private fcm: FCM, private badge: Badge,
+  constructor(public router: Router, public navParams: NavParams,
+    private storage: Storage, private fcm: FCM, private badge: Badge,
     private nativeAudio: NativeAudio, private alertCtrl: AlertController,
-    public platform: Platform, public events: Events, private network: Network) {
+    public platform: Platform) {
 
     setInterval(() => {
       this.storage.get('isConnected').then((val) => {
@@ -78,8 +71,8 @@ export class AbsencePage {
 
       this.storage.get('selected').then((val) => {
         if (val != '' && val != null) {
-          this.value = val;   
-        } 
+          this.value = val;
+        }
       });
 
     }, 1000);
@@ -89,7 +82,7 @@ export class AbsencePage {
     } else {
       this.loadStudentData(this.value);
     }
-    
+
     if (platform.is('cordova')) {
 
       nativeAudio.preloadSimple('uniqueId1', 'assets/sound/demo.mp3').then(() => {
@@ -97,9 +90,9 @@ export class AbsencePage {
       }, (err) => {
         // alert(err);
       });
-  
+
       this.fcm.onNotification().subscribe(data => {
-        if(data.wasTapped){
+        if (data.wasTapped) {
           // alert("Received in background");
         } else {
           // alert("Received in foreground");
@@ -115,7 +108,7 @@ export class AbsencePage {
       if (val == 'true') {
         this.isLoggedIn = true;
       }
-    }); 
+    });
   }
 
   ionViewDidLoad() {
@@ -141,14 +134,14 @@ export class AbsencePage {
     }
   }
 
-  presentAlert(title, body) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      subTitle: '<div dir="rtl">' + body + '</div>',
+  async presentAlert(title, body) {
+    let alert = await this.alertCtrl.create({
+      header: title,
+      message: '<div dir="rtl">' + body + '</div>',
       buttons: ['رجوع']
     });
-    alert.present();
-    this.nativeAudio.play('uniqueId1').then(() => {}, () => {});
+    await alert.present();
+    this.nativeAudio.play('uniqueId1').then(() => { }, () => { });
   }
 
   loadStudentData(data) {
@@ -156,7 +149,7 @@ export class AbsencePage {
     this.excuses = data.student.excuses;
     this.getEvents(this.absences, this.excuses);
     this.installments = data.student.installment;
-    
+
     for (var j = 0; j < this.installments.length; j++) {
       if (this.installments[j].status == 'غير مدفوع') {
         this.isDelayed = true;
@@ -165,17 +158,17 @@ export class AbsencePage {
     }
   }
 
-  onCurrentDateChanged($event) {}
+  onCurrentDateChanged($event) { }
 
-  reloadSource(startTime, endTime) {}
+  reloadSource(startTime, endTime) { }
 
-  onEventSelected($event) {}
+  onEventSelected($event) { }
 
   onViewTitleChanged(title) {
     this.viewTitle = title;
   }
 
-  onTimeSelected($event) {}
+  onTimeSelected($event) { }
 
   getEvents(absences, excuses) {
     var events = [];
@@ -187,108 +180,101 @@ export class AbsencePage {
       endTime: new Date(absences[0].absences_1),
       allDay: false,
       color: colors[0]
-    }, 
-    {
-      title: 'غياب',
-      startTime: new Date(absences[0].absences_2),
-      endTime: new Date(absences[0].absences_2),
-      allDay: false,
-      color: colors[0]
     },
-    {
-      title: 'غياب',
-      startTime: new Date(absences[0].absences_3),
-      endTime: new Date(absences[0].absences_3),
-      allDay: false,
-      color: colors[0]
-    },
-    {
-      title: 'غياب',
-      startTime: new Date(absences[0].absences_4),
-      endTime: new Date(absences[0].absences_4),
-      allDay: false,
-      color: colors[0]
-    },
-    {
-      title: 'غياب',
-      startTime: new Date(absences[0].absences_5),
-      endTime: new Date(absences[0].absences_5),
-      allDay: false,
-      color: colors[0]
-    },
-    {
-      title: 'غياب',
-      startTime: new Date(absences[0].absences_6),
-      endTime: new Date(absences[0].absences_6),
-      allDay: false,
-      color: colors[0]
-    },
-    {
-      title: 'غياب',
-      startTime: new Date(absences[0].absences_7),
-      endTime: new Date(absences[0].absences_7),
-      allDay: false,
-      color: colors[0]
-    },
-    {
-      title: 'اجازة',
-      startTime: new Date(excuses[0].excuses_1),
-      endTime: new Date(excuses[0].excuses_1),
-      allDay: false,
-      color: colors[1]
-    },
-    {
-      title: 'اجازة',
-      startTime: new Date(absences[0].excuses_2),
-      endTime: new Date(absences[0].excuses_2),
-      allDay: false,
-      color: colors[1]
-    },
-    {
-      title: 'اجازة',
-      startTime: new Date(excuses[0].excuses_3),
-      endTime: new Date(excuses[0].excuses_3),
-      allDay: false,
-      color: colors[1]
-    },
-    {
-      title: 'اجازة',
-      startTime: new Date(excuses[0].excuses_4),
-      endTime: new Date(excuses[0].excuses_4),
-      allDay: false,
-      color: colors[1]
-    },
-    {
-      title: 'اجازة',
-      startTime: new Date(excuses[0].excuses_5),
-      endTime: new Date(excuses[0].excuses_5),
-      allDay: false,
-      color: colors[1]
-    },
-    {
-      title: 'اجازة',
-      startTime: new Date(excuses[0].excuses_6),
-      endTime: new Date(excuses[0].excuses_6),
-      allDay: false,
-      color: colors[1]
-    },
-   );
+      {
+        title: 'غياب',
+        startTime: new Date(absences[0].absences_2),
+        endTime: new Date(absences[0].absences_2),
+        allDay: false,
+        color: colors[0]
+      },
+      {
+        title: 'غياب',
+        startTime: new Date(absences[0].absences_3),
+        endTime: new Date(absences[0].absences_3),
+        allDay: false,
+        color: colors[0]
+      },
+      {
+        title: 'غياب',
+        startTime: new Date(absences[0].absences_4),
+        endTime: new Date(absences[0].absences_4),
+        allDay: false,
+        color: colors[0]
+      },
+      {
+        title: 'غياب',
+        startTime: new Date(absences[0].absences_5),
+        endTime: new Date(absences[0].absences_5),
+        allDay: false,
+        color: colors[0]
+      },
+      {
+        title: 'غياب',
+        startTime: new Date(absences[0].absences_6),
+        endTime: new Date(absences[0].absences_6),
+        allDay: false,
+        color: colors[0]
+      },
+      {
+        title: 'غياب',
+        startTime: new Date(absences[0].absences_7),
+        endTime: new Date(absences[0].absences_7),
+        allDay: false,
+        color: colors[0]
+      },
+      {
+        title: 'اجازة',
+        startTime: new Date(excuses[0].excuses_1),
+        endTime: new Date(excuses[0].excuses_1),
+        allDay: false,
+        color: colors[1]
+      },
+      {
+        title: 'اجازة',
+        startTime: new Date(absences[0].excuses_2),
+        endTime: new Date(absences[0].excuses_2),
+        allDay: false,
+        color: colors[1]
+      },
+      {
+        title: 'اجازة',
+        startTime: new Date(excuses[0].excuses_3),
+        endTime: new Date(excuses[0].excuses_3),
+        allDay: false,
+        color: colors[1]
+      },
+      {
+        title: 'اجازة',
+        startTime: new Date(excuses[0].excuses_4),
+        endTime: new Date(excuses[0].excuses_4),
+        allDay: false,
+        color: colors[1]
+      },
+      {
+        title: 'اجازة',
+        startTime: new Date(excuses[0].excuses_5),
+        endTime: new Date(excuses[0].excuses_5),
+        allDay: false,
+        color: colors[1]
+      },
+      {
+        title: 'اجازة',
+        startTime: new Date(excuses[0].excuses_6),
+        endTime: new Date(excuses[0].excuses_6),
+        allDay: false,
+        color: colors[1]
+      },
+    );
 
     this.eventSource = events;
-
-    // this.calendar.createCalendar('MyCalendar').then(
-    //   (msg) => { alert(msg); },
-    //   (err) => { alert(err); }
-    // );
-
-    // this.calendar.openCalendar(this.selectedDay);
   }
 
   goToInstallments() {
     this.storage.get('selected').then((val) => {
-      this.navCtrl.push(InstallmentsPage, {
+      this.router.navigate(['installments', {
         student: val
-      });
+      }]);
     });
-  } 
+  }
 }
