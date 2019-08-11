@@ -5,9 +5,10 @@ import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
-import { Network } from '@ionic-native/network';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
+import { Network } from '@ionic-native/network/ngx';
 import { Badge } from '@ionic-native/badge/ngx';
+import { Router } from '@angular/router';
 
 
 @Component({
