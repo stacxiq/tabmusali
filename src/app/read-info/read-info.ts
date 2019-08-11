@@ -1,35 +1,31 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController, Platform  } from 'ionic-angular';
+import { NavParams, LoadingController, AlertController, ToastController, Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
-
-import { InstallmentsPage } from '../installments/installments';
-import { Navbar } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs'
+import { Router } from '@angular/router';
 
-@IonicPage()
+
 @Component({
   selector: 'page-read-info',
   templateUrl: 'read-info.html',
 })
 export class ReadInfoPage {
 
-  public students:any[];
-  isLoggedIn:boolean = false;
-  isDelayed:boolean = false;
-  public installments:any[];
-  username:string = '';
-  password:string = '';
-  participant_id:string;
-  isLoaded:boolean = false;
-  value:string = '';
-  isIos:boolean = false;
-  isConnected:boolean = true;
+  public students: any[];
+  isLoggedIn: boolean = false;
+  isDelayed: boolean = false;
+  public installments: any[];
+  username: string = '';
+  password: string = '';
+  participant_id: string;
+  isLoaded: boolean = false;
+  value: string = '';
+  isIos: boolean = false;
+  isConnected: boolean = true;
 
   public studyInstructions: any;
   public registrationIntroduction: any;
-
-  @ViewChild(Navbar) navBar: Navbar;
 
   constructor(public loadingCtrl: LoadingController, private alertCtrl: AlertController, public toastCtrl: ToastController, private http: HttpClient, public router: Router, public navParams: NavParams,
     private storage: Storage, public platform: Platform) {
@@ -46,10 +42,10 @@ export class ReadInfoPage {
           }
         });
       }, 1000);
-      
+
       if (val == 'true') {
         this.isLoggedIn = true;
-    
+
         this.storage.get('username').then((val) => {
           this.username = val;
         });
@@ -65,13 +61,13 @@ export class ReadInfoPage {
         setInterval(() => {
           this.storage.get('selected').then((val) => {
             if (val != '' && val != null) {
-              this.value = val;      
-            } 
+              this.value = val;
+            }
           });
-  
+
           this.refreshInfo();
         }, 1000);
-    
+
       } else {
         this.isLoggedIn = false;
       }
@@ -82,26 +78,14 @@ export class ReadInfoPage {
     } else if (this.platform.is('android')) {
       this.isIos = false;
     }
-
-    this.platform.registerBackButtonAction(() => this.backButtonClick, 2)
   }
 
-  ionViewDidLoad() {
+  ngOnInit() {
     this.getRegistrationInformation();
 
-    this.setBackButtonAction()
   }
 
-  setBackButtonAction(){
-    this.navBar.backButtonClick = () => {
-     // this.navCtrl.pop();
-     alert('hello');
-    }
-  }
 
-  backButtonClick() {
-    alert('hello');
-  }
 
   ionViewWillLeave() {
     this.storage.set('num', 6);
@@ -120,7 +104,7 @@ export class ReadInfoPage {
       }
     });
   }
- 
+
   setInstallments(value) {
     if (value != '') {
       for (var j = 0; j < value.installment.length; j++) {
@@ -138,56 +122,55 @@ export class ReadInfoPage {
     if (this.isConnected) {
       this.storage.get('selected').then((val) => {
         if (val != null && val != '') {
-          this.router.navigate(InstallmentsPage, {
+          this.router.navigate(['installments', {
             student: val
-          });
+          }]);
         } else {
           this.storage.get('st_data').then((val) => {
             if (val != null) {
-              this.router.navigate(InstallmentsPage, {
+              this.router.navigate(['installments', {
                 student: val[0]
-              });
+              }]);
             }
           });
         }
-      }); 
+      });
     } else {
       this.storage.get('selected').then((val) => {
-        this.router.navigate(InstallmentsPage, {
+        this.router.navigate(['installments', {
           student: val
-        });
+        }]);
       });
     }
-  } 
+  }
 
   goBack() {
-    this.router.navigate(TabsPage, {
+    this.router.navigate(['tabs', {
       status: 'signedIn'
-    }); 
+    }]);
   }
 
   submit() {
-    this.navCtrl.pop(); 
+    this.router.navigate(['tabs']);
   }
 
-  getRegistrationInformation() {
-    let loading = this.loadingCtrl.create({
-      content: 'يرجى الانتظار'
+  async getRegistrationInformation() {
+    let loading = await this.loadingCtrl.create({
+      message: 'يرجى الانتظار'
     });
 
     loading.present();
 
     let link = `http://alawaail.com/_mobile_data/api/registration_information.php`;
     this.http.get(link)
-    .map(res => res.json())
-    .subscribe(data => {
-      loading.dismiss();
-      this.studyInstructions = data.registration_information[0].study_instructions;
-      this.studyInstructions = this.studyInstructions.replace(/(?:\r\n|\r|\n)/g, '<br />');
-      
-      this.registrationIntroduction = data.registration_information[1].registration_introduction; 
-    }, err => {
-      alert(err);
-    });
+      .subscribe(data => {
+        loading.dismiss();
+        this.studyInstructions = data[0].registration_information[0].study_instructions;
+        this.studyInstructions = this.studyInstructions.replace(/(?:\r\n|\r|\n)/g, '<br />');
+
+        this.registrationIntroduction = data[0].registration_information[1].registration_introduction;
+      }, err => {
+        alert(err);
+      });
   }
 }

@@ -1,92 +1,85 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavParams, AlertController, Platform } from '@ionic/angular';
-import { HttpClient } from '@angular/common/http';
-
 import { Storage } from '@ionic/storage';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { Events } from '@ionic/angular';
-import { window } from 'rxjs/operator/window';
-import { InstallmentsPage } from '../installments/installments';
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
-import { Network } from '@ionic-native/network';
 import { Badge } from '@ionic-native/badge/ngx';
+import { Router } from '@angular/router';
 
-@IonicPage()
 @Component({
   selector: 'page-table',
   templateUrl: 'table.html',
 })
-export class TablePage {
+export class TablePage implements OnInit {
 
-  public items:any[];
-  public students:any[];
-  public lessons:any[];
-  public installments:any[];
+  public items: any[];
+  public students: any[];
+  public lessons: any[];
+  public installments: any[];
 
-  public participant_id:number;
-  public username:string = '';
-  public password:string = '';
+  public participant_id: number;
+  public username: string = '';
+  public password: string = '';
 
-  public saturday1:string = '';
-  public saturday2:string = '';
-  public saturday3:string = '';
-  public saturday4:string = '';
-  public saturday5:string = '';
-  public saturday6:string = '';
-  public saturday7:string = '';
+  public saturday1: string = '';
+  public saturday2: string = '';
+  public saturday3: string = '';
+  public saturday4: string = '';
+  public saturday5: string = '';
+  public saturday6: string = '';
+  public saturday7: string = '';
 
-  public sunday1:string = '';
-  public sunday2:string = '';
-  public sunday3:string = '';
-  public sunday4:string = '';
-  public sunday5:string = '';
-  public sunday6:string = '';
-  public sunday7:string = '';
+  public sunday1: string = '';
+  public sunday2: string = '';
+  public sunday3: string = '';
+  public sunday4: string = '';
+  public sunday5: string = '';
+  public sunday6: string = '';
+  public sunday7: string = '';
 
-  public monday1:string = '';
-  public monday2:string = '';
-  public monday3:string = '';
-  public monday4:string = '';
-  public monday5:string = '';
-  public monday6:string = '';
-  public monday7:string = '';
+  public monday1: string = '';
+  public monday2: string = '';
+  public monday3: string = '';
+  public monday4: string = '';
+  public monday5: string = '';
+  public monday6: string = '';
+  public monday7: string = '';
 
-  public tuesday1:string = '';
-  public tuesday2:string = '';
-  public tuesday3:string = '';
-  public tuesday4:string = '';
-  public tuesday5:string = '';
-  public tuesday6:string = '';
-  public tuesday7:string = '';
+  public tuesday1: string = '';
+  public tuesday2: string = '';
+  public tuesday3: string = '';
+  public tuesday4: string = '';
+  public tuesday5: string = '';
+  public tuesday6: string = '';
+  public tuesday7: string = '';
 
-  public wednesday1:string = '';
-  public wednesday2:string = '';
-  public wednesday3:string = '';
-  public wednesday4:string = '';
-  public wednesday5:string = '';
-  public wednesday6:string = '';
-  public wednesday7:string = '';
+  public wednesday1: string = '';
+  public wednesday2: string = '';
+  public wednesday3: string = '';
+  public wednesday4: string = '';
+  public wednesday5: string = '';
+  public wednesday6: string = '';
+  public wednesday7: string = '';
 
-  public thursday1:string = '';
-  public thursday2:string = '';
-  public thursday3:string = '';
-  public thursday4:string = '';
-  public thursday5:string = '';
-  public thursday6:string = '';
-  public thursday7:string = '';
+  public thursday1: string = '';
+  public thursday2: string = '';
+  public thursday3: string = '';
+  public thursday4: string = '';
+  public thursday5: string = '';
+  public thursday6: string = '';
+  public thursday7: string = '';
 
-  isLoggedIn:boolean = false;
-  isDelayed:boolean = false;  
-  isLoaded:boolean = false;
-  value:string = '';
-  isConnected:boolean = true;
+  isLoggedIn: boolean = false;
+  isDelayed: boolean = false;
+  isLoaded: boolean = false;
+  value: string = '';
+  isConnected: boolean = true;
 
-  constructor(public router: Router, public navParams: NavParams, 
-    private http: HttpClient, private storage: Storage, private fcm: FCM, private badge: Badge,
+  constructor(public router: Router, public navParams: NavParams,
+    private storage: Storage, private fcm: FCM, private badge: Badge,
     private nativeAudio: NativeAudio, private alertCtrl: AlertController,
-    public platform: Platform, public events: Events, private network: Network, 
-    private sqlite: SQLite) {
+    public platform: Platform, public events: Events) {
 
     setInterval(() => {
       this.storage.get('isConnected').then((val) => {
@@ -99,8 +92,8 @@ export class TablePage {
 
       this.storage.get('selected').then((val) => {
         if (val != '' && val != null) {
-          this.value = val;      
-        } 
+          this.value = val;
+        }
       });
 
     }, 1000);
@@ -110,7 +103,7 @@ export class TablePage {
     } else {
       this.loadStudentData(this.value);
     }
-    
+
     if (platform.is('cordova')) {
       nativeAudio.preloadSimple('uniqueId1', 'assets/sound/demo.mp3').then(() => {
         // alert('okay');
@@ -119,7 +112,7 @@ export class TablePage {
       });
 
       this.fcm.onNotification().subscribe(data => {
-        if(data.wasTapped){
+        if (data.wasTapped) {
           // alert("Received in background");
         } else {
           // alert("Received in foreground");
@@ -132,14 +125,14 @@ export class TablePage {
 
     storage.get('isLoggedIn').then((val) => {
       console.log('val is', val);
-      
+
       if (val == 'true') {
         this.isLoggedIn = true;
       }
     });
   }
 
-  ionViewDidLoad() {
+  ngOnInit() {
     this.checkNetwork();
   }
 
@@ -169,7 +162,7 @@ export class TablePage {
       buttons: ['رجوع']
     });
     await alert.present();
-    this.nativeAudio.play('uniqueId1').then(() => {}, () => {});
+    this.nativeAudio.play('uniqueId1').then(() => { }, () => { });
   }
 
   loadStudentData(data) {
@@ -199,17 +192,17 @@ export class TablePage {
       this.saturday7 = this.lessons[j].saturday_7;
 
       if (this.lessons[j].saturday_1 == '' && this.lessons[j].saturday_2 == ''
-          && this.lessons[j].saturday_3 == '' && this.lessons[j].saturday_4 == ''
-          && this.lessons[j].saturday_5 == '' && this.lessons[j].saturday_6 == ''
-          && this.lessons[j].saturday_7 == '') {
-            this.saturday1 = '-';
-            this.saturday2 = '-';
-            this.saturday3 = '-';
-            this.saturday4 = '-';
-            this.saturday5 = '-';
-            this.saturday6 = '-';
-            this.saturday7 = '-';
-          }
+        && this.lessons[j].saturday_3 == '' && this.lessons[j].saturday_4 == ''
+        && this.lessons[j].saturday_5 == '' && this.lessons[j].saturday_6 == ''
+        && this.lessons[j].saturday_7 == '') {
+        this.saturday1 = '-';
+        this.saturday2 = '-';
+        this.saturday3 = '-';
+        this.saturday4 = '-';
+        this.saturday5 = '-';
+        this.saturday6 = '-';
+        this.saturday7 = '-';
+      }
 
       this.sunday1 = this.lessons[j].sunday_1;
       this.sunday2 = this.lessons[j].sunday_2;
@@ -220,9 +213,9 @@ export class TablePage {
       this.sunday7 = this.lessons[j].sunday_7;
 
       if (this.lessons[j].sunday1 == '' && this.lessons[j].sunday2 == ''
-      && this.lessons[j].sunday3 == '' && this.lessons[j].sunday4 == ''
-      && this.lessons[j].sunday5 == '' && this.lessons[j].sunday6 == ''
-      && this.lessons[j].sunday7 == '') {
+        && this.lessons[j].sunday3 == '' && this.lessons[j].sunday4 == ''
+        && this.lessons[j].sunday5 == '' && this.lessons[j].sunday6 == ''
+        && this.lessons[j].sunday7 == '') {
         this.sunday1 = '-';
         this.sunday2 = '-';
         this.sunday3 = '-';
@@ -241,9 +234,9 @@ export class TablePage {
       this.monday7 = this.lessons[j].monday_7;
 
       if (this.lessons[j].monday1 == '' && this.lessons[j].monday2 == ''
-      && this.lessons[j].monday3 == '' && this.lessons[j].monday4 == ''
-      && this.lessons[j].monday5 == '' && this.lessons[j].monday6 == ''
-      && this.lessons[j].monday7 == '') {
+        && this.lessons[j].monday3 == '' && this.lessons[j].monday4 == ''
+        && this.lessons[j].monday5 == '' && this.lessons[j].monday6 == ''
+        && this.lessons[j].monday7 == '') {
         this.monday1 = '-';
         this.monday2 = '-';
         this.monday3 = '-';
@@ -262,9 +255,9 @@ export class TablePage {
       this.tuesday7 = this.lessons[j].tuesday_7;
 
       if (this.lessons[j].tuesday1 == '' && this.lessons[j].tuesday2 == ''
-      && this.lessons[j].tuesday3 == '' && this.lessons[j].tuesday4 == ''
-      && this.lessons[j].tuesday5 == '' && this.lessons[j].tuesday6 == ''
-      && this.lessons[j].tuesday7 == '') {
+        && this.lessons[j].tuesday3 == '' && this.lessons[j].tuesday4 == ''
+        && this.lessons[j].tuesday5 == '' && this.lessons[j].tuesday6 == ''
+        && this.lessons[j].tuesday7 == '') {
         this.tuesday1 = '-';
         this.tuesday2 = '-';
         this.tuesday3 = '-';
@@ -283,9 +276,9 @@ export class TablePage {
       this.wednesday7 = this.lessons[j].wednesday_7;
 
       if (this.lessons[j].wednesday1 == '' && this.lessons[j].wednesday2 == ''
-      && this.lessons[j].wednesday3 == '' && this.lessons[j].wednesday4 == ''
-      && this.lessons[j].wednesday5 == '' && this.lessons[j].wednesday6 == ''
-      && this.lessons[j].wednesday7 == '') {
+        && this.lessons[j].wednesday3 == '' && this.lessons[j].wednesday4 == ''
+        && this.lessons[j].wednesday5 == '' && this.lessons[j].wednesday6 == ''
+        && this.lessons[j].wednesday7 == '') {
         this.wednesday1 = '-';
         this.wednesday2 = '-';
         this.wednesday3 = '-';
@@ -304,9 +297,9 @@ export class TablePage {
       this.thursday7 = this.lessons[j].thursday_7;
 
       if (this.lessons[j].thursday_1 == '' && this.lessons[j].thursday_2 == ''
-      && this.lessons[j].thursday_3 == '' && this.lessons[j].thursday_4 == ''
-      && this.lessons[j].thursday_5 == '' && this.lessons[j].thursday_6 == ''
-      && this.lessons[j].thursday_7 == '') {
+        && this.lessons[j].thursday_3 == '' && this.lessons[j].thursday_4 == ''
+        && this.lessons[j].thursday_5 == '' && this.lessons[j].thursday_6 == ''
+        && this.lessons[j].thursday_7 == '') {
         this.thursday1 = '-';
         this.thursday2 = '-';
         this.thursday3 = '-';
@@ -320,9 +313,9 @@ export class TablePage {
 
   goToInstallments() {
     this.storage.get('selected').then((val) => {
-      this.router.navigate(InstallmentsPage, {
+      this.router.navigate(['installments', {
         student: val
-      });
+      }]);
     });
-  } 
+  }
 }

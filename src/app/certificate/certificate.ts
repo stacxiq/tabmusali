@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, Platform, NavController, NavParams, AlertController } from 'ionic-angular';
+import { Platform, NavParams, AlertController } from '@ionic/angular';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { InstallmentsPage } from '../installments/installments';
@@ -8,8 +8,8 @@ import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
 
 import { Badge } from '@ionic-native/badge/ngx';
+import { Router } from '@angular/router';
 
-@IonicPage()
 @Component({
   selector: 'page-certificate',
   templateUrl: 'certificate.html',
@@ -92,8 +92,8 @@ export class CertificatePage {
     });
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad CertificatePage');
+  ngOnInit() {
+    console.log('ngOnInit CertificatePage');
   }
 
   ionViewWillLeave() {
@@ -146,28 +146,28 @@ export class CertificatePage {
     }
   }
 
-  goToInstallments(username, password, participant_id) {
+  goToInstallments() {
     if (this.isConnected) {
       this.storage.get('selected').then((val) => {
         if (val != null && val != '') {
-          this.router.navigate(InstallmentsPage, {
+          this.router.navigate(['installments', {
             student: val
-          });
+          }]);
         } else {
           this.storage.get('st_data').then((val) => {
             if (val != null) {
-              this.router.navigate(InstallmentsPage, {
+              this.router.navigate(['installments', {
                 student: val[0]
-              });
+              }]);
             }
           });
         }
       });
     } else {
       this.storage.get('selected').then((val) => {
-        this.router.navigate(InstallmentsPage, {
+        this.router.navigate(['installments', {
           student: val
-        });
+        }]);
       });
     }
   }

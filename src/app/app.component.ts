@@ -26,7 +26,7 @@ export class AppComponent {
   password: string = '';
   counter: number = 0;
 
-  constructor(platform: Platform, public events: Events, splashScreen: SplashScreen, private http: HttpClientClient,
+  constructor(platform: Platform, public events: Events, splashScreen: SplashScreen, private http: HttpClient,
     private storage: Storage,
     private badge: Badge, private statusBar: StatusBar) {
 

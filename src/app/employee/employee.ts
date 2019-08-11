@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, LoadingController, AlertController } from 'ionic-angular';
-import { TabsPage } from '../tabs/tabs'
+import { NavParams, ToastController, LoadingController, AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 
-@IonicPage()
+
 @Component({
   selector: 'page-employee',
   templateUrl: 'employee.html',
@@ -41,8 +41,8 @@ export class EmployeePage {
   constructor(private http: HttpClient, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, public router: Router, public navParams: NavParams) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EmployeePage');
+  ngOnInit() {
+    console.log('ngOnInit EmployeePage');
   }
 
   updatePolicy() {
@@ -77,7 +77,7 @@ export class EmployeePage {
     this.computerUse = computerUse;
   }
 
-  submit() {
+  async submit() {
     if (!this.school && !this.name && !this.gender && this.birthDate && !this.place && !this.study && !this.college && !this.dept && !this.year && !this.evaluation && !this.status && !this.children && !this.address && !this.phone_1 && !this.phone_2 && !this.question1 && !this.expYears && !this.question2 && !this.computerUse && !this.programming && !this.langs && !this.courses && !this.thanking && !this.hobbies && !this.question3) {
       this.showToast('الرجاء ادخال المعلومات المطلوبة');
       return;
@@ -208,21 +208,20 @@ export class EmployeePage {
       return;
     }
 
-    let loading = this.loadingCtrl.create({
-      content: 'جاري ارسال المعلومات'
+    let loading = await this.loadingCtrl.create({
+      message: 'جاري ارسال المعلومات'
     });
 
-    loading.present();
+    await loading.present();
 
     let link = `http://alawaail.com/_mobile_data/api/job.php?school=${this.school}&name=${this.name}&gender=${this.gender}&birthdate=${this.birthDate}&province=${this.place}&graduate=${this.year}&college=${this.college}&department=${this.dept}&year=${this.year}&grade=${this.study}&social_status=${this.status}&kids=${this.children}&address=${this.address}&phone_1=${this.phone_1}&phone_2=${this.phone_2}&experience=${this.question1}&experience_years=${this.expYears}&experience_location=${this.question2}&computer_skills=${this.computerUse}&computer_programs=${this.programming}&languages=${this.langs}&training_courses=${this.courses}&letter_of_thanks=${this.thanking}&hobbies=${this.hobbies}&reasons=${this.question3}`;
     this.http.get(link)
-      .map(res => res.json())
       .subscribe(data => {
 
         setTimeout(() => {
           loading.dismiss();
 
-          let job = data.job;
+          let job = data[0].job;
 
           let status = job[0].status;
 
@@ -239,25 +238,25 @@ export class EmployeePage {
       });
   }
 
-  showToast(title) {
-    let toast = this.toastCtrl.create({
+  async showToast(title) {
+    let toast = await this.toastCtrl.create({
       message: title,
       duration: 3000,
       position: 'bottom',
       cssClass: 'toast'
     });
-    toast.present();
+    await toast.present();
   }
 
-  presentAlertSuccess(title: string, message: string) {
+  async presentAlertSuccess(title: string, message: string) {
     let alert = await this.alertCtrl.create({
       header: title,
-      subTitle: message,
+      message: message,
       buttons: [
         {
           text: 'انهاء التسجيل',
           handler: () => {
-            this.navCtrl.pop();
+            this.router.navigate(['tabs']);
           }
         }
       ]
@@ -265,19 +264,19 @@ export class EmployeePage {
     await alert.present();
   }
 
-  presentAlertFail(title: string, message: string) {
+  async presentAlertFail(title: string, message: string) {
     let alert = await this.alertCtrl.create({
       header: title,
-      subTitle: message,
+      message: message,
       buttons: ['رجوع']
     });
     await alert.present();
   }
 
   goBack() {
-    this.router.navigate(TabsPage, {
+    this.router.navigate(['tabs', {
       status: 'signedIn'
-    });
+    }]);
   }
 
 }

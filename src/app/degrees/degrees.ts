@@ -1,21 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavParams, AlertController, Platform } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
-
-import { InstallmentsPage } from '../installments/installments';
 import { Storage } from '@ionic/storage';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { Events } from '@ionic/angular';
-import { NotificationPage } from '../notification/notification';
 import { Badge } from '@ionic-native/badge/ngx';
-import * as $ from 'jquery';
+import { Router } from '@angular/router';
 
-@IonicPage()
+
 @Component({
   selector: 'page-this.degrees',
   templateUrl: 'degrees.html',
 })
-export class DegreesPage {
+export class DegreesPage implements OnInit {
 
   public students: any[];
   public installments: any[];
@@ -97,7 +94,7 @@ export class DegreesPage {
     });
   }
 
-  ionViewDidLoad() {
+  ngOnInit() {
     this.checkNetwork();
   }
 
@@ -161,9 +158,9 @@ export class DegreesPage {
 
   goToInstallments() {
     this.storage.get('selected').then((val) => {
-      this.router.navigate(InstallmentsPage, {
+      this.router.navigate(['installments', {
         student: val
-      });
+      }]);
     });
   }
 }

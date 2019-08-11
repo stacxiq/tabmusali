@@ -9,7 +9,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Network } from '@ionic-native/network';
 import { Badge } from '@ionic-native/badge/ngx';
 
-@IonicPage()
+
 @Component({
   selector: 'page-installments',
   templateUrl: 'installments.html',
@@ -75,8 +75,8 @@ export class InstallmentsPage {
     });
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad InstallmentsPage');
+  ngOnInit() {
+    console.log('ngOnInit InstallmentsPage');
   }
 
   async increaseBadges(counter: number) {

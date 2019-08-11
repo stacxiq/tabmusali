@@ -4,8 +4,9 @@ import { FCM } from '@ionic-native/fcm/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { Storage } from '@ionic/storage';
 import { Badge } from '@ionic-native/badge/ngx';
+import { Router } from '@angular/router';
 
-@IonicPage()
+
 @Component({
   selector: 'page-notification-details',
   templateUrl: 'notification-details.html',
@@ -40,8 +41,8 @@ export class NotificationDetailsPage {
     }
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad NotificationDetailsPage');
+  ngOnInit() {
+    console.log('ngOnInit NotificationDetailsPage');
   }
 
   async increaseBadges(counter: number) {

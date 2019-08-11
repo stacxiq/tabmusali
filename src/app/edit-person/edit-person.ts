@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
-import { HomePage } from '../home/home';
+import { NavParams, AlertController } from '@ionic/angular';
 import { TabsPage } from '../tabs/tabs';
-import { MyApp } from '../../app/app.component';
-import { Platform, ToastController } from 'ionic-angular';
+import { Platform, ToastController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 
 import { Storage } from '@ionic/storage';
 import { Events } from '@ionic/angular';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
+import { Router } from '@angular/router';
 
-@IonicPage()
+
 @Component({
   selector: 'page-edit-person',
   templateUrl: 'edit-person.html',
@@ -65,8 +64,8 @@ export class EditPersonPage {
     }
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EditPersonPage');
+  ngOnInit() {
+    console.log('ngOnInit EditPersonPage');
   }
 
   async presentAlert(title, body) {
@@ -80,9 +79,9 @@ export class EditPersonPage {
   }
 
   goBack() {
-    this.router.navigate(TabsPage, {
+    this.router.navigate(['tabs', {
       status: 'signedIn'
-    });
+    }]);
   }
 
   submit() {
@@ -96,15 +95,14 @@ export class EditPersonPage {
 
   loadData(username, password) {
     this.http.get('http://alawaail.com/_mobile_data/api/retrieval.php?username=' + username + '&password=' + password)
-      .map(res => res.json())
       .subscribe(data => {
 
         // alert(JSON.stringify(data));
 
         // this.sName = data.login[0].name;
-        this.id = data.login[0].participant_id;
+        this.id = data[0].login[0].participant_id;
 
-        if (data.login[0].status == 'true') {
+        if (data[0].login[0].status == 'true') {
           this.storage.set('isLoggedIn', 'true');
           this.storage.set('username', username);
           this.storage.set('password', password);
@@ -118,9 +116,9 @@ export class EditPersonPage {
   }
 
   saveInfo(username, password, id) {
-    this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + id).map(res => res.text())
+    this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + id)
       .subscribe(data => {
-        var s = data.replace(/\\n/g, "\\n")
+        var s = data.toString().replace(/\\n/g, "\\n")
           .replace(/\\'/g, "\\'")
           .replace(/\\"/g, '\\"')
           .replace(/\\&/g, "\\&")
@@ -146,9 +144,9 @@ export class EditPersonPage {
         this.storage.set('school', this.school);
 
         this.events.publish('user:created', this.sName, this.stage, this.group, this.school, Date.now());
-        this.router.navigate(TabsPage, {
+        this.router.navigate(['tabs', {
           status: 'signedIn'
-        });
+        }]);
       });
   }
 
@@ -156,12 +154,12 @@ export class EditPersonPage {
     this.storage.set('fcm_token', token);
   }
 
-  showToast(title) {
-    let toast = this.toastCtrl.create({
+  async showToast(title) {
+    let toast = await this.toastCtrl.create({
       message: title,
       duration: 3000,
       position: 'top'
     });
-    toast.present();
+    await toast.present();
   }
 }

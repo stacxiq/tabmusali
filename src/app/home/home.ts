@@ -1,65 +1,58 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Platform, ToastController, AlertController, LoadingController, NavParams, Content } from 'ionic-angular';
-import { EditPersonPage } from '../edit-person/edit-person';
-import { DetailsPage } from '../details/details';
-import { InstallmentsPage } from '../installments/installments';
-import { NotificationPage } from '../notification/notification';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { Platform, ToastController, AlertController, LoadingController, NavParams } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-
-import { Events } from '@ionic/angular';	
-import 'rxjs/add/operator/catch';
+import { Events } from '@ionic/angular';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { Badge } from '@ionic-native/badge/ngx';
-import { isNumber } from 'ionic-angular/util/util';
-import { SendMessagePage } from '../send-message/send-message';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { IonContent } from '@ionic/angular';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-
-  @ViewChild(Content) content: Content;
+  @ViewChild(IonContent, { static: false }) content: IonContent;
 
   isIos: boolean = false;
-  isLoggedIn:boolean = false;
-  isDelayed:boolean = false;
-  username:string = '';
-  password:string = '';
-  participant_id:string;
-  public items:any[];
-  public students:any[];
-  public installments:any[];
-  isLoaded:boolean = false;
-  value:any = [];
-  isConnected:boolean = true;
-  isRefreshed:boolean = false;
-  counter:number = 0;
-  loader:any = this.loadingCtrl.create();
+  isLoggedIn: boolean = false;
+  isDelayed: boolean = false;
+  username: string = '';
+  password: string = '';
+  participant_id: string;
+  public items: any[];
+  public students: any[];
+  public installments: any[];
+  isLoaded: boolean = false;
+  value: any = [];
+  isConnected: boolean = true;
+  isRefreshed: boolean = false;
+  counter: number = 0;
+  loader: any = this.loadingCtrl.create();
 
-  constructor(public router: Router, private fcm: FCM, private nativeAudio: NativeAudio, 
-    public toastCtrl: ToastController, public events: Events, public plt: Platform, private http: HttpClient, 
+  constructor(public router: Router, private fcm: FCM, private nativeAudio: NativeAudio,
+    public toastCtrl: ToastController, public events: Events, public plt: Platform, private http: HttpClient,
     private storage: Storage, private alertCtrl: AlertController, private badge: Badge,
     public loadingCtrl: LoadingController, public navParams: NavParams) {
 
     if (plt.is('cordova')) {
-    
+
       plt.ready().then(() => {
 
         this.nativeAudio.preloadSimple('uniqueId1', 'assets/sound/demo.mp3');
 
         this.fcm.onNotification().subscribe(data => {
-          if(data.wasTapped){
+          if (data.wasTapped) {
             this.storage.get('username').then((val) => {
               this.username = val;
             });
-    
+
             this.storage.get('password').then((val) => {
               this.password = val;
             });
-    
+
             this.storage.get('participant_id').then((val) => {
               this.participant_id = val;
               this.updateInfo(this.username, this.password, this.participant_id);
@@ -75,11 +68,11 @@ export class HomePage {
           this.storage.get('username').then((val) => {
             this.username = val;
           });
-  
+
           this.storage.get('password').then((val) => {
             this.password = val;
           });
-  
+
           this.storage.get('participant_id').then((val) => {
             this.participant_id = val;
             this.updateInfo(this.username, this.password, this.participant_id);
@@ -92,7 +85,7 @@ export class HomePage {
 
     storage.get('isLoggedIn').then((val) => {
       console.log('val is', val);
-      
+
       if (val == 'true') {
         this.isLoggedIn = true;
 
@@ -114,18 +107,18 @@ export class HomePage {
 
           this.storage.get('selected').then((val) => {
             if (val != '' && val != null) {
-              this.value = val;      
-            } 
+              this.value = val;
+            }
           });
 
           this.storage.get('num').then((val) => {
             if (val != '' && val != null) {
-              if (isNumber(val)) {
+              if (this.isNumber(val)) {
                 this.setSubscribe();
-              }     
-            } 
+              }
+            }
           });
-  
+
           this.getBadges();
         }, 1000);
 
@@ -159,12 +152,12 @@ export class HomePage {
     });
   }
 
-  ionViewDidLoad() {
+  ngOnInit() {
     this.checkNetwork();
     this.getBadges();
   }
 
-  ionViewDidEnter() {
+  ngAfterViewInit() {
     this.setSubscribe();
     this.getBadges();
   }
@@ -176,13 +169,13 @@ export class HomePage {
   setSubscribe() {
     this.fcm.onNotification().subscribe(data => {
       //alert(JSON.stringify(data));
-      if(data.wasTapped){
+      if (data.wasTapped) {
         // alert("Received in background");
         this.storage.get('selected').then((val) => {
-          this.router.navigate(NotificationPage, {
+          this.router.navigate(['notification', {
             student: val,
             push: 'background'
-          }).catch(e => console.log(e));
+          }]).catch(e => console.log(e));
         });
       } else {
         //alert("Received in foreground");
@@ -233,11 +226,11 @@ export class HomePage {
     this.storage.get('fcm_token').then((val2) => {
       this.storage.get('participant_id').then((participant_id) => {
         let url = 'http://alawaail.com/_mobile_data/api/pick.php?participant_id=' + participant_id + '&token=' + val2;
-        this.http.get(url).map(res => res.text())
-        .subscribe(data => {
-          // alert(data);
-          // console.log('res', data);
-        });
+        this.http.get(url)
+          .subscribe(data => {
+            // alert(data);
+            // console.log('res', data);
+          });
       });
     });
   }
@@ -253,15 +246,15 @@ export class HomePage {
       buttons: ['رجوع']
     });
     await alert.present();
-    this.nativeAudio.play('uniqueId1').then(() => {}, () => {});
+    this.nativeAudio.play('uniqueId1').then(() => { }, () => { });
   }
 
   goBack() {
-    this.navCtrl.pop();
+    this.router.navigate(['tabs']);
   }
 
   signin() {
-    this.router.navigate(EditPersonPage);
+    this.router.navigate(['edit-person']);
   }
 
   loadData() {
@@ -275,41 +268,40 @@ export class HomePage {
       this.loader.dismiss();
     }
 
-    this.http.get('http://alawaail.com/_mobile_data/api/retrieval.php?operation=news').map(res => res.text())
-    .subscribe(data => {
-      
-      if (data != null && data != '') {
-        var s = data.replace(/\\n/g, "\\n")  
-        .replace(/\\'/g, "\\'")
-        .replace(/\\"/g, '\\"')
-        .replace(/\\&/g, "\\&")
-        .replace(/\\r/g, "\\r")
-        .replace(/\\t/g, "\\t")
-        .replace(/\\b/g, "\\b")
-        .replace(/\\f/g, "\\f");
-        // remove non-printable and other non-valid JSON chars
-        // s = s.replace(/[\u0000-\u0019]+/g,""); 
-        s = s.replace(/(?:\r\n|\r|\n)/g, '<br/>');
-        var d = JSON.parse(s);
-  
-        this.items = [];
-        this.items = d.news;
-        this.storage.set('news_list', this.items);
+    this.http.get('http://alawaail.com/_mobile_data/api/retrieval.php?operation=news')
+      .subscribe(data => {
+        if (data != null && data != '') {
+          var s = data.toString().replace(/\\n/g, "\\n")
+            .replace(/\\'/g, "\\'")
+            .replace(/\\"/g, '\\"')
+            .replace(/\\&/g, "\\&")
+            .replace(/\\r/g, "\\r")
+            .replace(/\\t/g, "\\t")
+            .replace(/\\b/g, "\\b")
+            .replace(/\\f/g, "\\f");
+          // remove non-printable and other non-valid JSON chars
+          // s = s.replace(/[\u0000-\u0019]+/g,""); 
+          s = s.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+          var d = JSON.parse(s);
 
-        // alert(JSON.stringify(this.items));
+          this.items = [];
+          this.items = d.news;
+          this.storage.set('news_list', this.items);
 
-        this.loader.dismiss();
-      } 
+          // alert(JSON.stringify(this.items));
 
-    }, error => {
-      console.log('xxx', error);
-    });
+          this.loader.dismiss();
+        }
+
+      }, error => {
+        console.log('xxx', error);
+      });
   }
 
   doRefresh(refresher) {
     this.isRefreshed = true;
     console.log('Begin async operation', refresher);
-    this.loadData(); 
+    this.loadData();
 
     setTimeout(() => {
       this.isRefreshed = false;
@@ -319,34 +311,34 @@ export class HomePage {
   }
 
   loadStudentData(username, password, participant_id) {
-    this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + participant_id).map(res => res.text())
-    .subscribe(data => {
-      if (data != null && data != '') {
-        var s = data.replace(/\\n/g, "\\n")  
-        .replace(/\\'/g, "\\'")
-        .replace(/\\"/g, '\\"')
-        .replace(/\\&/g, "\\&")
-        .replace(/\\r/g, "\\r")
-        .replace(/\\t/g, "\\t")
-        .replace(/\\b/g, "\\b")
-        .replace(/\\f/g, "\\f");
-        // remove non-printable and other non-valid JSON chars
-        s = s.replace(/(?:\r\n|\r|\n)/g, '<br/>');
-        s = s.replace(/[\u0000-\u0019]+/g,""); 
-        var d = JSON.parse(s);
-      
-        this.students = d.accountData[0].students;
-        this.storage.set('st_data', this.students);
-        
-        this.installments = this.students[0].installment;
-  
-        this.storage.get('installs').then((val) => {
-          if (val == null) {
-            this.storage.set('installs', this.installments);
-          }
-        });
-      }
-    });
+    this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + participant_id)
+      .subscribe(data => {
+        if (data != null && data != '') {
+          var s = data.toString().replace(/\\n/g, "\\n")
+            .replace(/\\'/g, "\\'")
+            .replace(/\\"/g, '\\"')
+            .replace(/\\&/g, "\\&")
+            .replace(/\\r/g, "\\r")
+            .replace(/\\t/g, "\\t")
+            .replace(/\\b/g, "\\b")
+            .replace(/\\f/g, "\\f");
+          // remove non-printable and other non-valid JSON chars
+          s = s.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+          s = s.replace(/[\u0000-\u0019]+/g, "");
+          var d = JSON.parse(s);
+
+          this.students = d.accountData[0].students;
+          this.storage.set('st_data', this.students);
+
+          this.installments = this.students[0].installment;
+
+          this.storage.get('installs').then((val) => {
+            if (val == null) {
+              this.storage.set('installs', this.installments);
+            }
+          });
+        }
+      });
   }
 
   getFromCache() {
@@ -374,42 +366,42 @@ export class HomePage {
   }
 
   updateInfo(username, password, participant_id) {
-    this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + participant_id).map(res => res.text())
-    .subscribe(data => {
-      if (data != null && data != '') {
-        var s = data.replace(/\\n/g, "\\n")  
-        .replace(/\\'/g, "\\'")
-        .replace(/\\"/g, '\\"')
-        .replace(/\\&/g, "\\&")
-        .replace(/\\r/g, "\\r")
-        .replace(/\\t/g, "\\t")
-        .replace(/\\b/g, "\\b")
-        .replace(/\\f/g, "\\f");
-        // remove non-printable and other non-valid JSON chars
-        s = s.replace(/[\u0000-\u0019]+/g,""); 
-        var d = JSON.parse(s);
-      
-        this.students = d.accountData[0].students;
+    this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + participant_id)
+      .subscribe(data => {
+        if (data != null && data != '') {
+          var s = data.toString().replace(/\\n/g, "\\n")
+            .replace(/\\'/g, "\\'")
+            .replace(/\\"/g, '\\"')
+            .replace(/\\&/g, "\\&")
+            .replace(/\\r/g, "\\r")
+            .replace(/\\t/g, "\\t")
+            .replace(/\\b/g, "\\b")
+            .replace(/\\f/g, "\\f");
+          // remove non-printable and other non-valid JSON chars
+          s = s.replace(/[\u0000-\u0019]+/g, "");
+          var d = JSON.parse(s);
 
-        this.storage.get('selected').then((val) => {
-          if (val != null && val != '') {
-            for (var i = 0; i < this.students.length; i++) {
-              if (this.students[i].name == val.name) {
-                this.storage.set('selected', this.students[i]);
-                break;
+          this.students = d.accountData[0].students;
+
+          this.storage.get('selected').then((val) => {
+            if (val != null && val != '') {
+              for (var i = 0; i < this.students.length; i++) {
+                if (this.students[i].name == val.name) {
+                  this.storage.set('selected', this.students[i]);
+                  break;
+                }
+              }
+            } else {
+              for (i = 0; i < this.students.length; i++) {
+                if (this.students[i].name == this.students[0].name) {
+                  this.storage.set('selected', this.students[i]);
+                  break;
+                }
               }
             }
-          } else {
-            for (i = 0; i < this.students.length; i++) {
-              if (this.students[i].name == this.students[0].name) {
-                this.storage.set('selected', this.students[i]);
-                break;
-              }
-            }
-          }
-        }); 
-      }
-    });
+          });
+        }
+      });
   }
 
   setInstallments(value) {
@@ -426,32 +418,32 @@ export class HomePage {
   }
 
   viewMore(item) {
-    this.router.navigate(DetailsPage, {
+    this.router.navigate(['details', {
       item: item,
-    }).then().catch((e) => alert(e));
+    }]).then().catch((e) => alert(e));
   }
 
   goToNotifications() {
     if (this.isConnected) {
       this.storage.get('selected').then((val) => {
         if (val != null && val != '') {
-          this.router.navigate(NotificationPage, {
+          this.router.navigate(['notification', {
             student: val,
             push: 'bb'
-          });
+          }]);
         } else {
-          this.router.navigate(NotificationPage, {
+          this.router.navigate(['notification', {
             student: this.students[0],
             push: 'bb'
-          });
+          }]);
         }
       });
     } else {
       this.storage.get('selected').then((val) => {
-        this.router.navigate(NotificationPage, {
+        this.router.navigate(['notification', {
           student: val,
           push: 'bb'
-        });
+        }]);
       });
     }
   }
@@ -460,23 +452,23 @@ export class HomePage {
     if (this.isConnected) {
       this.storage.get('selected').then((val) => {
         if (val != null && val != '') {
-          this.router.navigate(InstallmentsPage, {
+          this.router.navigate(['installments', {
             student: val
-          });
+          }]);
         } else {
-          this.router.navigate(InstallmentsPage, {
+          this.router.navigate(['installments', {
             student: this.students[0]
-          });
+          }]);
         }
-      }); 
+      });
     } else {
       this.storage.get('selected').then((val) => {
-        this.router.navigate(InstallmentsPage, {
+        this.router.navigate(['installments', {
           student: val
-        });
+        }]);
       });
     }
-  } 
+  }
 
   async setBadges(counter: number) {
     try {
@@ -508,55 +500,55 @@ export class HomePage {
   }
 
   goToMessage() {
-    this.router.navigate(SendMessagePage);
+    this.router.navigate(['send-message']);
   }
 
   async checkStatus(userId) {
     let url = 'http://alawaail.com/_mobile_data/api/login_status.php';
 
-    let headers = new Headers();
-
-    let options = new RequestOptions({ headers: headers });
-
     let data = new FormData();
     data.append('operation', 'check');
     data.append('id', userId);
 
-    await this.http.post(url, data, options) 
-    .map(res => res.text())
-    .subscribe(data => {
-      var s = data.replace(/\\n/g, "\\n")  
-      .replace(/\\'/g, "\\'")
-      .replace(/\\"/g, '\\"')
-      .replace(/\\&/g, "\\&")
-      .replace(/\\r/g, "\\r")
-      .replace(/\\t/g, "\\t")
-      .replace(/\\b/g, "\\b")
-      .replace(/\\f/g, "\\f");
+    await this.http.post(url, data)
 
-      s = s.replace(/[\u0000-\u0019]+/g,""); 
-      let jsonData = JSON.parse(s);
+      .subscribe(data => {
+        var s = data.toString().replace(/\\n/g, "\\n")
+          .replace(/\\'/g, "\\'")
+          .replace(/\\"/g, '\\"')
+          .replace(/\\&/g, "\\&")
+          .replace(/\\r/g, "\\r")
+          .replace(/\\t/g, "\\t")
+          .replace(/\\b/g, "\\b")
+          .replace(/\\f/g, "\\f");
 
-      let response = jsonData.login_status[0].status;
+        s = s.replace(/[\u0000-\u0019]+/g, "");
+        let jsonData = JSON.parse(s);
 
-      if (response == 'logged_in') {
-        //alert('here1');
-        return;
-      } else if (response == 'logged_out') {
-        //alert('here2');
-        this.events.publish('user:removed', '', Date.now());
-        // this.storage.set('st_data', '');
-        this.storage.set('selected', '');
-        this.storage.set('installs', '');
-        this.storage.set('news', '');
-        this.storage.set('events', '');
+        let response = jsonData.login_status[0].status;
 
-        this.storage.set('isLoggedIn', 'false');
-        this.isLoggedIn = false; 
-      }
+        if (response == 'logged_in') {
+          //alert('here1');
+          return;
+        } else if (response == 'logged_out') {
+          //alert('here2');
+          this.events.publish('user:removed', '', Date.now());
+          // this.storage.set('st_data', '');
+          this.storage.set('selected', '');
+          this.storage.set('installs', '');
+          this.storage.set('news', '');
+          this.storage.set('events', '');
 
-    }, error => {
-      // this.loader.dismiss();
-    });
+          this.storage.set('isLoggedIn', 'false');
+          this.isLoggedIn = false;
+        }
+
+      }, error => {
+        // this.loader.dismiss();
+      });
+  }
+
+  isNumber(value: string | number): boolean {
+    return ((value != null) && !isNaN(Number(value.toString())));
   }
 }

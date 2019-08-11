@@ -105,7 +105,7 @@ export class AboutSchoolPage {
     }
   }
 
-  async async presentAlert(title, body) {
+  async presentAlert(title, body) {
     let alert = await await this.alertCtrl.create({
       header: title,
       message: '<div dir="rtl">' + body + '</div>',

@@ -7,10 +7,11 @@ import { FCM } from '@ionic-native/fcm/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { Events } from '@ionic/angular';
 import { InstallmentsPage } from '../installments/installments';
-import { Network } from '@ionic-native/network';
+import { Network } from '@ionic-native/network/ngx';
 import { Badge } from '@ionic-native/badge/ngx';
+import { Router } from '@angular/router';
 
-@IonicPage()
+
 @Component({
   selector: 'page-exams',
   templateUrl: 'exams.html',
@@ -83,7 +84,7 @@ export class ExamsPage {
     });
   }
 
-  ionViewDidLoad() {
+  ngOnInit() {
     this.checkNetwork();
   }
 
@@ -130,9 +131,9 @@ export class ExamsPage {
 
   goToInstallments() {
     this.storage.get('selected').then((val) => {
-      this.router.navigate(InstallmentsPage, {
+      this.router.navigate(['installments', {
         student: val
-      });
+      }]);
     });
   }
 }

@@ -88,8 +88,8 @@ export class AcceptancePage {
     });
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AcceptancePage');
+  ngOnInit() {
+    console.log('ngOnInit AcceptancePage');
   }
 
   ionViewWillLeave() {

@@ -1,26 +1,18 @@
-import { Component, ViewChild } from '@angular/core';
-import { NavController, Platform, AlertController, LoadingController, Content } from 'ionic-angular';
-import { EditPersonPage } from '../edit-person/edit-person';
-import { DetailsPage } from '../details/details';
-import { InstallmentsPage } from '../installments/installments';
-import { NotificationPage } from '../notification/notification';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { Platform, AlertController, LoadingController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-
 import { Events } from '@ionic/angular';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { Badge } from '@ionic-native/badge/ngx';
-import { isNumber } from 'ionic-angular/util/util';
-import { SendMessagePage } from '../send-message/send-message';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'page-contact',
   templateUrl: 'contact.html'
 })
-export class ContactPage {
-
-  @ViewChild(Content) content: Content;
+export class ContactPage implements OnInit, AfterViewInit {
 
   isIos: boolean = false;
   isLoggedIn: boolean = false;
@@ -121,7 +113,7 @@ export class ContactPage {
 
           this.storage.get('num').then((val) => {
             if (val != '' && val != null) {
-              if (isNumber(val)) {
+              if (this.isNumber(val)) {
                 this.setSubscribe();
               }
             }
@@ -159,12 +151,12 @@ export class ContactPage {
     });
   }
 
-  ionViewDidLoad() {
+  ngOnInit() {
     this.checkNetwork();
     this.getBadges();
   }
 
-  ionViewDidEnter() {
+  ngAfterViewInit() {
     this.setSubscribe();
     this.getBadges();
   }
@@ -174,10 +166,10 @@ export class ContactPage {
       if (data.wasTapped) {
         console.log("Received in background");
         this.storage.get('selected').then((val) => {
-          this.router.navigate(NotificationPage, {
+          this.router.navigate(['notification', {
             student: val,
             push: 'background'
-          }).catch(e => console.log(e));
+          }]).catch(e => console.log(e));
         });
       } else {
         // alert("Received in foreground");
@@ -226,7 +218,7 @@ export class ContactPage {
   }
 
   signin() {
-    this.router.navigate(EditPersonPage).then(
+    this.router.navigate(['']).then(
       response => {
         console.log('Response ' + response);
       },
@@ -249,10 +241,10 @@ export class ContactPage {
       this.loader.dismiss();
     }
 
-    this.http.get('http://alawaail.com/_mobile_data/api/retrieval.php?operation=events').map(res => res.text())
+    this.http.get('http://alawaail.com/_mobile_data/api/retrieval.php?operation=events')
       .subscribe(data => {
         this.items = [];
-        var s = data.replace(/\\n/g, "\\n")
+        var s = data.toString().replace(/\\n/g, "\\n")
           .replace(/\\'/g, "\\'")
           .replace(/\\"/g, '\\"')
           .replace(/\\&/g, "\\&")
@@ -288,11 +280,10 @@ export class ContactPage {
   }
 
   loadStudentData(username, password, participant_id) {
-    this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + participant_id).map(res => res.text())
+    this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + participant_id)
       .subscribe(data => {
-
         if (data != null && data != null) {
-          var s = data.replace(/\\n/g, "\\n")
+          var s = data.toString().replace(/\\n/g, "\\n")
             .replace(/\\'/g, "\\'")
             .replace(/\\"/g, '\\"')
             .replace(/\\&/g, "\\&")
@@ -338,10 +329,10 @@ export class ContactPage {
   }
 
   updateInfo(username, password, participant_id) {
-    this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + participant_id).map(res => res.text())
+    this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + participant_id)
       .subscribe(data => {
         if (data != null && data != '') {
-          var s = data.replace(/\\n/g, "\\n")
+          var s = data.toString().replace(/\\n/g, "\\n")
             .replace(/\\'/g, "\\'")
             .replace(/\\"/g, '\\"')
             .replace(/\\&/g, "\\&")
@@ -390,29 +381,29 @@ export class ContactPage {
   }
 
   viewMore(item) {
-    this.router.navigate(DetailsPage, {
+    this.router.navigate(['details', {
       item: item,
-    }).then().catch((e) => alert(e));
+    }]).then().catch((e) => alert(e));
   }
 
   goToNotifications() {
     if (this.isConnected2) {
       this.storage.get('selected').then((val) => {
         if (val != null && val != '') {
-          this.router.navigate(NotificationPage, {
+          this.router.navigate(['notification', {
             student: val
-          });
+          }]);
         } else {
-          this.router.navigate(NotificationPage, {
+          this.router.navigate(['notification', {
             student: this.students[0]
-          });
+          }]);
         }
       });
     } else {
       this.storage.get('selected').then((val) => {
-        this.router.navigate(NotificationPage, {
+        this.router.navigate(['notification', {
           student: val
-        });
+        }]);
       });
     }
   }
@@ -421,21 +412,21 @@ export class ContactPage {
     if (this.isConnected2) {
       this.storage.get('selected').then((val) => {
         if (val != null && val != '') {
-          this.router.navigate(InstallmentsPage, {
+          this.router.navigate(['installments', {
             student: val
-          });
+          }]);
         } else {
-          this.router.navigate(InstallmentsPage, {
+          this.router.navigate(['installments', {
             student: this.students[0]
-          });
+          }]);
         }
       });
     } else {
       this.storage.get('selected').then((val) => {
         if (val != null) {
-          this.router.navigate(InstallmentsPage, {
+          this.router.navigate(['installments', {
             student: val
-          });
+          }]);
         }
       });
     }
@@ -471,24 +462,19 @@ export class ContactPage {
   }
 
   goToMessage() {
-    this.router.navigate(SendMessagePage);
+    this.router.navigate(['send-message']);
   }
 
   async checkStatus(userId) {
     let url = 'http://alawaail.com/_mobile_data/api/login_status.php';
 
-    let headers = new Headers();
-
-    let options = new RequestOptions({ headers: headers });
-
     let data = new FormData();
     data.append('operation', 'check');
     data.append('id', userId);
 
-    await this.http.post(url, data, options)
-      .map(res => res.text())
+    await this.http.post(url, data)
       .subscribe(data => {
-        var s = data.replace(/\\n/g, "\\n")
+        var s = data.toString().replace(/\\n/g, "\\n")
           .replace(/\\'/g, "\\'")
           .replace(/\\"/g, '\\"')
           .replace(/\\&/g, "\\&")
@@ -521,5 +507,8 @@ export class ContactPage {
       }, error => {
         // this.loader.dismiss();
       });
+  }
+  isNumber(value: string | number): boolean {
+    return ((value != null) && !isNaN(Number(value.toString())));
   }
 }

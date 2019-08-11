@@ -7,12 +7,11 @@ import { Storage } from '@ionic/storage';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { Events } from '@ionic/angular';
-import { InstallmentsPage } from '../installments/installments';
-import { Network } from '@ionic-native/network';
+import { Network } from '@ionic-native/network/ngx';
 import { Badge } from '@ionic-native/badge/ngx';
-import { Jsonp } from '@angular/http/src/http';
+import { Router } from '@angular/router';
 
-@IonicPage()
+
 @Component({
   selector: 'page-notification',
   templateUrl: 'notification.html',
@@ -119,8 +118,8 @@ export class NotificationPage {
     });
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad NotificationPage');
+  ngOnInit() {
+    console.log('ngOnInit NotificationPage');
   }
 
   playSound() {
@@ -133,7 +132,7 @@ export class NotificationPage {
 
   clearBadge(participant_id) {
     let url = 'http://alawaail.com/_mobile_data/api/clear.php?participant_id=' + participant_id;
-    this.http.get(url).map(res => res.text())
+    this.http.get(url)
       .subscribe(data => {
         console.log(data);
       });
@@ -150,9 +149,9 @@ export class NotificationPage {
   }
 
   loadStudentData(username, password, participant_id) {
-    this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + participant_id).map(res => res.text())
+    this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + participant_id)
       .subscribe(data => {
-        var s = data.replace(/\\n/g, "\\n")
+        var s = data.toString().replace(/\\n/g, "\\n")
           .replace(/\\'/g, "\\'")
           .replace(/\\"/g, '\\"')
           .replace(/\\&/g, "\\&")
@@ -192,9 +191,9 @@ export class NotificationPage {
   }
 
   goToDetails(item) {
-    this.router.navigate(NotificationDetailsPage, {
+    this.router.navigate(['notification-details', {
       item: item
-    });
+    }]);
   }
 
   refreshInfo() {
@@ -227,24 +226,24 @@ export class NotificationPage {
     if (this.isConnected) {
       this.storage.get('selected').then((val) => {
         if (val != null && val != '') {
-          this.router.navigate(InstallmentsPage, {
+          this.router.navigate(['installments', {
             student: val
-          });
+          }]);
         } else {
           this.storage.get('st_data').then((val) => {
             if (val != null) {
-              this.router.navigate(InstallmentsPage, {
+              this.router.navigate(['installments', {
                 student: val[0]
-              });
+              }]);
             }
           });
         }
       });
     } else {
       this.storage.get('selected').then((val) => {
-        this.router.navigate(InstallmentsPage, {
+        this.router.navigate(['installments', {
           student: val
-        });
+        }]);
       });
     }
   }

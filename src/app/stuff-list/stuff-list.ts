@@ -1,38 +1,36 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, Platform } from 'ionic-angular';
+import { NavParams, AlertController, LoadingController, Platform } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 
 import { FCM } from '@ionic-native/fcm/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
-import { InstallmentsPage } from '../installments/installments';
 import { Events } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { Badge } from '@ionic-native/badge/ngx';
-import { StuffDetailsPage } from '../stuff-details/stuff-details';
+import { Router } from '@angular/router';
 
-@IonicPage()
 @Component({
   selector: 'page-stuff-list',
   templateUrl: 'stuff-list.html',
 })
 export class StuffListPage {
-	private url = 'http://alawaail.com/_mobile_data/api/staffs.php';
+  private url = 'http://alawaail.com/_mobile_data/api/staffs.php';
   public flag: number = 0;
-  public items:any[];
-  isLoaded:boolean = false;
-  value:string = '';
-  isConnected:boolean = true;
-  public students:any[];
-  isLoggedIn:boolean = false;
-  isDelayed:boolean = false;
-  public installments:any[];
-  username:string = '';
-  password:string = '';
-  participant_id:string;
-  loader:any = this.loadingCtrl.create();
+  public items: any[];
+  isLoaded: boolean = false;
+  value: string = '';
+  isConnected: boolean = true;
+  public students: any[];
+  isLoggedIn: boolean = false;
+  isDelayed: boolean = false;
+  public installments: any[];
+  username: string = '';
+  password: string = '';
+  participant_id: string;
+  loader: any = this.loadingCtrl.create();
 
-  constructor(public router: Router, public navParams: NavParams, 
-    private http: HttpClient, private fcm: FCM, private nativeAudio: NativeAudio, 
+  constructor(public router: Router, public navParams: NavParams,
+    private http: HttpClient, private fcm: FCM, private nativeAudio: NativeAudio,
     private alertCtrl: AlertController, public platform: Platform, private badge: Badge,
     private storage: Storage, public events: Events, public loadingCtrl: LoadingController) {
 
@@ -45,16 +43,16 @@ export class StuffListPage {
       }, (err) => {
         // alert(err);
       });
-  
+
       this.fcm.onNotification().subscribe(data => {
-        if(data.wasTapped){
+        if (data.wasTapped) {
           // alert("Received in background");
         } else {
           // alert("Received in foreground");
           // this.presentAlert(data.notification.title, data.notification.body);
-				}
-				
-				this.increaseBadges(1);
+        }
+
+        this.increaseBadges(1);
       });
     }
 
@@ -69,17 +67,17 @@ export class StuffListPage {
           }
         });
       }, 1000);
-      
+
       if (val == 'true') {
         this.isLoggedIn = true;
 
         setInterval(() => {
           this.storage.get('selected').then((val) => {
             if (val != '' && val != null) {
-              this.value = val;      
-            } 
+              this.value = val;
+            }
           });
-    
+
           this.refreshInfo();
         }, 1000);
       }
@@ -105,7 +103,7 @@ export class StuffListPage {
       buttons: ['رجوع']
     });
     await alert.present();
-    this.nativeAudio.play('uniqueId1').then(() => {}, () => {});
+    this.nativeAudio.play('uniqueId1').then(() => { }, () => { });
   }
 
   async increaseBadges(counter: number) {
@@ -117,7 +115,7 @@ export class StuffListPage {
     }
   }
 
-  ionViewDidLoad() {   
+  ngOnInit() {
     this.loader.present();
 
     this.checkNetwork().then(status => {
@@ -132,51 +130,50 @@ export class StuffListPage {
   async checkNetwork(): Promise<Boolean> {
     return await this.storage.get('isConnected');
   }
-	
-	async loadStuffData() {
-		this.http.get(this.url)
-		.map(res => res.text())
-    .subscribe(data => {
 
-      if (data != null && data != '') {
-        var s = data.replace(/\\n/g, "\\n")  
-        .replace(/\\'/g, "\\'")
-        .replace(/\\"/g, '\\"')
-        .replace(/\\&/g, "\\&")
-        .replace(/\\r/g, "\\r")
-        .replace(/\\t/g, "\\t")
-        .replace(/\\b/g, "\\b")
-				.replace(/\\f/g, "\\f");
-				
-        s = s.replace(/(?:\r\n|\r|\n)/g, '<br/>');
-        s = s.replace(/[\u0000-\u0019]+/g,""); 
-				var jsonData = JSON.parse(s);
-        // alert(JSON.stringify(jsonData));
-        
-        this.loader.dismiss();
+  async loadStuffData() {
+    this.http.get(this.url)
+      .subscribe(data => {
 
-				switch(this.flag) {
-					case 1:
-            this.items = jsonData.staff[0].primary;
-            this.storage.set('stuff_list_1', this.items);
-					break;
-					case 2:
-            this.items = jsonData.staff[1].secondary_girls;
-            this.storage.set('stuff_list_2', this.items);
-					break;
-					case 3:
-            this.items = jsonData.staff[2].secondary_boys;
-            this.storage.set('stuff_list_3', this.items);
-					break;
-					case 4:
-            this.items = jsonData.staff[3].headquarter;
-            this.storage.set('stuff_list_4', this.items);
-					break;
-        }        
-			}
-		});
+        if (data != null && data != '') {
+          var s = data.toString().replace(/\\n/g, "\\n")
+            .replace(/\\'/g, "\\'")
+            .replace(/\\"/g, '\\"')
+            .replace(/\\&/g, "\\&")
+            .replace(/\\r/g, "\\r")
+            .replace(/\\t/g, "\\t")
+            .replace(/\\b/g, "\\b")
+            .replace(/\\f/g, "\\f");
+
+          s = s.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+          s = s.replace(/[\u0000-\u0019]+/g, "");
+          var jsonData = JSON.parse(s);
+          // alert(JSON.stringify(jsonData));
+
+          this.loader.dismiss();
+
+          switch (this.flag) {
+            case 1:
+              this.items = jsonData.staff[0].primary;
+              this.storage.set('stuff_list_1', this.items);
+              break;
+            case 2:
+              this.items = jsonData.staff[1].secondary_girls;
+              this.storage.set('stuff_list_2', this.items);
+              break;
+            case 3:
+              this.items = jsonData.staff[2].secondary_boys;
+              this.storage.set('stuff_list_3', this.items);
+              break;
+            case 4:
+              this.items = jsonData.staff[3].headquarter;
+              this.storage.set('stuff_list_4', this.items);
+              break;
+          }
+        }
+      });
   }
-  
+
   getFromCache() {
     let key = '';
 
@@ -231,35 +228,35 @@ export class StuffListPage {
     }
   }
 
-  goToInstallments(username, password, participant_id) {
+  goToInstallments() {
     if (this.isConnected) {
       this.storage.get('selected').then((val) => {
         if (val != null && val != '') {
-          this.router.navigate(InstallmentsPage, {
+          this.router.navigate(['installments', {
             student: val
-          });
+          }]);
         } else {
           this.storage.get('st_data').then((val) => {
             if (val != null) {
-              this.router.navigate(InstallmentsPage, {
+              this.router.navigate(['installments', {
                 student: val[0]
-              });
+              }]);
             }
           });
         }
-      }); 
+      });
     } else {
       this.storage.get('selected').then((val) => {
-        this.router.navigate(InstallmentsPage, {
+        this.router.navigate(['installments', {
           student: val
-        });
+        }]);
       });
     }
-	} 
-	
-	goToDetails(item) {
-		this.router.navigate(StuffDetailsPage, {
-			item: item
-		});
-	}
+  }
+
+  goToDetails(item) {
+    this.router.navigate(['stuff-details', {
+      item: item
+    }]);
+  }
 }

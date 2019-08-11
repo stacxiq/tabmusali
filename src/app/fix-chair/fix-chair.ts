@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController } from 'ionic-angular';
+import { NavParams, LoadingController, AlertController, ToastController } from '@ionic/angular';
 import { TabsPage } from '../tabs/tabs'
 import { Storage } from '@ionic/storage';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
-
-import { ReadInfoPage } from '../read-info/read-info';
-
-@IonicPage()
 @Component({
   selector: 'page-fix-chair',
   templateUrl: 'fix-chair.html',
@@ -26,7 +23,7 @@ export class FixChairPage {
   constructor(public loadingCtrl: LoadingController, private alertCtrl: AlertController, public toastCtrl: ToastController, private http: HttpClient, private storage: Storage, public router: Router, public navParams: NavParams) {
   }
 
-  ionViewDidLoad() {
+  ngOnInit() {
     this.getRegistrationInformation();
 
     this.storage.get('policy_fix').then((val) => {
@@ -37,9 +34,9 @@ export class FixChairPage {
   }
 
   goBack() {
-    this.router.navigate(TabsPage, {
+    this.router.navigate(['tabs', {
       status: 'signedIn'
-    });
+    }]);
   }
 
   onChangeSchool(school) {
@@ -101,17 +98,14 @@ export class FixChairPage {
   }
 
   async complete() {
-    let loading = this.loadingCtrl.create({
-      content: 'جاري ارسال المعلومات'
+    let loading = await this.loadingCtrl.create({
+      message: 'جاري ارسال المعلومات'
     });
 
     loading.present();
 
     let url = 'http://alawaail.com/_mobile_data/api/seats.php';
 
-    let headers = new Headers();
-
-    let options = new RequestOptions({ headers: headers });
 
     let data = new FormData();
     data.append('name', this.studentName);
@@ -120,10 +114,10 @@ export class FixChairPage {
     data.append('new_class', this.newClass);
     data.append('class', this.lastClass);
 
-    await this.http.post(url, data, options)
-      .map(res => res.text())
+    await this.http.post(url, data)
+
       .subscribe(data => {
-        var s = data.replace(/\\n/g, "\\n")
+        var s = data.toString().replace(/\\n/g, "\\n")
           .replace(/\\'/g, "\\'")
           .replace(/\\"/g, '\\"')
           .replace(/\\&/g, "\\&")
@@ -148,8 +142,8 @@ export class FixChairPage {
       });
   }
 
-  showToast(title) {
-    let toast = this.toastCtrl.create({
+  async showToast(title) {
+    let toast = await this.toastCtrl.create({
       message: title,
       duration: 3000,
       position: 'bottom',
@@ -158,7 +152,7 @@ export class FixChairPage {
     toast.present();
   }
 
-  presentAlertSuccess(title: string) {
+  async presentAlertSuccess(title: string) {
     let alert = await this.alertCtrl.create({
       header: title,
       buttons: [
@@ -173,28 +167,27 @@ export class FixChairPage {
     await alert.present();
   }
 
-  presentAlertFail(title: string, message: string) {
+  async presentAlertFail(title: string, message: string) {
     let alert = await this.alertCtrl.create({
       header: title,
-      subTitle: message,
+      message: message,
       buttons: ['رجوع']
     });
     await alert.present();
   }
 
-  getRegistrationInformation() {
-    let loading = this.loadingCtrl.create({
-      content: 'يرجى الانتظار'
+  async getRegistrationInformation() {
+    let loading = await this.loadingCtrl.create({
+      message: 'يرجى الانتظار'
     });
 
     loading.present();
 
     let link = `http://alawaail.com/_mobile_data/api/registration_information.php`;
     this.http.get(link)
-      .map(res => res.json())
       .subscribe(data => {
         loading.dismiss();
-        this.registrationIntroduction = data.registration_information[1].registration_introduction;
+        this.registrationIntroduction = data[0].registration_information[1].registration_introduction;
         this.storage.set('policy_fix', false);
       }, err => {
         alert(err);
@@ -208,6 +201,6 @@ export class FixChairPage {
 
   readInfo() {
     this.updatePolicy();
-    this.router.navigate(ReadInfoPage);
+    this.router.navigate(['read-info']);
   }
 }

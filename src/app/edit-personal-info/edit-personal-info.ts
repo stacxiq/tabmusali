@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavParams } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 /**
  * Generated class for the EditPersonalInfoPage page.
@@ -8,7 +9,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-edit-personal-info',
   templateUrl: 'edit-personal-info.html',
@@ -18,8 +19,8 @@ export class EditPersonalInfoPage {
   constructor(public router: Router, public navParams: NavParams) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EditPersonalInfoPage');
+  ngOnInit() {
+    console.log('ngOnInit EditPersonalInfoPage');
   }
 
 }

@@ -35,7 +35,7 @@ export class AboutPage implements OnInit {
   counter: number = 0;
 
   constructor(public router: Router, public events: Events, public platform: Platform,
-    private http: HttpClientClient, private callNumber: CallNumber, private iab: InAppBrowser, private badge: Badge,
+    private http: HttpClient, private callNumber: CallNumber, private iab: InAppBrowser, private badge: Badge,
     private storage: Storage, private fcm: FCM, private nativeAudio: NativeAudio,
     private alertCtrl: AlertController, public appAvailability: AppAvailability) {
 
@@ -193,7 +193,7 @@ export class AboutPage implements OnInit {
     });
   }
 
-  async async presentAlert(title, body) {
+  async presentAlert(title, body) {
     let alert = await await this.alertCtrl.create({
       header: title,
       message: '<div dir="rtl">' + body + '</div>',

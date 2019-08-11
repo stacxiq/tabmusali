@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 
 import { TabsPage } from '../tabs/tabs'
-import { Platform, ToastController } from 'ionic-angular';
+import { Platform, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 
-@IonicPage()
+
 @Component({
   selector: 'page-send-message',
   templateUrl: 'send-message.html',
@@ -21,7 +21,7 @@ export class SendMessagePage {
   constructor(public loadingCtrl: LoadingController, private alertCtrl: AlertController, public router: Router, public navParams: NavParams, public toastCtrl: ToastController, private http: HttpClient, private storage: Storage, public platform: Platform) {
   }
 
-  ionViewDidLoad() {
+  ngOnInit() {
     if (this.platform.is('ios')) {
       this.isIOS = true;
     } else if (this.platform.is('android')) {
@@ -32,10 +32,10 @@ export class SendMessagePage {
   goBack() {
     this.router.navigate(TabsPage, {
       status: 'signedIn'
-    }); 
+    });
   }
 
-  submit() {    
+  submit() {
     if (!this.studentName && !this.title && !this.message) {
       this.showToast('الرجاء ادخال المعلومات المطلوبة');
       return;
@@ -73,32 +73,32 @@ export class SendMessagePage {
       let loading = this.loadingCtrl.create({
         content: 'جاري ارسال الرسالة'
       });
-    
+
       loading.present();
 
       let link = `http://alawaail.com/_mobile_data/api/request.php?participant=${user}&participant_id=${id}&title=${title}&content=${message}&student=${studentName}`;
       this.http.get(link)
-      .map(res => res.json())
-      .subscribe(data => {
+        .map(res => res.json())
+        .subscribe(data => {
 
-        setTimeout(() => {
-          loading.dismiss();
+          setTimeout(() => {
+            loading.dismiss();
 
-          let request = data.request;
+            let request = data.request;
 
-          let status = request[0].status;
+            let status = request[0].status;
 
-          if (status === 'true') {
-            this.presentAlertSuccess('نجاح', 'شكرا لتواصلكم معنا ... سيتم مراجعة الرسالة من قبل الادارة ... وإشعاركم بالرد.');
-          } else {
-            this.presentAlertFail('خطا', 'عذرا حصل خطأ اثناء عملية الارسال ... حاول مرة آخرى.');
-          }
+            if (status === 'true') {
+              this.presentAlertSuccess('نجاح', 'شكرا لتواصلكم معنا ... سيتم مراجعة الرسالة من قبل الادارة ... وإشعاركم بالرد.');
+            } else {
+              this.presentAlertFail('خطا', 'عذرا حصل خطأ اثناء عملية الارسال ... حاول مرة آخرى.');
+            }
 
-        }, 3000);
-        
-      }, err => {
-        alert(err);
-      });
+          }, 3000);
+
+        }, err => {
+          alert(err);
+        });
 
     });
 
@@ -106,7 +106,7 @@ export class SendMessagePage {
 
   showToast(title) {
     let toast = this.toastCtrl.create({
-      message: title, 
+      message: title,
       duration: 3000,
       position: 'bottom',
       cssClass: 'toast'

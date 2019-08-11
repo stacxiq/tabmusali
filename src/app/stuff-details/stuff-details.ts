@@ -1,21 +1,22 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavParams } from '@ionic/angular';
+import { Router } from '@angular/router';
 
-@IonicPage()
+
 @Component({
   selector: 'page-stuff-details',
   templateUrl: 'stuff-details.html',
 })
 export class StuffDetailsPage {
 
-  item:any
+  item: any
 
   constructor(public router: Router, public navParams: NavParams) {
     this.item = navParams.get('item');
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad StuffDetailsPage');
+  ngOnInit() {
+    console.log('ngOnInit StuffDetailsPage');
   }
 
 }

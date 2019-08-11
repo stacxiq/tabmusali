@@ -111,7 +111,7 @@ export class AbsencePage {
     });
   }
 
-  ionViewDidLoad() {
+  ngOnInit() {
     this.checkNetwork();
   }
 
@@ -134,7 +134,7 @@ export class AbsencePage {
     }
   }
 
-  async async presentAlert(title, body) {
+  async presentAlert(title, body) {
     let alert = await await this.alertCtrl.create({
       header: title,
       message: '<div dir="rtl">' + body + '</div>',
