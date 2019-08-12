@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavParams, ToastController, LoadingController, AlertController } from '@ionic/angular';
+import {  ToastController, LoadingController, AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -38,7 +38,7 @@ export class EmployeePage {
   private question3: string;
   private policy: boolean = false;
 
-  constructor(private http: HttpClient, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, public router: Router, public navParams: NavParams) {
+  constructor(private http: HttpClient, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, public router: Router) {
   }
 
   ngOnInit() {

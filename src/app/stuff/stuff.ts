@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavParams, ToastController, Platform, AlertController } from '@ionic/angular';
+import {  ToastController, Platform, AlertController } from '@ionic/angular';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { Storage } from '@ionic/storage';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class StuffPage {
 
-  constructor(public router: Router, public navParams: NavParams,
+  constructor(public router: Router, 
     public toastCtrl: ToastController, private fcm: FCM, private badge: Badge,
     private nativeAudio: NativeAudio, private storage: Storage,
     private alertCtrl: AlertController, public platform: Platform) {

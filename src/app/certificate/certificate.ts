@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, NavParams, AlertController } from '@ionic/angular';
+import { Platform, AlertController } from '@ionic/angular';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { InstallmentsPage } from '../installments/installments';
@@ -27,7 +27,7 @@ export class CertificatePage {
   isConnected: boolean = true;
   value: string = '';
 
-  constructor(public router: Router, public navParams: NavParams, private badge: Badge,
+  constructor(public router: Router, private badge: Badge,
     private fcm: FCM, private nativeAudio: NativeAudio, public events: Events,
     private alertCtrl: AlertController, public platform: Platform, private storage: Storage,
     private http: HttpClient) {

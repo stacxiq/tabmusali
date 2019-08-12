@@ -15,7 +15,7 @@ export class TabsPage {
   tab2Root = AboutPage;
   tab3Root = ContactPage;
 
-  constructor(navParams: NavParams) {
-    navParams.get('status');
+  constructor() {
+    // navParams.get('status');
   }
 }

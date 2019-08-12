@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, ToastController, AlertController, LoadingController, NavParams } from '@ionic/angular';
+import { Platform, ToastController, AlertController, LoadingController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { Events } from '@ionic/angular';
 import { FCM } from '@ionic-native/fcm/ngx';
@@ -31,11 +31,12 @@ export class HomePage {
   isRefreshed: boolean = false;
   counter: number = 0;
   loader: any = this.loadingCtrl.create();
+  isLoading: boolean;
 
   constructor(public router: Router, private fcm: FCM, private nativeAudio: NativeAudio,
     public toastCtrl: ToastController, public events: Events, public plt: Platform, private http: HttpClient,
     private storage: Storage, private alertCtrl: AlertController, private badge: Badge,
-    public loadingCtrl: LoadingController, public navParams: NavParams) {
+    public loadingCtrl: LoadingController) {
 
     if (plt.is('cordova')) {
 
@@ -200,12 +201,12 @@ export class HomePage {
   }
 
   checkNetwork() {
-    var obj = this.navParams.data;
+    // var obj = this.navParams.data;
 
-    if (obj.status == 'signedIn') {
-      this.setToken();
-      this.loadData();
-    }
+    // if (obj.status == 'signedIn') {
+    //   this.setToken();
+    //   this.loadData();
+    // }
 
     document.addEventListener('online', () => {
       // alert('متصل بالشبكة');
@@ -262,7 +263,7 @@ export class HomePage {
       this.checkStatus(val);
     });
 
-    this.loader.present();
+    this.present();
 
     if (!this.isConnected) {
       this.loader.dismiss();
@@ -271,6 +272,7 @@ export class HomePage {
     this.http.get('http://alawaail.com/_mobile_data/api/retrieval.php?operation=news')
       .subscribe(data => {
         if (data != null && data != '') {
+          console.log(data);
           var s = data.toString().replace(/\\n/g, "\\n")
             .replace(/\\'/g, "\\'")
             .replace(/\\"/g, '\\"')
@@ -286,6 +288,7 @@ export class HomePage {
 
           this.items = [];
           this.items = d.news;
+          console.log(this.items);
           this.storage.set('news_list', this.items);
 
           // alert(JSON.stringify(this.items));
@@ -550,5 +553,23 @@ export class HomePage {
 
   isNumber(value: string | number): boolean {
     return ((value != null) && !isNaN(Number(value.toString())));
+  }
+  async present() {
+    this.isLoading = true;
+    return await this.loadingCtrl.create({
+      duration: 5000,
+    }).then(a => {
+      a.present().then(() => {
+        console.log('presented');
+        if (!this.isLoading) {
+          a.dismiss().then(() => console.log('abort presenting'));
+        }
+      });
+    });
+  }
+
+  async dismiss() {
+    this.isLoading = false;
+    return await this.loadingCtrl.dismiss().then(() => console.log('dismissed'));
   }
 }
