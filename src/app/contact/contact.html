@@ -30,7 +30,7 @@
         <ion-buttons left>
             <ion-button icon-only (click)="signin()" *ngIf="!isLoggedIn">
                 <ion-icon name="ios-person"></ion-icon>
-                </button>
+                </ion-button>
                 <ion-button icon-only (click)="goToNotifications()" *ngIf="isLoggedIn">
                     <ion-badge *ngIf="counter > 0" color="danger">{{ counter }}</ion-badge>
                     <ion-icon name="ios-notifications"></ion-icon>

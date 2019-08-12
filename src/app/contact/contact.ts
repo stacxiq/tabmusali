@@ -30,6 +30,7 @@ export class ContactPage implements OnInit, AfterViewInit {
   isRefreshed: boolean = false;
   counter: number = 0;
   loader: any = this.loadingCtrl.create();
+  isLoading: boolean;
 
   constructor(public router: Router, public events: Events, public plt: Platform, private http: HttpClient,
     private storage: Storage, private fcm: FCM, private nativeAudio: NativeAudio, private alertCtrl: AlertController,
@@ -235,13 +236,14 @@ export class ContactPage implements OnInit, AfterViewInit {
       this.checkStatus(val);
     });
 
-    this.loader.present();
+    this.present();
 
     if (!this.isConnected) {
-      this.loader.dismiss();
+      this.dismiss();
+
     }
 
-    this.http.get('http://alawaail.com/_mobile_data/api/retrieval.php?operation=events')
+    this.http.get('http://alawaail.com/_mobile_data/api/retrieval.php?operation=events',{responseType: 'text'})
       .subscribe(data => {
         this.items = [];
         var s = data.toString().replace(/\\n/g, "\\n")
@@ -262,7 +264,7 @@ export class ContactPage implements OnInit, AfterViewInit {
           this.items = [];
           this.items = d.events;
           this.storage.set('events_list', this.items);
-          this.loader.dismiss();
+          this.dismiss();
         }
       });
   }
@@ -307,7 +309,7 @@ export class ContactPage implements OnInit, AfterViewInit {
   getFromCache() {
     this.storage.get('events_list').then((val) => {
       if (val != null && val != '') {
-        this.loader.dismiss();
+        this.dismiss();
         this.items = [];
         this.items = val;
       }
@@ -510,5 +512,23 @@ export class ContactPage implements OnInit, AfterViewInit {
   }
   isNumber(value: string | number): boolean {
     return ((value != null) && !isNaN(Number(value.toString())));
+  }
+  async present() {
+    this.isLoading = true;
+    return await this.loadingCtrl.create({
+      duration: 5000,
+    }).then(a => {
+      a.present().then(() => {
+        console.log('presented');
+        if (!this.isLoading) {
+          a.dismiss().then(() => console.log('abort presenting'));
+        }
+      });
+    });
+  }
+
+  async dismiss() {
+    this.isLoading = false;
+    return await this.loadingCtrl.dismiss().then(() => console.log('dismissed'));
   }
 }
