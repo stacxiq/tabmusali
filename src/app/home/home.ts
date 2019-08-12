@@ -269,7 +269,7 @@ export class HomePage {
       this.loader.dismiss();
     }
 
-    this.http.get('http://alawaail.com/_mobile_data/api/retrieval.php?operation=news')
+    this.http.get('http://alawaail.com/_mobile_data/api/retrieval.php?operation=news',{responseType: 'text'} )
       .subscribe(data => {
         if (data != null && data != '') {
           console.log(data);

@@ -17,7 +17,7 @@ import { Network } from '@ionic-native/network/ngx';
 import { Badge } from '@ionic-native/badge/ngx';
 import { AppAvailability } from '@ionic-native/app-availability/ngx';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule  } from '@angular/common/http'
 
 @NgModule({
   declarations: [AppComponent],
