@@ -1,5 +1,5 @@
 import { Component, } from '@angular/core';
-import { NavParams, LoadingController, AlertController, ToastController } from '@ionic/angular';
+import {  LoadingController, AlertController, ToastController } from '@ionic/angular';
 import { TabsPage } from '../tabs/tabs'
 import { Storage } from '@ionic/storage';
 import { ReadInfoPage } from '../read-info/read-info';
@@ -44,7 +44,7 @@ export class NewRegistrationPage {
 
   public items: any = [];
 
-  constructor(private storage: Storage, public loadingCtrl: LoadingController, private alertCtrl: AlertController, public toastCtrl: ToastController, private http: HttpClient, public router: Router, public navParams: NavParams) {
+  constructor(private storage: Storage, public loadingCtrl: LoadingController, private alertCtrl: AlertController, public toastCtrl: ToastController, private http: HttpClient, public router: Router) {
   }
 
   ngOnInit() {

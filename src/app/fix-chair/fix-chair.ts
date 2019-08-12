@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavParams, LoadingController, AlertController, ToastController } from '@ionic/angular';
+import {  LoadingController, AlertController, ToastController } from '@ionic/angular';
 import { TabsPage } from '../tabs/tabs'
 import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
@@ -20,7 +20,7 @@ export class FixChairPage {
 
   public registrationIntroduction: any;
 
-  constructor(public loadingCtrl: LoadingController, private alertCtrl: AlertController, public toastCtrl: ToastController, private http: HttpClient, private storage: Storage, public router: Router, public navParams: NavParams) {
+  constructor(public loadingCtrl: LoadingController, private alertCtrl: AlertController, public toastCtrl: ToastController, private http: HttpClient, private storage: Storage, public router: Router) {
   }
 
   ngOnInit() {

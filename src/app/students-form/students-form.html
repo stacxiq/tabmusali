@@ -1,9 +1,10 @@
-<!-- <ion-header>
-  <ion-toolbar hideBackButton>
-  
-  </ion-toolbar>
-</ion-header> -->
-<ion-tabs selectedIndex="1">
-  <ion-tab [root]="tab2Root" tabTitle="تثبيت مقعد"></ion-tab>
-  <ion-tab [root]="tab1Root" tabTitle="تسجيل جديد"></ion-tab>
+<ion-tabs color="light">
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="new-registration">
+      <ion-label>تثبيت مقعد</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="fix-chair">
+      <ion-label>تسجيل جديد</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
 </ion-tabs>
