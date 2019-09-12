@@ -1,8 +1,8 @@
 <ion-header>
-    <ion-toolbar *ngIf="isIos" hideBackButton>
-        <ion-buttons left>
+    <ion-toolbar *ngIf="isIos">
+        <ion-buttons slot="end">
             <ion-button icon-only (click)="signin()" *ngIf="!isLoggedIn">
-                <ion-icon name="ios-person"></ion-icon>
+                <ion-icon name="person"></ion-icon>
             </ion-button>
             <ion-button icon-only (click)="goToNotifications()" *ngIf="isLoggedIn">
                 <!-- <ion-icon name="ios-notifications"></ion-icon> -->
@@ -18,16 +18,15 @@
                 <img src="assets/imgs/money.png" width="30" height="30" />
             </ion-button>
         </ion-buttons>
-        <ion-buttons end>
-            <ion-button icon-only menuToggle>
-                <ion-icon name="menu"></ion-icon>
-            </ion-button>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <p class="title-ios">النشاطات</p>
+        <p ></p>
+        <ion-title class="title-ios">البريطاني</ion-title>
     </ion-toolbar>
 
     <ion-toolbar *ngIf="!isIos" color="bl">
-        <ion-buttons left>
+        <ion-buttons slot="end">
             <ion-button icon-only (click)="signin()" *ngIf="!isLoggedIn">
                 <ion-icon name="ios-person"></ion-icon>
                 </ion-button>
@@ -39,12 +38,11 @@
                     <ion-icon name="ios-cash-outline"></ion-icon>
                 </ion-button>
         </ion-buttons>
-        <ion-buttons end>
-            <ion-button icon-only menuToggle>
-                <ion-icon name="menu"></ion-icon>
-            </ion-button>
+        <ion-buttons slot="start">
+                <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <p style="font-size: 16px; color:white;">النشاطات</p>
+        <p style="font-size: 16px; color:white;">البريطاني</p>
+        <ion-title class="title-ios">البريطاني</ion-title>
     </ion-toolbar>
 
     <ion-item dir="rtl" class="note" (click)="goToInstallments()" *ngIf="isLoggedIn && isDelayed && !isRefreshed">
@@ -63,7 +61,7 @@
     <div *ngIf="isDelayed && isLoggedIn"><br><br><br></div>
 
     <ion-card dir="rtl" *ngFor="let item of items" (click)="viewMore(item)"
-        style="width: 100% !important; margin-left: 0px;">
+        class="ion-padding">
         <ion-item text-wrap>
             <ion-avatar item-end>
                 <img src="assets/imgs/logo_alawaail_dark.png">

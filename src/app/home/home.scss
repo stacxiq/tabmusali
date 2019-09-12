@@ -1,6 +1,4 @@
-page-home {
-    $toolbar-md-title-text-color: white;
-}
+
 
 .toolbar {
     text-align: right;
@@ -39,6 +37,14 @@ ion-badge {
         margin-right: 1.2rem;
     }
 }
+.ion-ios-customicon,
+.ion-md-customicon {
+  content: url(../../assets/fonts/ic.svg);
+  width: 28px; // 24
+  height: 34px; // 32
+  padding: 6px 4px 2px;
+  opacity: 0.9;
+}
 
 // ion-icon {
 //     &[class*="custom-"] {
@@ -55,14 +61,7 @@ ion-badge {
 //     }  
 // }
 
-.ion-ios-customicon,
-.ion-md-customicon {
-  content: url(../../assets/fonts/ic.svg);
-  width: 28px; // 24
-  height: 34px; // 32
-  padding: 6px 4px 2px;
-  opacity: 0.9;
-}
+
   
 
 

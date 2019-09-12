@@ -19,15 +19,20 @@ import { AppAvailability } from '@ionic-native/app-availability/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule  } from '@angular/common/http'
 
+
+
+
 @NgModule({
+  
   declarations: [AppComponent],
+  entryComponents: [],
   imports: [
     FormsModule,
     HttpClientModule,
     BrowserModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
   ],
   bootstrap: [AppComponent],
   providers: [
@@ -42,7 +47,7 @@ import { HttpClientModule  } from '@angular/common/http'
     Calendar,
     Badge,
     AppAvailability,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
   ]
 })
 export class AppModule { }

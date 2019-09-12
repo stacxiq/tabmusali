@@ -148,9 +148,10 @@ export class AppComponent {
     data.append('operation', 'check');
     data.append('id', userId);
 
-    await this.http.post(url, data)
-      .subscribe(data => {
-        var s = data.toString().replace(/\\n/g, "\\n")
+    await this.http.post(url, data,{responseType: 'text'})
+      .subscribe((data:any) => {
+        console.log(JSON.stringify(data));
+        var s = data.replace(/\\n/g, "\\n")
           .replace(/\\'/g, "\\'")
           .replace(/\\"/g, '\\"')
           .replace(/\\&/g, "\\&")
@@ -158,9 +159,9 @@ export class AppComponent {
           .replace(/\\t/g, "\\t")
           .replace(/\\b/g, "\\b")
           .replace(/\\f/g, "\\f");
-
+          console.log(JSON.stringify(s));
         s = s.replace(/[\u0000-\u0019]+/g, "");
-
+        console.log(JSON.stringify(s));
         let jsonData = JSON.parse(s);
 
         let response = jsonData.login_status[0].status;

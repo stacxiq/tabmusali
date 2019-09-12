@@ -22,10 +22,10 @@ export class StudentInfoPage {
   public student: any;
 
   constructor(public router: Router, public navParams: NavParams,
-    public config: Config, public events: Events) {
+    public config: Config, public events: Events, private storage: Storage) {
 
     this.student = navParams.get('student');
-
+    //this.student = this.storage.set('selected');
     events.publish('stu:created', this.student, Date.now());
   }
 }

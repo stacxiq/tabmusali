@@ -11,7 +11,8 @@ import { IonContent } from '@ionic/angular';
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
+   styleUrls: ['./home.scss'],
 })
 export class HomePage {
   @ViewChild(IonContent, { static: false }) content: IonContent;
@@ -57,7 +58,9 @@ export class HomePage {
             this.storage.get('participant_id').then((val) => {
               this.participant_id = val;
               this.updateInfo(this.username, this.password, this.participant_id);
+              
             });
+       
           } else {
             // alert("Received in foreground");  
           }
@@ -331,6 +334,7 @@ export class HomePage {
           var d = JSON.parse(s);
 
           this.students = d.accountData[0].students;
+          console.log('student info ' + this.students);
           this.storage.set('st_data', this.students);
 
           this.installments = this.students[0].installment;

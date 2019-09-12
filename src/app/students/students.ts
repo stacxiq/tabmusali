@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavParams, AlertController, Platform } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 
 import { Storage } from '@ionic/storage';
@@ -29,7 +29,7 @@ export class StudentsPage {
   value: any = [];
   isConnected: boolean = true;
 
-  constructor(public router: Router, public navParams: NavParams,
+  constructor(public router: Router, 
     private http: HttpClient, private storage: Storage, private fcm: FCM, private badge: Badge,
     private nativeAudio: NativeAudio, private alertCtrl: AlertController,
     public platform: Platform, public events: Events, private network: Network,
@@ -107,7 +107,7 @@ export class StudentsPage {
       this.isLoggedIn = false;
     });
   }
-
+ 
   ngOnInit() {
     this.checkNetwork();
     // this.events.unsubscribe('stu:created');
@@ -147,7 +147,8 @@ export class StudentsPage {
   }
 
   loadStudentData(username, password, participant_id) {
-    this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + participant_id)
+    this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username +
+     '&password=' + password + '&participant_id=' + participant_id, {responseType: 'text'})
       .subscribe(data => {
         var s = data.toString().replace(/\\n/g, "\\n")
           .replace(/\\'/g, "\\'")

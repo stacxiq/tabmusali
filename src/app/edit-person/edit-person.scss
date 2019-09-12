@@ -1,6 +1,4 @@
-page-edit-person {
-    text-align: right;
-}
+
 
 .text-input::-moz-placeholder {
     text-align: right;
@@ -21,3 +19,8 @@ page-edit-person {
 
 .bb{ max-width: 500px;  width: 50%;  margin: 0 auto; display:block;
     text-align: center}
+
+    .round {
+        --width: 100px;
+        --height: 180px;
+      }

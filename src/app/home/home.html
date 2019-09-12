@@ -1,33 +1,32 @@
+
 <ion-header>
-    <ion-toolbar *ngIf="isIos" hideBackButton>
-        <ion-buttons left>
-            <ion-button icon-only (click)="signin()" *ngIf="!isLoggedIn">
-                <ion-icon name="ios-person"></ion-icon>
+    <ion-toolbar class="bl" >
+        <ion-buttons slot="end">
+            <ion-button icon-only (click)="signin()" *ngIf="!isLoggedIn" left>
+                <ion-icon name="person"></ion-icon>
             </ion-button>
-            <ion-button icon-only (click)="goToNotifications(username, password, participant_id)" *ngIf="isLoggedIn">
+            <ion-button icon-only (click)="goToNotifications(username, password, participant_id)" *ngIf="isLoggedIn" left>
                 <!-- <ion-icon name="ios-notifications"></ion-icon> -->
                 <ion-badge *ngIf="counter > 0" color="danger">{{ counter }}</ion-badge>
                 <img src="assets/imgs/ic_notifications.png" width="30" height="30" />
             </ion-button>
-            <ion-button style="margin-left:15px;" ion-button icon-only (click)="goToMessage()" *ngIf="isLoggedIn">
+            <ion-button style="margin-left:15px;"  icon-only (click)="goToMessage()" *ngIf="isLoggedIn" left>
                 <!-- <ion-icon name="ios-cash-outline"></ion-icon> -->
                 <ion-icon name="md-mail" style="color:#757575"></ion-icon>
             </ion-button>
-            <ion-button style="margin-left:15px;" ion-button icon-only
-                (click)="goToInstallments(username, password, participant_id)" *ngIf="isLoggedIn">
+            <ion-button style="margin-left:15px;"  icon-only
+                (click)="goToInstallments(username, password, participant_id)" *ngIf="isLoggedIn" left>
                 <!-- <ion-icon name="ios-cash-outline"></ion-icon> -->
                 <img src="assets/imgs/money.png" width="30" height="30" />
             </ion-button>
         </ion-buttons>
-        <ion-buttons end>
-            <ion-button icon-only menuToggle>
-                <ion-icon name="menu"></ion-icon>
-            </ion-button>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <p class="title-ios">الرئيسية</p>
+        <ion-title class="title-ios"> الرئيسية </ion-title>
     </ion-toolbar>
 
-    <ion-toolbar *ngIf="!isIos" color="bl">
+    <ion-toolbar color="bl" *ngIf="isLoggedIn"> 
         <ion-buttons left>
             <ion-button icon-only (click)="signin()" *ngIf="!isLoggedIn">
                 <ion-icon name="ios-person"></ion-icon>
@@ -40,13 +39,14 @@
                 <ion-icon name="ios-cash-outline"></ion-icon>
             </ion-button>
         </ion-buttons>
+
         <ion-buttons end>
             <ion-button icon-only menuToggle>
                 <ion-icon name="menu"></ion-icon>
             </ion-button>
+            
         </ion-buttons>
         <p style="font-size: 16px; color:white;">الرئيسية</p>
-    </ion-toolbar>
 
     <ion-item dir="rtl" class="note" (click)="goToInstallments()" *ngIf="isLoggedIn && isDelayed && !isRefreshed">
         <p style="color:white !important;">استحق موعد احد الاقساط</p>
@@ -54,17 +54,24 @@
             <img src="assets/imgs/ic_warn.png" width="20" height="20" />
         </ion-avatar>
     </ion-item>
+</ion-toolbar>
+
 </ion-header>
 
-<ion-content>
+
+
+
+
+
+<ion-content padding>
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
     <div *ngIf="isDelayed && isLoggedIn"><br><br><br></div>
 
-    <ion-card dir="rtl" *ngFor="let item of items" (click)="viewMore(item)"
-        style="width: 100% !important; margin-left: 0px;">
+    <ion-card  *ngFor="let item of items" (click)="viewMore(item)"
+        style="margin-left: 0px;">
         <ion-item text-wrap style="width: 100% !important;">
             <ion-avatar item-end>
                 <img src="assets/imgs/logo_alawaail_dark.png">

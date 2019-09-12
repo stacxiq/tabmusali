@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { NavParams, AlertController } from '@ionic/angular';
-import { TabsPage } from '../tabs/tabs';
+import {  AlertController } from '@ionic/angular';
 import { Platform, ToastController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 
@@ -30,7 +29,7 @@ export class EditPersonPage {
   school: string = '';
   id: string = '';
 
-  constructor(public router: Router, public navParams: NavParams, public plt: Platform, public toastCtrl: ToastController, private http: HttpClient, private storage: Storage, public events: Events, private fcm: FCM, private nativeAudio: NativeAudio, private alertCtrl: AlertController) {
+  constructor(public router: Router,  public plt: Platform, public toastCtrl: ToastController, private http: HttpClient, private storage: Storage, public events: Events, private fcm: FCM, private nativeAudio: NativeAudio, private alertCtrl: AlertController) {
 
     if (plt.is('cordova')) {
       nativeAudio.preloadSimple('uniqueId1', 'assets/sound/demo.mp3').then(() => {
@@ -94,15 +93,16 @@ export class EditPersonPage {
   }
 
   loadData(username, password) {
-    this.http.get('http://alawaail.com/_mobile_data/api/retrieval.php?username=' + username + '&password=' + password)
-      .subscribe(data => {
-
+    this.http.get('http://alawaail.com/_mobile_data/api/retrieval.php?username=' + username + 
+    '&password=' + password ,{responseType: 'json'})
+      .subscribe((data : any) => {
+        console.log(data.login[0]);
         // alert(JSON.stringify(data));
 
         // this.sName = data.login[0].name;
-        this.id = data[0].login[0].participant_id;
+        this.id = data.login[0].participant_id;
 
-        if (data[0].login[0].status == 'true') {
+        if (data.login[0].status == 'true') {
           this.storage.set('isLoggedIn', 'true');
           this.storage.set('username', username);
           this.storage.set('password', password);
@@ -116,9 +116,12 @@ export class EditPersonPage {
   }
 
   saveInfo(username, password, id) {
-    this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username + '&password=' + password + '&participant_id=' + id)
+    this.http.get('http://alawaail.com/_mobile_data/api/account_data.php?username=' + username
+     + '&password=' + password + '&participant_id=' + id ,{responseType: 'text'})
       .subscribe(data => {
-        var s = data.toString().replace(/\\n/g, "\\n")
+        console.log('save info function ' + data)
+        var s = data.toString()
+          .replace(/\\n/g, "\\n")
           .replace(/\\'/g, "\\'")
           .replace(/\\"/g, '\\"')
           .replace(/\\&/g, "\\&")

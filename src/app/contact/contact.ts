@@ -242,8 +242,10 @@ export class ContactPage implements OnInit, AfterViewInit {
       this.dismiss();
 
     }
+//    "http://alawaail.com/_mobile_data/api/news_british.php?operation=news"
 
-    this.http.get('http://alawaail.com/_mobile_data/api/retrieval.php?operation=events',{responseType: 'text'})
+    this.http.get('http://alawaail.com/_mobile_data/api/retrieval.php?operation=events'
+    ,{responseType: 'text'})
       .subscribe(data => {
         this.items = [];
         var s = data.toString().replace(/\\n/g, "\\n")

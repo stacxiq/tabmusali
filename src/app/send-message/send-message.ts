@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavParams, AlertController, LoadingController } from '@ionic/angular';
+import {  AlertController, LoadingController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 
 import { TabsPage } from '../tabs/tabs'
@@ -20,7 +20,7 @@ export class SendMessagePage {
   private isIOS: boolean = false;
   private loading;
 
-  constructor(public loadingCtrl: LoadingController, private alertCtrl: AlertController, public router: Router, public navParams: NavParams, public toastCtrl: ToastController, private http: HttpClient, private storage: Storage, public platform: Platform) {
+  constructor(public loadingCtrl: LoadingController, private alertCtrl: AlertController, public router: Router, public toastCtrl: ToastController, private http: HttpClient, private storage: Storage, public platform: Platform) {
   }
 
   ngOnInit() {

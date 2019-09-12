@@ -1,6 +1,9 @@
 <ion-header>
 
   <ion-toolbar>
+    <ion-buttons>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <p style="font-size: 16px; color:black; text-align: center;">الرسالة</p>
   </ion-toolbar>
 
@@ -31,10 +34,10 @@
 
     <ion-row>
       <ion-col>
-        <button ion-button full color="grey" (click)="goBack()" style="color: #000">رجوع</button>
+        <ion-button full color="primary" (click)="goBack()" fill="solid" expand="block" style="color: #000">رجوع</ion-button>
       </ion-col>
       <ion-col>
-        <button ion-button full color="bl" (click)="submit()">ارسال</button>
+        <ion-button full color="medium" fill="solid" expand="block" (click)="submit()">ارسال</ion-button>
       </ion-col>
     </ion-row>
 
